@@ -3,17 +3,18 @@ import Navbar from "./components/navbar/Navbar";
 import HomePage from "./components/pages/homePage/HomePage"
 import Footer from "./components/footer/Footer";
 import ServicesTabs from "./components/pages/healingServices/ServicesTabs"
+import MembershipTabs from "./components/pages/membership/MembershipTabs";
 
 
 export default function App() {
   return (
     <>
       <Navbar />
-      <div className="pt-16 ">
+      <div className="pt-16 bg-gradient-to-br from-[#FFF8D6]/60 via-[#F1FFF5]/70 to-[#D8EEFF]/60  ">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/healing" element={<ServicesTabs />} />
-          <Route path="/membership" element={<h1>Membership</h1>} />
+          <Route path="/membership" element={<MembershipTabs/>} />
           <Route path="/self-analysis" element={<h1>Self-Analysis</h1>} />
           <Route path="/community-activities" element={<h1>Community Activities</h1>} />
           <Route path="/commune" element={<h1>Commune</h1>} />

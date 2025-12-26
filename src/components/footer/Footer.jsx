@@ -7,8 +7,7 @@ import {
   Phone,
   Email,
 } from "@mui/icons-material";
-import SwagramaLogo from "../assets/landing-page/swagramaLogo.png"
-
+import SwagramaLogo from "../assets/landing-page/swagramaLogo.png";
 
 const Footer = () => {
   const particlesContainerRef = useRef(null);
@@ -39,10 +38,17 @@ const Footer = () => {
   }, []);
 
   const HerbalLeaf = ({ className, fill }) => (
+    // <svg className={className} viewBox="0 0 100 100">
+    //   <path
+    //     d="M50,10 Q65,25 70,45 Q65,65 50,90 Q35,65 30,45 Q35,25 50,10 Z M50,20 Q40,35 50,80 Q60,35 50,20"
+    //     fill={fill}
+    //   />
+    // </svg>
+
     <svg className={className} viewBox="0 0 100 100">
       <path
-        d="M50,10 Q65,25 70,45 Q65,65 50,90 Q35,65 30,45 Q35,25 50,10 Z M50,20 Q40,35 50,80 Q60,35 50,20"
         fill={fill}
+        d="M480-160q-56 0-105.5-17.5T284-227l-56 55q-11 11-28 11t-28-11q-11-11-11-28t11-28l55-55q-32-41-49.5-91T160-480q0-134 93-227t227-93h320v320q0 134-93 227t-227 93Z"
       />
     </svg>
   );
@@ -240,10 +246,7 @@ const Footer = () => {
         }
       `}</style>
 
-      <footer
-        ref={footerRef}
-        className="relative overflow-hidden bg-ayuDark "
-      >
+      <footer ref={footerRef} className="relative overflow-hidden bg-ayuDark ">
         {/* Top Border */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#8b6f47] via-[#c9a86a] to-[#8b6f47] shadow-lg" />
 

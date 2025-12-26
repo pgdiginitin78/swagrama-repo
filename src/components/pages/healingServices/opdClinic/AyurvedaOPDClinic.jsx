@@ -1,43 +1,80 @@
 import React, { useState } from "react";
 import OPDBookingModal from "./OPDBookingModal";
+import CommonButton from "../../../common/button/CommonButton";
 
 function AyurvedaOPDClinic() {
   const [openModal, setOpenModal] = useState(false);
 
   return (
     <div>
-      <h1 className="text-ayuBrown font-semibold text-xl">स्वआयुर्वेदचिचित्सालय Ayurveda OPD Clinic</h1>
-      <p className="text-sm leading-6">
+      <h1 className="text-ayuLightBlue font-semibold text-xl">
+        स्वआयुर्वेदचिचित्सालय Ayurveda OPD Clinic
+      </h1>
+      <div className="mt-3 text-gray-700 leading-6">
+        <p>
+          <span className="font-semibold text-ayuDark">
+            Ayurveda OPD Clinic – Preventive to Curative Wellness
+          </span>
+          <br />
+          At Swargram Community, the Ayurveda OPD Clinic is rooted in ancient
+          wisdom, offering a holistic path toward complete wellness. Guided by
+          the principle –
+          <span className="font-medium italic">
+            "स्वस्थस्य स्वास्थ्य रक्षणम्, आतुरस्य विकार प्रशमनं"
+          </span>
+          —our aim is to preserve the health of the healthy and heal through
+          natural, sustainable, time-tested practices.
+        </p>
 
-        Ayurveda OPD Clinic – Preventive to Curative Wellness At Swargram
-        Community, the Ayurveda OPD Clinic is rooted in the principles of
-        ancient wisdom, offering a unique approach to holistic healing. Guided
-        by the foundational Ayurvedic philosophy—"स्वस्थस्य स्वास्थ्य रक्षणम्,
-        आतुरस्य विकार प्रशमनं" (To preserve the health of the healthy and to
-        cure the illness of the diseased)—our clinic blends time-tested
-        practices with sustainable living. Highlights of the Clinic: 🌿
-        Ashtavidha Nadi Parikshan (8-Pulse Diagnosis): An advanced diagnostic
-        method offering deep insights into your past, present, and potential
-        future health conditions. 🌱 Healing with Nature: Treatments include
-        herbal medicines, cow-origin formulations, and traditional Panchakarma
-        therapies, complemented by rejuvenating nature-stay experiences. 🩺 From
-        Prevention to Cure: Our services span across the spectrum—from
-        preventive healthcare to personalized curative treatments for holistic
-        well-being. 🏡 Sustainable Wellness Living: Embedded in our broader
-        mission of a Self-Dependent Village, the clinic promotes a lifestyle
-        based on natural food, physical engagement with the land, and
-        traditional self-care. 🌍 Universal Wellness Philosophy: A blend of
-        Ayurveda, Yoga, Homeopathy, and Nature Therapy, designed to heal without
-        toxins, chemicals, or adulteration—safeguarding both people and planet.
-      </p>
+        <p className="mt-2">
+          The clinic integrates traditional Ayurveda with nature-based living,
+          emphasizing sustainable self-care rituals and mindful well-being.
+        </p>
+
+        <div className="mt-3 space-y-3">
+          <h3 className="font-semibold text-ayuTulsi text-lg">
+            🌿 Our Clinic :
+          </h3>
+
+          <ul className="space-y-2 text-sm">
+            {[
+              [
+                "Ashtavidha Nadi Parikshan (8-Pulse Diagnosis)",
+                "Advanced diagnosis providing deep insight into past, present & future health conditions.",
+              ],
+              [
+                "Healing with Nature",
+                "Herbal medicines, cow-based formulations, Panchakarma & rejuvenating nature-stay therapies.",
+              ],
+              [
+                "Preventive to Curative Approach",
+                "Focus on prevention, long-term wellness & personalized treatment protocols.",
+              ],
+              [
+                "Sustainable Wellness Lifestyle",
+                "Natural diet, land engagement & traditional living for long-term balance.",
+              ],
+              [
+                "Universal Healing Philosophy",
+                "Ayurveda + Yoga + Homeopathy + Nature Therapy without chemicals or toxins.",
+              ],
+            ].map(([title, desc], i) => (
+              <li key={i} className="flex gap-2">
+                <span className="font-semibold min-w-[320px]">{title} </span>
+                <span><strong>:</strong> &nbsp;{desc}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
       <div className="flex justify-end my-2">
-        <button
+        <CommonButton
           type="button"
-          className="px-3 py-1 rounded-lg bg-ayuDark text-white"
+          label={"Book Appointment"}
+          className="px-3 py-1 rounded-lg border border-ayuDark text-ayuDark hover:bg-ayuDark hover:text-white"
           onClick={() => setOpenModal(true)}
-        >
-          Book Appointment
-        </button>
+        />
       </div>
       {openModal && (
         <OPDBookingModal

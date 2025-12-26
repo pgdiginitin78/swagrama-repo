@@ -1,7 +1,12 @@
 body {
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
-  background: #f4f9f2;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 248, 214, 0.6),
+    rgba(241, 255, 245, 0.7),
+    rgba(216, 238, 255, 0.6)
+  ) !important;
   /* Ayurvedic light base */
   color: #263d21;
 }
@@ -44,12 +49,8 @@ body {
     #e8f3e8 60%,
     #263d21 100%
   );
-
   background-size: 200% 100%;
-
-  /* Wave feel */
   filter: blur(0.2px);
-
   animation: waveFlow 4s ease-in-out infinite, shineMove 3s linear infinite;
 }
 
@@ -148,3 +149,6 @@ ul li::before {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
+
+@keyframes fadeIn {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
+.animate-fadeIn {animation:fadeIn .4s ease;}

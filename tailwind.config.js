@@ -8,10 +8,13 @@ module.exports = {
         ayuMid: "#4a7c2c",
         ayuLight: "#8fbc8f",
         ayuBrown: "#882E2E",
-        tulsi: "#3f6b4f",
-        tulsiDark: "#263d21",
-        herbal: "#e8f3e8",
-        saffron: "#f4b860",
+        ayuTulsi: "#3f6b4f",
+        ayuTulsiDark: "#263d21",
+        ayuHerbal: "#e8f3e8",
+        ayuSaffron: "#f4b860",
+        ayuMysticBlue:"#4F5FFF",
+        ayuOrange:"#d4731c",
+        ayuLightBlue:"#4a90a4"
       },
        backgroundImage: {
         'footerBg': 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc4 25%, #d4c5a9 50%, #e8dcc4 75%, #f0e6d2 100%)',

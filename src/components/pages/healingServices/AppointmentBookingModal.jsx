@@ -42,7 +42,7 @@ const style = {
   p: 2,
 };
 
-export default function OPDBookingModal({ open, handleClose }) {
+export default function AppointmentBookingModal({ open, handleClose }) {
   const {
     control,
     handleSubmit,
@@ -79,9 +79,8 @@ export default function OPDBookingModal({ open, handleClose }) {
           </h1>
           <CancelButtonModal onClick={handleClose} />
         </div>
-
         <form onSubmit={handleSubmit(onSubmitHandler)}>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <DropdownField
               control={control}
               name="searchDoctor"

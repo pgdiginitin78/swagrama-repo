@@ -30,6 +30,8 @@ function DatePickerField({
   tableDatePicker,
   ...rest
 }) {
+  console.log("error", error);
+
   return (
     <div className="w-full bg-white">
       <FormControl className="w-full" sx={sx}>
@@ -61,7 +63,10 @@ function DatePickerField({
                   },
                   "& .MuiInputLabel-root": {
                     fontSize: tableDatePicker ? "11px" : "13px",
-                    color: error?.type === "required" ? "#DC2626" : "#263d21",
+                    color:
+                      error?.type === "required" || error?.type === "nullable"
+                        ? "#DC2626"
+                        : "#263d21",
                     transform: tableDatePicker
                       ? "translate(14px, 7px) scale(1)"
                       : "translate(14px, 9px) scale(1)",
@@ -70,13 +75,13 @@ function DatePickerField({
                     },
                   },
                   "& fieldset": {
-                    borderColor: error?.type === "required" ? "#DC2626" : "",
+                    borderColor: error?.type === "required" || error?.type === "nullable" ? "#DC2626" : "",
                   },
                   "&:hover fieldset": {
-                    borderColor: error?.type === "required" ? "#DC2626" : "",
+                    borderColor: error?.type === "required"  || error?.type === "nullable"? "#DC2626" : "",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: error?.type === "required" ? "#DC2626" : "",
+                    borderColor: error?.type === "required"  || error?.type === "nullable"? "#DC2626" : "",
                   },
                   "& .MuiIconButton-root": {
                     padding: "5px",
@@ -85,7 +90,7 @@ function DatePickerField({
                   "& .MuiSvgIcon-root": {
                     fontSize: tableDatePicker ? "16px" : "22px",
                     color:
-                      error?.type === "required"
+                      error?.type === "required" || error?.type === "nullable"
                         ? "#DC2626"
                         : disabled
                         ? "#A9A9A9"

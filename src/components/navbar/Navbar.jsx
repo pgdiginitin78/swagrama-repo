@@ -128,7 +128,7 @@ const Navbar = () => {
         }
 
         .store-btn {
-          background: linear-gradient(135deg, #fbbf24, #f59e0b);
+          background: #882E2E;
           background-size: 200% 200%;
           animation: gradient-shift 3s ease infinite;
           transition: all 0.3s ease;
