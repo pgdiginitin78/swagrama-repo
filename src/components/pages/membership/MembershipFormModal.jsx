@@ -7,6 +7,8 @@ import CancelButtonModal from "../../common/button/CancelButtonModal";
 import CommonButton from "../../common/button/CommonButton";
 import DatePickerField from "../../common/formFields/DatePickerField";
 import InputField from "../../common/formFields/InputField";
+import { useState } from "react";
+import { Button, Typography } from "@mui/material";
 
 const schema = yup.object().shape({
   dateOfBirth: yup
@@ -31,7 +33,7 @@ const style = {
   p: 2,
 };
 
-export default function MembershipFormModal({ open, handleClose }) {
+export default function MembershipFormModal({ open, handleClose,text }) {
   const {
     control,
     handleSubmit,
@@ -47,6 +49,20 @@ export default function MembershipFormModal({ open, handleClose }) {
       isAgree: false,
     },
   });
+
+  const [fileName, setFileName] = useState("");
+  const [fileBase64, setFileBase64] = useState("");
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFileName(file.name);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setFileBase64(reader.result);
+    };
+  };
 
   const onSubmitHandler = (data) => {
     console.log("Form Data =>", data);
@@ -90,26 +106,59 @@ export default function MembershipFormModal({ open, handleClose }) {
               inputFormat={"dd-MM-yyyy"}
             />
 
-            <div className="flex items-center gap-2">
-              <InputField
-              type="file"
-                control={control}
-                name="uploadDocuments"
-                label="Upload Documents"
-                error={errors?.uploadDocuments}
-              />
+            <div className="grid items-center gap-2">
+              <Box className="p-1 w-full max-w-md ">
+                <div className="flex space-x-2 items-center">
+                  <label htmlFor="">Upload File</label>
+
+                  {/* Upload Button */}
+                  <label>
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                    <Button
+                      variant="contained"
+                      component="span"
+                      className="!bg-green-600 hover:!bg-green-700"
+                    >
+                      Choose File
+                    </Button>
+                  </label>
+                </div>
+
+                {/* File Name */}
+                {fileName && (
+                  <Typography className="text-gray-500 text-xs">
+                    File Name : <b>{fileName}</b>
+                  </Typography>
+                )}
+              </Box>
             </div>
 
             <div className="col-span-2 flex justify-between items-center mt-2">
-              <p className="text-sm font-medium text-green-600">
-                You will get 15% off on all bookings.
+              <p className="text-xs font-medium text-ayuBrown">
+                {text}
               </p>
 
-              <CommonButton
-                type="submit"
-                label="Add Member"
-                className="bg-ayuDark text-white px-6"
-              />
+              <div className="flex space-x-2 items-center">
+                <CommonButton
+                  type="button"
+                  label="Reset"
+                  className="text-red-600 border border-red-600"
+                  onClick={() => {
+                    reset();
+                    setFileBase64("");
+                    setFileName("");
+                  }}
+                />
+                <CommonButton
+                  type="submit"
+                  label="Add Member"
+                  className="bg-ayuDark text-white px-6"
+                />
+              </div>
             </div>
           </div>
         </form>

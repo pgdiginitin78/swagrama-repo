@@ -6,101 +6,46 @@ import {
 } from "@mui/icons-material";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
-import AyurvedaOPDClinic from "./opdClinic/AyurvedaOPDClinic";
-import YogaOPDClinic from "./opdClinic/YogaOPDClinic";
-import HomoeopathyOPDClinic from "./opdClinic/HomoeopathyOPDClinic";
-import MaleDetox from "./detoxHouse/MaleDetox";
-import FemaleDetox from "./detoxHouse/FemaleDetox";
-import LocalDetox from "./detoxHouse/LocalDetox";
-import BathingSweater from "./detoxHouse/BathingSweater";
-import MaleMudBath from "./natureTherapy/MaleMudBath";
+import BeautyTherapy from "./beautyTherapy/BeautyTherapy";
+import DetoxHouse from "./detoxHouse/DetoxHouse";
+import IPDHospital from "./ipdHospital/IPDHospital";
+import AthleticTherapy from "./natureTherapy/AthleticTherapy";
 import FemaleMudBath from "./natureTherapy/FemaleMudBath";
+import FertilesoilTherapy from "./natureTherapy/FertilesoilTherapy";
+import MaleMudBath from "./natureTherapy/MaleMudBath";
 import SwimmingTherapy from "./natureTherapy/SwimmingTherapy";
 import WindSunRejuvenation from "./natureTherapy/WindSunRejuvenation";
-import AthleticTherapy from "./natureTherapy/AthleticTherapy";
-import FertilesoilTherapy from "./natureTherapy/FertilesoilTherapy";
-import BeautyTherapy from "./beautyTherapy/BeautyTherapy";
-import IPDHospital from "./ipdHospital/IPDHospital";
+import OPDClinic from "./opdClinic/OPDClinic";
+import HealingIcon from "@mui/icons-material/Healing";
+import NatureTherapy from "./natureTherapy/NatureTherapy";
 
 const tabsData = [
   {
-    label: "OPD Clinic स्वचिचित्सालय",
-    children: [
-      {
-        title: "Ayurveda OPD  स्वआयुर्वेदचिचित्सालय",
-        component: <AyurvedaOPDClinic />,
-      },
-      {
-        title: "Yoga OPD स्वयोगचिकित्सा",
-        component: <YogaOPDClinic />,
-      },
-      {
-        title: "Homoeopathy OPD स्वसमचिकित्सा",
-        component: <HomoeopathyOPDClinic />,
-      },
-    ],
+    label: "स्वचिचित्सालय OPD Clinic",
+    component: <OPDClinic />,
     icon: <EmojiNature sx={{ fontSize: 18 }} />,
     color: "#4a90a4",
   },
   {
-    label: "Detox House स्वशोधनालय",
-    children: [
-      { title: "Male Detox स्वपुंस्शोधनचिकित्सा", component: <MaleDetox /> },
-      {
-        title: "Female Detox स्वस्त्रीशोधनचिकित्सा",
-        component: <FemaleDetox />,
-      },
-      {
-        title: "Local Detox स्वस्थानिकशोधनचिकित्सा",
-        component: <LocalDetox />,
-      },
-      {
-        title: "Bathing Sweater स्वअवगाहस्वेदक",
-        component: <BathingSweater />,
-      },
-    ],
+    label: "स्वशोधनालय Detox House",
+    component: <DetoxHouse />,
     icon: <Spa sx={{ fontSize: 18 }} />,
     color: "#d4731c",
   },
   {
-    label: "Nature Therapy स्वनैसर्गचिकित्सा",
-    children: [
-      {
-        title: "Male Mud Bath स्वपुस्मृत्तिकास्नान",
-        component: <MaleMudBath />,
-      },
-      {
-        title: "Female Mud Bath स्वस्त्रीमृत्तिकास्नान",
-        component: <FemaleMudBath />,
-      },
-      {
-        title: "Swimming Therapy स्वजलतरणचिकित्सा",
-        component: <SwimmingTherapy />,
-      },
-      {
-        title: "Wind Sun Rejuvenation स्वातातपिकरसायन",
-        component: <WindSunRejuvenation />,
-      },
-      {
-        title: "Athletic Therapy स्वमल्लचिकित्सा",
-        component: <AthleticTherapy />,
-      },
-      {
-        title: "Fertilesoil स्वउर्वराचिकित्सा",
-        component: <FertilesoilTherapy />,
-      },
-    ],
+    label: "नैसर्गचिकित्सा Nature Therapy",
+    component: <NatureTherapy />,
     icon: <LocalFlorist sx={{ fontSize: 18 }} />,
     color: "#4a7c59",
   },
   {
-    label: "Beauty Therapy स्वसौन्दर्यचिकित्सा",
+    label: "स्वसौन्दर्यचिकित्सा Beauty Therapy ",
     component: <BeautyTherapy />,
     icon: <SelfImprovement sx={{ fontSize: 18 }} />,
     color: "#7b4397",
   },
   {
-    label: "IPD Hospital स्वातुरालय",
+    label: "स्वातुरालय IPD Hospital ",
     icon: <Spa sx={{ fontSize: 18 }} />,
     component: <IPDHospital />,
     color: "#5a437a",
@@ -120,10 +65,10 @@ const ServicesTabs = () => {
   const hasChildren = current.children && current.children.length > 0;
 
   return (
-    <Box sx={{ minHeight: "100vh", p: 2 }}>
+    <div className="px-12 py-3">
       <Box sx={{ maxWidth: 1480, mx: "auto" }}>
         <h1 className="text-ayuBrown font-semibold text-center text-2xl">
-          Healing Services
+          <HealingIcon /> Healing Services <HealingIcon />
         </h1>
         {/* Tabs Header - Reduced Size */}
         <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}>
@@ -217,7 +162,7 @@ const ServicesTabs = () => {
           )}
         </Card>
       </Box>
-    </Box>
+    </div>
   );
 };
 

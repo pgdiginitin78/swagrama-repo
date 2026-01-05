@@ -1,16 +1,21 @@
 import CloseIcon from "@mui/icons-material/Close";
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import { Drawer } from "@mui/material";
-import { useState, useEffect } from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge, Drawer } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SwagramaLogo from "../assets/landing-page/swagram.png";
+import ShopCart from "../pages/eShop/ShopCart";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [openStore, setOpenStore] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const cart = useSelector((s) => s.cart.items);
+  const cartCount = cart.reduce((s, i) => s + i.quantity, 0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,14 +26,13 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home", path: "/" },
+    { name: "Home आरम्भ", path: "/" },
     { name: "Healing Services स्वउपचारसेवा", path: "/healing" },
     { name: "Membership सदस्यत्व", path: "/membership" },
-    { name: "Self-Analysis स्वविश्लेषण", path: "/self-analysis" },
     { name: "Community Activities स्वकर्मण्य", path: "/community-activities" },
     { name: "Commune स्वगुरुकुल", path: "/commune" },
-    { name: "Barter सुविनिमय", path: "/barter" },
-    { name: "Feeds", path: "/feeds" },
+    { name: "E Shop विपणि", path: "/eShop" },
+    { name: "Feeds प्राप्त", path: "/feeds" },
     { name: "Calendar स्ववर्षपद", path: "/calendar" },
   ];
 
@@ -37,6 +41,8 @@ const Navbar = () => {
     if (index === -1) return { en: text, hi: "" };
     return { en: text.slice(0, index), hi: text.slice(index + 1) };
   };
+
+  console.log("cartCount", cartCount);
 
   return (
     <>
@@ -150,33 +156,45 @@ const Navbar = () => {
         .drawer-backdrop {
           backdrop-filter: blur(8px);
         }
+
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+          .nav-link {
+            font-size: 0.7rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .mobile-action-btns {
+            gap: 0.5rem;
+          }
+        }
       `}</style>
 
       <nav
-        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${
+        className={`w-full fixed flex top-0 left-0 z-50 transition-all duration-300 outline-none ${
           scrolled
             ? "bg-white/95 backdrop-blur-lg shadow-lg"
             : "bg-white/80 backdrop-blur-md shadow-md"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex justify-between items-center">
-          {/* Logo */}
-          <Link to="/">
-            <div className="flex-shrink-0 relative">
-              <div className="flex items-center space-x-3  shine-wave">
-                <div className="h-16 rounded-full flex items-center justify-center  ">
-                  <img
-                    src={SwagramaLogo}
-                    className="h-full w-full cursor-pointer"
-                    alt="Swagrama Logo"
-                  />
-                </div>
-              </div>
+        <div className="w-full bg-white max-w-[1920px] mx-auto px-3 sm:px-4 md:px-5 lg:px-10 h-16 sm:h-18 md:h-20 lg:h-16 flex lg:justify-between items-center">
+          {/* Logo Section */}
+          <Link
+            to="/"
+            className="w-auto flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:w-[200px]"
+          >
+            <div className="h-12 sm:h-14 md:h-16 md:rounded-full flex items-center justify-center shine-wave w-full">
+              <img
+                src={SwagramaLogo}
+                className="h-full w-full object-contain cursor-pointer"
+                alt="Swagrama Logo"
+              />
             </div>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex space-x-8 text-gray-700 font-medium text-[12px] text-left items-center">
+          {/* Desktop Navigation Links */}
+          <div className="hidden w-full justify-center lg:flex xl:space-x-6 2xl:space-x-8 space-x-4 text-gray-700 font-medium text-[11px] xl:text-[12px] text-left items-center">
             {navLinks.map((item) => {
               const { en, hi } = splitTitle(item.name);
               return (
@@ -189,7 +207,7 @@ const Navbar = () => {
                     {en}
                   </span>
                   {hi && (
-                    <span className="block text-green-700  group-hover:text-green-600  opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                    <span className="block text-green-700 group-hover:text-green-600 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
                       {hi}
                     </span>
                   )}
@@ -198,40 +216,56 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* Buttons Desktop */}
-          <div className="hidden md:flex space-x-3 items-center">
+          {/* Desktop Action Buttons */}
+          <div className="hidden w-full lg:w-auto justify-end md:flex space-x-2 lg:space-x-3 items-center lg:flex-shrink-0">
             <Link
               to="/login"
-              className="btn-outline flex items-center gap-2 px-2 py-1 border-2 border-green-600 text-green-600 rounded-lg font-medium"
+              className="btn-outline flex items-center gap-1 lg:gap-2 px-2 py-1 border-2 border-green-600 text-green-600 rounded-lg font-medium"
             >
               <LoginIcon fontSize="small" />
-         
             </Link>
 
             <Link
               to="/signup"
-              className="btn-gradient flex items-center gap-2 px-2 py-1.5 text-white rounded-lg font-medium shadow-md"
+              className="btn-gradient flex items-center gap-1 lg:gap-2 px-2 py-1.5 text-white rounded-lg font-medium shadow-md"
             >
               <PersonAddAltIcon fontSize="small" />
-              
             </Link>
 
             <Link
-              to="/store"
-              className="store-btn flex items-center gap-2 px-2 py-1.5 text-white rounded-lg font-medium shadow-md"
+              onClick={() => {
+                setOpenStore(true);
+                setOpen(false);
+              }}
+              className="store-btn relative flex items-center justify-center gap-1 lg:gap-2 text-center px-2 py-1.5 text-white rounded-lg font-medium shadow-md"
             >
-              <LocalGroceryStoreIcon fontSize="small" />
-         
+              <Badge
+                badgeContent={cartCount}
+                color="success"
+                overlap="circular"
+                invisible={cartCount === 0}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    fontSize: "0.65rem",
+                    minWidth: "18px",
+                    height: "18px",
+                  },
+                }}
+              >
+                <ShoppingCartIcon fontSize="small" className="text-center" />
+              </Badge>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gray-700 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-50"
-            onClick={() => setOpen(true)}
-          >
-            <MenuIcon fontSize="large" />
-          </button>
+          <div className="flex justify-end w-auto ml-auto lg:hidden">
+            <button
+              className="text-gray-700 hover:text-green-600 transition-colors p-1.5 sm:p-2 rounded-lg hover:bg-green-50"
+              onClick={() => setOpen(true)}
+            >
+              <MenuIcon fontSize="large" />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -241,78 +275,93 @@ const Navbar = () => {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          sx: { width: 280 },
+          sx: {
+            width: { xs: "85%", sm: 320, md: 280 },
+            maxWidth: "100vw",
+          },
         }}
       >
-        <div className="w-full h-full p-6 space-y-6 bg-gradient-to-br from-white to-green-50">
-          {/* Header */}
-          <div className="flex justify-between items-center pb-4 border-b-2 border-green-100">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
+        <div className="w-full h-full px-3 sm:px-4 py-3 sm:py-4 space-y-4 sm:space-y-6 bg-gradient-to-br from-white to-green-50">
+          <div className="flex justify-between items-center pb-3 sm:pb-4 border-b-2 border-green-100">
+            <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
               Menu
             </h2>
             <button
               onClick={() => setOpen(false)}
-              className="text-gray-600 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-green-100"
+              className="text-red-600 transition-colors h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-red-100 flex items-center justify-center"
             >
-              <CloseIcon />
+              <CloseIcon fontSize="small" />
             </button>
           </div>
 
-          {/* Links */}
-          <ul className="space-y-4 text-gray-700 font-medium">
+          {/* Mobile Navigation Links */}
+          <div className="space-y-1 sm:space-y-2 text-gray-700 font-medium list-none overflow-y-auto max-h-[calc(100vh-200px)]">
             {navLinks.map((item, index) => {
               const { en, hi } = splitTitle(item.name);
               return (
-                <li
+                <div
                   key={item.name}
-                  className="mobile-menu-item"
+                  className="mobile-menu-item list-none"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <Link
                     to={item.path}
                     onClick={() => setOpen(false)}
-                    className="block p-3 rounded-lg hover:bg-green-50 transition-all"
+                    className="block p-2 sm:p-2.5 rounded-lg hover:bg-green-50 transition-all"
                   >
-                    <span className="block text-base font-semibold text-gray-800 hover:text-green-600 transition-colors">
-                      {en}
+                    <span className="flex space-x-2 text-xs sm:text-sm font-semibold text-gray-800 hover:text-green-600 transition-colors">
+                      <span>{en}</span>
+                      <span className="text-ayuMid">({hi})</span>
                     </span>
-                    {hi && (
-                      <span className="block text-sm text-green-600 mt-1">
-                        {hi}
-                      </span>
-                    )}
                   </Link>
-                </li>
+                </div>
               );
             })}
-          </ul>
+          </div>
 
-          {/* Mobile Buttons */}
-          <div className="pt-6 space-y-3 border-t-2 border-green-100">
+          {/* Mobile Action Buttons */}
+          <div className="pt-4 sm:pt-6 flex space-x-2 sm:space-x-3 justify-between border-t-2 border-green-100 mobile-action-btns">
             <Link
               to="/login"
-              onClick={() => setOpen(false)}
-              className="block text-center border-2 border-green-600 text-green-600 py-3 rounded-lg font-semibold hover:bg-green-50 transition-all transform hover:scale-105"
+              className="btn-outline flex items-center justify-center gap-1 sm:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 border-2 border-green-600 text-green-600 rounded-lg font-medium flex-1"
             >
-              Login
+              <LoginIcon fontSize="small" />
             </Link>
+
             <Link
               to="/signup"
-              onClick={() => setOpen(false)}
-              className="block text-center bg-gradient-to-r from-green-600 to-green-700 text-white py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="btn-gradient flex items-center justify-center gap-1 sm:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 text-white rounded-lg font-medium shadow-md flex-1"
             >
-              Sign Up
+              <PersonAddAltIcon fontSize="small" />
             </Link>
+
             <Link
-              to="/store"
-              onClick={() => setOpen(false)}
-              className="block text-center bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              onClick={() => {
+                setOpenStore(true);
+                setOpen(false);
+              }}
+              className="store-btn relative flex items-center justify-center gap-1 sm:gap-2 text-center px-2 py-1.5 sm:px-3 sm:py-2 text-white rounded-lg font-medium shadow-md flex-1"
             >
-              Store
+              <Badge
+                badgeContent={cartCount}
+                color="success"
+                overlap="circular"
+                invisible={cartCount === 0}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    fontSize: "0.6rem",
+                    minWidth: "16px",
+                    height: "16px",
+                  },
+                }}
+              >
+                <ShoppingCartIcon fontSize="small" className="text-center" />
+              </Badge>
             </Link>
           </div>
         </div>
       </Drawer>
+      {openStore && <ShopCart isOpen={openStore} setIsOpen={setOpenStore} />}
     </>
   );
 };

@@ -1,15 +1,14 @@
-import * as React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import InputField from "../../../common/formFields/InputField";
-import DropdownField from "../../../common/formFields/DropdownField";
+import CancelButtonModal from "../../../common/button/CancelButtonModal";
+import CommonButton from "../../../common/button/CommonButton";
 import CheckBoxField from "../../../common/formFields/CheckBoxField";
 import DatePickerField from "../../../common/formFields/DatePickerField";
-import CommonButton from "../../../common/button/CommonButton";
-import CancelButtonModal from "../../../common/button/CancelButtonModal";
+import DropdownField from "../../../common/formFields/DropdownField";
+import InputField from "../../../common/formFields/InputField";
 
 const schema = yup.object().shape({
   searchDoctor: yup
@@ -42,7 +41,11 @@ const style = {
   p: 2,
 };
 
-export default function OPDBookingModal({ open, handleClose }) {
+export default function OPDBookingModal({
+  open,
+  handleClose,
+  selectedService,
+}) {
   const {
     control,
     handleSubmit,
@@ -65,6 +68,7 @@ export default function OPDBookingModal({ open, handleClose }) {
     alert("Appointment Booked Successfully!");
     handleClose();
   };
+  console.log("selectedService", selectedService);
 
   return (
     <Modal
@@ -79,6 +83,13 @@ export default function OPDBookingModal({ open, handleClose }) {
           </h1>
           <CancelButtonModal onClick={handleClose} />
         </div>
+
+        {selectedService !== undefined && (
+          <div className="flex space-x-2 justify-between bg-green-50 border-green-100 border rounded text-sm  py-2 px-2 text-ayuMid mb-3 font-semibold">
+            <h4>Service Name : {selectedService?.serviceName}</h4>
+            <h4>Service Price : {selectedService?.price}</h4>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmitHandler)}>
           <div className="grid grid-cols-2 gap-4">
@@ -128,8 +139,8 @@ export default function OPDBookingModal({ open, handleClose }) {
                 Appointment Fee: ₹750
               </p>
               <p className="text-sm font-medium text-ayuBrown">
-     *All bookings are non-refundable. 
-</p>
+                *All bookings are non-refundable.
+              </p>
               <CommonButton
                 type="submit"
                 label="Book Appointment"

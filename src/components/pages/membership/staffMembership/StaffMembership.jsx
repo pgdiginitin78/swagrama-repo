@@ -1,18 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CommonButton from "../../../common/button/CommonButton";
+import CardMembershipTwoToneIcon from "@mui/icons-material/CardMembershipTwoTone";
 import GppGoodTwoToneIcon from "@mui/icons-material/GppGoodTwoTone";
 import SelfImprovementTwoToneIcon from "@mui/icons-material/SelfImprovementTwoTone";
-import CardMembershipTwoToneIcon from "@mui/icons-material/CardMembershipTwoTone";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
+import CommonButton from "../../../common/button/CommonButton";
 import MembershipFormModal from "../MembershipFormModal";
 gsap.registerPlugin(ScrollTrigger);
 
 function StaffMembership() {
-  const [openModal, setOpenModal] = useState(false);
-
-  const sectionRef = useRef(null);
-
+    const [openModal, setOpenModal] = useState(false);
+    const sectionRef = useRef(null);
   // GSAP
   useEffect(() => {
     gsap.from(".fade-item", {
@@ -25,7 +23,7 @@ function StaffMembership() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="space-y-4 text-sm leading-6 mt-2 px-4">
+    <section ref={sectionRef} className="space-y-4 text-sm leading-6 mt-2 p-4">
       {[
         {
           type: "title",
@@ -123,6 +121,7 @@ function StaffMembership() {
         <MembershipFormModal
           open={openModal}
           handleClose={() => setOpenModal(false)}
+          text={"You will get 15% off on all bookings."}
         />
       )}
     </section>

@@ -127,13 +127,23 @@ export default function AppointmentBookingModal({ open, handleClose }) {
                 Appointment Fee: ₹750
               </p>
               <p className="text-sm font-medium text-ayuBrown">
-     *All bookings are non-refundable. 
-</p>
-              <CommonButton
-                type="submit"
-                label="Book Appointment"
-                className="bg-ayuDark text-white px-6"
-              />
+                *All bookings are non-refundable.
+              </p>
+              <div className="flex space-x-2 items-center">
+                <CommonButton
+                  type="button"
+                  label="Reset"
+                  className="text-red-600 border border-red-600"
+                  onClick={() => {
+                    reset();
+                  }}
+                />
+                <CommonButton
+                  type="submit"
+                  label="Book Appointment"
+                  className="bg-ayuDark text-white px-6"
+                />
+              </div>
             </div>
           </div>
         </form>
