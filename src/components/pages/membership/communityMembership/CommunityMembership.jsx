@@ -197,7 +197,7 @@ export default function CommunityMembership() {
         <div className="absolute -bottom-32 left-40 w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse floating-element" />
       </div>
 
-      <div className="relative z-10  mx-auto px-4 py-8">
+      <div className="relative z-10  mx-auto px-2 md:px-4 py-4 md:py-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -229,12 +229,12 @@ export default function CommunityMembership() {
           viewport={{ once: true }}
           className="mb-5"
         >
-          <div className="relative bg-gradient-to-br from-lime-100/80 to-green-100/80 backdrop-blur-xl rounded-3xl p-10 border border-lime-300 shadow-2xl">
+          <div className="relative bg-gradient-to-br from-lime-100/80 to-green-100/80 backdrop-blur-xl rounded-3xl p-5 md:p-10 border border-lime-300 shadow-2xl">
             <div className="absolute -top-5 -right-5 w-40 h-40 bg-gradient-to-br from-lime-300 via-green-300 to-lime-300 rounded-full blur-3xl opacity-50" />
             <div className="relative">
               <div className="flex items-center gap-3 mb-2">
-                <NatureIcon className="text-4xl text-green-600" />
-                <h3 className="text-2xl font-bold text-green-800">
+                <NatureIcon className="text-2xl md:text-4xl text-green-600" />
+                <h3 className="text-xl md:text-2xl font-bold text-green-800">
                   जनता: प्रत्येकजण निसर्गाशी
                 </h3>
               </div>
@@ -291,12 +291,12 @@ export default function CommunityMembership() {
           viewport={{ once: true }}
           className="mb-5"
         >
-          <div className="relative bg-gradient-to-br from-yellow-100/80 to-amber-100/80 backdrop-blur-xl rounded-3xl p-10 border border-yellow-300 shadow-2xl">
+          <div className="relative bg-gradient-to-br from-yellow-100/80 to-amber-100/80 backdrop-blur-xl rounded-3xl p-5 md:p-10 border border-yellow-300 shadow-2xl">
             <div className="absolute -bottom-5 -left-5 w-40 h-40 bg-gradient-to-br from-yellow-300 to-amber-300 rounded-full blur-3xl opacity-50" />
             <div className="relative">
               <div className="flex items-center gap-3 mb-2">
-                <HomeIcon className="text-4xl text-amber-700" />
-                <h3 className="text-2xl font-bold text-amber-800">
+                <HomeIcon className="text-2xl md:text-4xl text-amber-700" />
+                <h3 className="text-xl md:text-2xl font-bold text-amber-800">
                   एक व्यक्तीला एक कुटुंब
                 </h3>
               </div>
@@ -334,9 +334,9 @@ export default function CommunityMembership() {
               transition={{ duration: 2, repeat: Infinity }}
               className="inline-block mb-4"
             >
-              <WorkspacePremiumIcon className="text-7xl text-lime-600" />
+              <WorkspacePremiumIcon className="text-2xl md:text-7xl text-lime-600" />
             </motion.div>
-            <h2 className="text-3xl font-black bg-gradient-to-r from-lime-700 via-green-700 to-lime-700 bg-clip-text text-transparent mb-4">
+            <h2 className="text-xl md:text-3xl font-black bg-gradient-to-r from-lime-700 via-green-700 to-lime-700 bg-clip-text text-transparent mb-4">
               स्वसदस्यत्व Membership
             </h2>
             <p className="text-green-800 text-sm max-w-3xl mx-auto">
@@ -366,7 +366,7 @@ export default function CommunityMembership() {
                       className="flex-shrink-0 bg-gradient-to-br from-lime-500 to-green-500 rounded-xl p-2 shadow-lg"
                     >
                       {React.cloneElement(benefit.icon, {
-                        className: "text-3xl text-white",
+                        className: "text-xl md:text-3xl text-white",
                       })}
                     </motion.div>
                     <p className="text-green-900 text-sm leading-relaxed flex-1">
@@ -384,100 +384,109 @@ export default function CommunityMembership() {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="mb-5"
-        >
-          <div className="relative ">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-lime-300 to-green-300 rounded-full blur-3xl opacity-30" />
-            <div className="relative">
-              <div className="text-center mb-4">
-                <h3 className="text-3xl font-bold text-green-800 mb-2">
-                  <motion.div
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="inline-block"
-                  >
-                    <FavoriteIcon
-                      fontSize=""
-                      className="text-4xl text-green-600"
-                    />
-                  </motion.div>
-                  स्वात्मन्सदस्यत्व Self Membership
-                  <motion.div
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="inline-block"
-                  >
-                    <FavoriteIcon
-                      fontSize=""
-                      className="text-4xl text-green-600"
-                    />
-                  </motion.div>
-                </h3>
-              </div>
-              <div className="grid gap-5">
-                {questions.map((question, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{
-                      delay: index * 0.15,
-                      duration: 0.6,
-                      ease: "easeOut",
-                    }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.02 }}
-                    className="relative group"
-                  >
-                    {/* Glow background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-lime-300/40 via-green-300/40 to-emerald-300/40 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+<motion.div
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+  className="mb-4 sm:mb-5"
+>
+  <div className="relative">
+    {/* Glow */}
+    <div className="absolute top-0 right-0 w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-gradient-to-br from-lime-300 to-green-300 rounded-full blur-3xl opacity-30" />
 
-                    {/* Card */}
-                    <div className="relative bg-gradient-to-br from-white/90 to-lime-50/90 backdrop-blur-xl rounded-2xl p-5 border-l-4 border-lime-600 shadow-xl">
-                      {/* Header */}
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 bg-gradient-to-br from-lime-500 to-green-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg">
-                          <span className="text-white font-bold text-lg">
-                            {index + 1}
-                          </span>
-                        </div>
+    <div className="relative">
+      {/* Heading */}
+      <div className="text-center mb-3 sm:mb-4">
+        <h3 className="flex items-center justify-center gap-2 text-lg sm:text-xl md:text-3xl font-bold text-green-800 leading-tight">
+          <motion.span
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="inline-block"
+          >
+            <FavoriteIcon className="text-xl sm:text-2xl md:text-4xl text-green-600" />
+          </motion.span>
 
-                        <div>
-                          <h3 className="text-green-900 font-bold text-base leading-snug">
-                            {question.title}
-                          </h3>
-                          <p className="mt-1 text-xs text-green-700 font-medium">
-                            {question.discount}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="mt-2 ml-16 text-sm text-gray-700 leading-relaxed">
-                        {question.description}
-                      </p>
-                      {question.benifits?.length > 0 && (
-                        <div className="mt-2 ml-16 flex flex-wrap gap-2">
-                          {question.benifits.map((benefit, i) => (
-                            <span
-                              key={i}
-                              className="px-3 py-1 text-xs font-medium text-green-900 bg-gradient-to-r from-lime-200 to-green-200 rounded-full shadow-sm"
-                            >
-                              {benefit}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+          <span className="text-center">
+            स्वात्मन्सदस्यत्व <span className="block sm:inline">Self Membership</span>
+          </span>
+
+          <motion.span
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="inline-block"
+          >
+            <FavoriteIcon className="text-xl sm:text-2xl md:text-4xl text-green-600" />
+          </motion.span>
+        </h3>
+      </div>
+
+      {/* Cards */}
+      <div className="grid gap-3 sm:gap-4 md:gap-5">
+        {questions.map((question, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: index * 0.12,
+              duration: 0.5,
+              ease: "easeOut",
+            }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.01 }}
+            className="relative group"
+          >
+            {/* Card glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-lime-300/40 via-green-300/40 to-emerald-300/40 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300" />
+
+            {/* Card */}
+            <div className="relative bg-gradient-to-br from-white/90 to-lime-50/90 backdrop-blur-xl rounded-2xl p-4 sm:p-5 border-l-4 border-lime-600 shadow-lg">
+              <div className="flex items-start gap-3 sm:gap-4">
+                {/* Number */}
+                <div className="flex-shrink-0 bg-gradient-to-br from-lime-500 to-green-600 rounded-full w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center shadow-md">
+                  <span className="text-white font-bold text-sm sm:text-base md:text-lg">
+                    {index + 1}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <div className="flex-1">
+                  <h3 className="text-green-900 font-bold text-sm sm:text-base leading-snug">
+                    {question.title}
+                  </h3>
+                  <p className="mt-0.5 text-[11px] sm:text-xs text-green-700 font-medium">
+                    {question.discount}
+                  </p>
+                </div>
               </div>
+
+              {/* Description */}
+              <p className="mt-2 ml-12 sm:ml-14 md:ml-16 text-xs sm:text-sm text-gray-700 leading-relaxed">
+                {question.description}
+              </p>
+
+              {/* Benefits */}
+              {question.benifits?.length > 0 && (
+                <div className="mt-2 ml-12 sm:ml-14 md:ml-16 flex flex-wrap gap-1.5 sm:gap-2">
+                  {question.benifits.map((benefit, i) => (
+                    <span
+                      key={i}
+                      className="px-2.5 py-1 text-[11px] sm:text-xs font-medium text-green-900 bg-gradient-to-r from-lime-200 to-green-200 rounded-full shadow-sm"
+                    >
+                      {benefit}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </div>
+</motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

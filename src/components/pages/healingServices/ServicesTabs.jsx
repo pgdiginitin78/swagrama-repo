@@ -4,20 +4,14 @@ import {
   SelfImprovement,
   Spa,
 } from "@mui/icons-material";
+import HealingIcon from "@mui/icons-material/Healing";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import BeautyTherapy from "./beautyTherapy/BeautyTherapy";
 import DetoxHouse from "./detoxHouse/DetoxHouse";
 import IPDHospital from "./ipdHospital/IPDHospital";
-import AthleticTherapy from "./natureTherapy/AthleticTherapy";
-import FemaleMudBath from "./natureTherapy/FemaleMudBath";
-import FertilesoilTherapy from "./natureTherapy/FertilesoilTherapy";
-import MaleMudBath from "./natureTherapy/MaleMudBath";
-import SwimmingTherapy from "./natureTherapy/SwimmingTherapy";
-import WindSunRejuvenation from "./natureTherapy/WindSunRejuvenation";
-import OPDClinic from "./opdClinic/OPDClinic";
-import HealingIcon from "@mui/icons-material/Healing";
 import NatureTherapy from "./natureTherapy/NatureTherapy";
+import OPDClinic from "./opdClinic/OPDClinic";
 
 const tabsData = [
   {
@@ -65,7 +59,7 @@ const ServicesTabs = () => {
   const hasChildren = current.children && current.children.length > 0;
 
   return (
-    <div className="px-12 py-3">
+    <div className="md:px-12 py-3">
       <Box sx={{ maxWidth: 1480, mx: "auto" }}>
         <h1 className="text-ayuBrown font-semibold text-center text-2xl">
           <HealingIcon /> Healing Services <HealingIcon />
@@ -141,7 +135,7 @@ const ServicesTabs = () => {
 
         <Card
           elevation={0}
-          sx={{ p: 2, borderRadius: 2, boxShadow: 2, bgcolor: "#F1FFF5" }}
+          sx={{paddingBottom:2, borderRadius: 2, boxShadow: 2, bgcolor: "#F1FFF5" }}
         >
           {hasChildren ? (
             current.children[selectedChild].component

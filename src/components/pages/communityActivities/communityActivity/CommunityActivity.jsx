@@ -157,7 +157,7 @@ const ActivityCard = ({ activity, index }) => {
       className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300"
     >
       <div
-        className={`bg-gradient-to-r ${activity.color} p-5 relative overflow-hidden`}
+        className={`bg-gradient-to-r ${activity.color} p-3 md:p-5 relative overflow-hidden`}
       >
         <div className="absolute top-0 right-0 opacity-10">
           <Icon sx={{ fontSize: 120 }} />
@@ -173,7 +173,7 @@ const ActivityCard = ({ activity, index }) => {
 
         <div className="relative z-10 flex items-start justify-between">
           <div className="flex-1">
-            <div className="flex justify-between gap-2 mb-2">
+            <div className="md:flex justify-between gap-2  mb-2">
               <div className="flex items-center space-x-3">
                 <div className="bg-white/30 p-2 rounded-xl backdrop-blur-md">
                   <Icon className="text-white" sx={{ fontSize: 24 }} />
@@ -184,16 +184,26 @@ const ActivityCard = ({ activity, index }) => {
               </div>
 
               {activity.day && (
-                <div className="bg-white/30 px-3 py-1 text-center flex items-center justify-center rounded-full backdrop-blur-md">
+                <div className="hidden md:block bg-white/30 px-3 py-1 text-center flex items-center md:justify-center mt-1 w-[50%] md:w-auto whitespace-nowrap  justify-end rounded-full backdrop-blur-md">
                   <p className="text-white text-xs font-semibold">
                     {activity.day}
                   </p>
                 </div>
               )}
             </div>
+            <div className="w-full">
             <p className="text-white/90 text-sm font-medium">
               {activity.subtitle}
             </p>
+
+              {activity.day && (
+                <div className=" md:hidden bg-white/30 px-3 py-1 text-center flex items-center md:justify-center mt-1 w-[50%] md:w-auto whitespace-nowrap  justify-end rounded-full backdrop-blur-md">
+                  <p className="text-white text-xs font-semibold">
+                    {activity.day}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -245,15 +255,15 @@ const ActivityCard = ({ activity, index }) => {
         </div>
 
         <div className="flex items-center justify-between pt-5 border-t border-gray-200">
-          <div className="flex items-baseline gap-1">
-            <CurrencyRupee sx={{ fontSize: 28 }} className="text-amber-700" />
-            <span className="text-3xl font-bold text-amber-900">
+          <div className="flex items-center gap-1">
+            <CurrencyRupee className="text-amber-700 text-xl md:text-2xl" />
+            <span className="text-xl md:text-3xl font-bold text-amber-900">
               {activity.price}
             </span>
             <span className="text-gray-600 text-sm ml-1">/ person</span>
           </div>
           <button
-            className={`bg-gradient-to-r ${activity.color} text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105`}
+            className={`bg-gradient-to-r ${activity.color} text-white px-3 md:px-6 py-2 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105`}
           >
             Book Now
           </button>

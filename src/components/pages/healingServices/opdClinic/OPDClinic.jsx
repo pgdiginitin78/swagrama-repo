@@ -53,11 +53,11 @@ const OPDClinic = () => {
   ];
 
   return (
-    <div className="min-h-screen  py-4 px-4">
+    <div className="min-h-screen  py-4 md:px-4">
       <div
         className={`transition-all duration-1000 transform ${
           isVisible ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"
-        } max-w-7xl mx-auto mb-8`}
+        } md:max-w-7xl mx-auto mb-8`}
       >
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-3">

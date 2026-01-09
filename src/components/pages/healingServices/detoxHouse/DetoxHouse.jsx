@@ -844,7 +844,7 @@ export default function DetoxHouse() {
   };
 
   return (
-    <div className="min-h-screen px-6 py-5 relative">
+    <div className="min-h-screen md:px-6 py-5 relative">
       <div
         ref={headerRef}
         className="relative z-10 max-w-7xl mx-auto mb-5 text-center"

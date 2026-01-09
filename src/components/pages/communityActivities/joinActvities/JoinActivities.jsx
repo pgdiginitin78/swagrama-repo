@@ -1,684 +1,1896 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
 import {
-  Spa,
-  Favorite,
-  LocationOn,
-  Phone,
-  Email,
-  EmojiNature,
-  LocalFlorist,
-  Restaurant,
-  Hotel,
-  EventAvailable,
-  CheckCircle,
-  Star,
-  Menu,
+  Check,
+  ChildCare,
   Close,
-  ArrowForward,
-  Eco,
-  Groups,
-  LocalHospital,
-  SelfImprovement,
-  FamilyRestroom,
-  Celebration,
-  CalendarMonth,
-  AttachMoney,
-  HomeWork,
-  RoomService,
-  PhotoCamera,
-  MusicNote,
-  AccessTime,
-  Block,
-  CheckBox,
-  ExpandMore,
-  ExpandLess,
-  AutoAwesome,
-  Verified,
-  CardGiftcard,
+  Event,
+  FavoriteBorder,
   FitnessCenter,
-  LocalDining,
+  Group,
+  Healing,
+  Home,
+  LocalFlorist,
+  Nature,
+  SelfImprovement,
+  Spa,
+  Stars,
+  Terrain,
 } from "@mui/icons-material";
+import {
+  motion,
+  useAnimation,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import { Heart, Leaf, Sparkles, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
-// Import data (simulated - in real app: import { swagramWeddingData } from './data')
+const SwagramWeddingLanding = () => {
+  const [particles, setParticles] = useState([]);
+  const controls = useAnimation();
 
-const SwagramComplete = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.5 },
+  const parallaxX = useTransform(mouseX, [0, 1], [-20, 20]);
+  const parallaxY = useTransform(mouseY, [0, 1], [-20, 20]);
+  const parallaxX2 = useTransform(mouseX, [0, 1], [30, -30]);
+  const parallaxY2 = useTransform(mouseY, [0, 1], [30, -30]);
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
   };
 
-  const Section = ({ children, className = "" }) => (
-    <section className={`py-5 px-4 ${className}`}>
-      <div className="max-w-7xl mx-auto">{children}</div>
-    </section>
-  );
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  useEffect(() => {
+    controls.start("visible");
+
+    // Generate floating particles
+    const newParticles = Array.from({ length: 25 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 10 + Math.random() * 10,
+    }));
+    setParticles(newParticles);
+  }, [controls]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-green-100 to-lime-100">
-      <div className="px-12">
-        <Section className="pt-10 pb-12 ">
-          <motion.div {...fadeIn} className="text-center">
-            <LocalFlorist className="text-green-600 text-5xl mx-auto mb-3" />
-            <h1 className="text-2xl md:text-4xl font-bold text-green-900 mb-2">
-              {swagramWeddingData.basicInfo.title_marathi}
-            </h1>
-            <p className="text-base text-green-700 mb-2">
-              {swagramWeddingData.basicInfo.title_english}
-            </p>
-            <p className="text-lg text-amber-700 font-semibold mb-4">
-              {swagramWeddingData.philosophy.tagline}
-            </p>
-            <p className="text-sm text-green-800 max-w-4xl mx-auto">
-              {swagramWeddingData.basicInfo.description}
-            </p>
-
-            {/* <div className="flex flex-wrap justify-center gap-3 mt-6">
-              <a
-                href="#contact"
-                className="bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 text-sm flex items-center gap-2"
-              >
-                Book Now <ArrowForward fontSize="small" />
-              </a>
-              <a
-                href="#services"
-                className="bg-white text-green-600 px-5 py-2 rounded-full border-2 border-green-600 hover:bg-green-50 text-sm"
-              >
-                Explore
-              </a>
-            </div> */}
-          </motion.div>
-
+    <div className="min-h-screen bg-gradient-to-br from-lime-50 via-green-50 to-amber-50">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Martel:wght@300;400;600;700;900&display=swap');
+        * { font-family: 'Poppins', sans-serif; }
+        . { font-family: 'Martel', serif; }
+        .leaf-pattern { background-image: radial-gradient(circle at 20% 50%, rgba(132, 204, 22, 0.03) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(101, 163, 13, 0.03) 0%, transparent 50%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(132, 204, 22, 0.15); }
+      `}</style>
+      {/* Hero Section */}
+      <motion.section
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        onMouseMove={handleMouseMove}
+        className="relative overflow-hidden min-h-screen py-20 px-4 bg-gradient-to-br from-lime-50 via-green-50 to-amber-50"
+      >
+        {/* Animated Background Blobs */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
           <motion.div
-            {...fadeIn}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10"
-          >
-            {[
-              { icon: <EmojiNature />, label: "Eco-Friendly", value: "100%" },
-              { icon: <Spa />, label: "Ayurvedic", value: "Pure" },
-              { icon: <Restaurant />, label: "Vegetarian", value: "Only" },
-              { icon: <Favorite />, label: "Carbon +ve", value: "Climate" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="bg-white p-3 rounded-lg shadow text-center"
-              >
-                <div className="text-green-600 text-2xl mb-1">{stat.icon}</div>
-                <div className="text-base font-bold text-green-900">
-                  {stat.value}
-                </div>
-                <div className="text-xs text-green-700">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </Section>
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute top-0 -left-20 w-96 h-96 bg-green-400 rounded-full mix-blend-multiply filter blur-3xl"
+          />
+          <motion.div
+            animate={{
+              scale: [1, 1.3, 1],
+              rotate: [0, -90, 0],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute top-20 -right-20 w-96 h-96 bg-lime-400 rounded-full mix-blend-multiply filter blur-3xl"
+          />
+          <motion.div
+            animate={{
+              scale: [1, 1.1, 1],
+              y: [0, 50, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute -bottom-20 left-1/2 w-96 h-96 bg-amber-400 rounded-full mix-blend-multiply filter blur-3xl"
+          />
+        </div>
 
-        {/* Philosophy */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-4 text-center">
+        {/* Floating Particles */}
+        <div className="absolute inset-0 pointer-events-none">
+          {particles.map((particle) => (
+            <motion.div
+              key={particle.id}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{
+                y: ["0vh", "100vh"],
+                opacity: [0, 0.6, 0],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: particle.duration,
+                repeat: Infinity,
+                delay: particle.delay,
+                ease: "linear",
+              }}
+              className="absolute w-2 h-2 bg-green-400 rounded-full"
+              style={{ left: `${particle.left}%` }}
+            />
+          ))}
+        </div>
+
+        {/* Parallax Decorative Elements - Using motion values */}
+        <motion.div
+          className="absolute top-20 left-10 w-32 h-32 opacity-20 pointer-events-none"
+          style={{
+            x: parallaxX,
+            y: parallaxY,
+          }}
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="w-full h-full border-4 border-green-600 rounded-full"
+          />
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-20 right-10 w-40 h-40 opacity-20 pointer-events-none"
+          style={{
+            x: parallaxX2,
+            y: parallaxY2,
+          }}
+        >
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="w-full h-full border-4 border-lime-600 rotate-45"
+          />
+        </motion.div>
+
+        {/* Decorative Corners */}
+        <div className="absolute top-0 left-0 w-64 h-64 opacity-10 pointer-events-none">
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            <path
+              d="M0,0 Q50,50 0,100 M0,0 Q50,50 100,0"
+              stroke="rgb(34,197,94)"
+              strokeWidth="2"
+              fill="none"
+            />
+          </svg>
+        </div>
+
+        <div className="absolute bottom-0 right-0 w-64 h-64 opacity-10 transform rotate-180 pointer-events-none">
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            <path
+              d="M0,0 Q50,50 0,100 M0,0 Q50,50 100,0"
+              stroke="rgb(132,204,22)"
+              strokeWidth="2"
+              fill="none"
+            />
+          </svg>
+        </div>
+
+        {/* Main Content */}
+        <div className="w-full mx-auto text-center relative z-10">
+          {/* Top Icon */}
+          <motion.div
+            variants={fadeUp}
+            whileHover={{ scale: 1.1, rotate: 12 }}
+            className="inline-block mb-8"
+          >
+            <div className="relative group cursor-pointer">
+              <motion.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 bg-green-400 rounded-full blur-xl pointer-events-none"
+              />
+              <div className="relative bg-gradient-to-br from-green-600 to-lime-600 p-6 rounded-full shadow-2xl">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Heart className="w-12 h-12 text-white fill-white" />
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Marathi Title */}
+          <motion.h1
+            variants={fadeUp}
+            whileHover={{ scale: 1.05 }}
+            className="text-xl md:text-3xl py-1 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-lime-600 to-green-700 mb-4"
+            style={{ fontFamily: "serif" }}
+          >
+            {swagramWeddingData.basicInfo.title_marathi}
+          </motion.h1>
+
+          {/* English Title */}
+          <motion.p
+            variants={fadeUp}
+            whileHover={{ letterSpacing: "0.1em" }}
+            className="text-lg md:text-xl font-light text-amber-800 mb-8 tracking-wide transition-all duration-300"
+          >
+            {swagramWeddingData.basicInfo.title_english}
+          </motion.p>
+
+          {/* Decorative Divider */}
+          <motion.div
+            variants={fadeUp}
+            className="flex items-center justify-center gap-4 my-8"
+          >
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 64 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="h-px bg-gradient-to-r from-transparent to-green-600"
+            />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            >
+              <Sparkles className="w-6 h-6 text-lime-600" />
+            </motion.div>
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: 64 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="h-px bg-gradient-to-l from-transparent to-green-600"
+            />
+          </motion.div>
+
+          {/* Subtitles */}
+          <motion.div variants={fadeUp} className="mt-8 mb-6 space-y-3">
+            <motion.p
+              whileHover={{ scale: 1.02, color: "rgb(22, 163, 74)" }}
+              className="text-2xl md:text-3xl text-green-800 font-medium transition-colors"
+              style={{ fontFamily: "serif" }}
+            >
+              {swagramWeddingData.basicInfo.subtitle_marathi}
+            </motion.p>
+            <motion.p
+              whileHover={{ scale: 1.02, color: "rgb(120, 53, 15)" }}
+              className="text-lg md:text-xl text-amber-700 italic transition-colors"
+            >
+              {swagramWeddingData.basicInfo.subtitle_english}
+            </motion.p>
+          </motion.div>
+
+          {/* Theme Badge */}
+          <motion.div
+            variants={fadeUp}
+            whileHover={{ scale: 1.05 }}
+            className="inline-block mb-6"
+          >
+            <div className="group relative">
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 bg-gradient-to-r from-green-400 to-lime-400 rounded-full blur-lg pointer-events-none"
+              />
+              <div className="relative p-4 rounded-full flex flex-col items-center gap-2">
+                <div className="relative flex space-x-2 items-center bg-gradient-to-r from-green-600 to-lime-600 px-8 py-4 rounded-full shadow-xl border-2 border-lime-200">
+                  <p
+                    className="text-white font-semibold text-lg mb-1"
+                    style={{ fontFamily: "serif" }}
+                  >
+                    {swagramWeddingData.basicInfo.theme_marathi}
+                  </p>
+                  <p className="text-lime-100 text-sm">
+                    {swagramWeddingData.basicInfo.theme_english}
+                  </p>
+                </div>
+                <div>
+                  <motion.span
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-block bg-green-600 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg cursor-pointer"
+                  >
+                    {swagramWeddingData.basicInfo.type}
+                  </motion.span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Type Badge */}
+          <motion.div variants={fadeUp} className="mt-4 mb-8"></motion.div>
+
+          {/* Description */}
+          <motion.p
+            variants={fadeUp}
+            className="mt-8 text-lg text-amber-800 max-w-3xl mx-auto leading-relaxed"
+          >
+            {swagramWeddingData.basicInfo.description}
+          </motion.p>
+        </div>
+      </motion.section>
+
+      {/* Philosophy Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer}
+        className="py-16 px-4 bg-gradient-to-b from-lime-50/40 via-green-50/30 to-amber-50/40"
+      >
+        <div className="w-full mx-auto">
+          {/* Header */}
+          <motion.div variants={fadeUp} className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <Leaf className="w-5 h-5 text-green-600" />
+              <Heart className="w-4 h-4 text-lime-600" />
+              <Leaf className="w-5 h-5 text-green-600" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-green-900 mb-2">
               {swagramWeddingData.philosophy.question}
             </h2>
-            <div className="bg-lime-50 border shadow p-6 rounded-lg mb-4">
-              <p className="text-sm text-green-800 mb-3">
-                {swagramWeddingData.philosophy.introduction}
-              </p>
-              <div className="bg-amber-50 p-4 border shadow rounded-lg mb-3">
-                <h3 className="text-base font-bold text-amber-900 mb-2">
-                  समस्या (Problem)
-                </h3>
-                <p className="text-sm text-amber-800">
+            <p className="text-base text-green-700 italic font-medium">
+              {swagramWeddingData.philosophy.tagline}
+            </p>
+          </motion.div>
+
+          {/* Introduction */}
+          <motion.div
+            variants={fadeUp}
+            className="bg-gradient-to-br from-white to-lime-50/50 rounded-2xl p-6 md:p-7 shadow-md border border-lime-200/60 mb-8 backdrop-blur-sm"
+          >
+            <p className="text-gray-700 leading-relaxed text-base text-center">
+              {swagramWeddingData.philosophy.introduction}
+            </p>
+          </motion.div>
+
+          {/* Problem & Solution Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
+            {/* Problem Card */}
+            <motion.div
+              variants={fadeUp}
+              className="relative overflow-hidden bg-gradient-to-br from-red-50 via-orange-50 to-amber-50 rounded-2xl p-6 md:p-7 border-2 border-amber-200/80 shadow-md"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/20 to-transparent rounded-full -mr-16 -mt-16" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-gradient-to-br from-amber-100 to-orange-100 p-2.5 rounded-xl shadow-sm">
+                    <X className="w-5 h-5 text-amber-700" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-amber-900">
+                    समस्या
+                  </h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-base">
                   {swagramWeddingData.philosophy.problem}
                 </p>
               </div>
-              <div className="bg-green-50 border shadow p-4 rounded-lg">
-                <h3 className="text-base font-bold text-green-900 mb-2">
-                  उपाय (Solution)
-                </h3>
-                <p className="text-sm text-green-800">
+            </motion.div>
+
+            {/* Solution Card */}
+            <motion.div
+              variants={fadeUp}
+              className="relative overflow-hidden bg-gradient-to-br from-green-50 via-lime-50 to-emerald-50 rounded-2xl p-6 md:p-7 border-2 border-green-300/80 shadow-md"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/20 to-transparent rounded-full -mr-16 -mt-16" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-gradient-to-br from-green-100 to-lime-100 p-2.5 rounded-xl shadow-sm">
+                    <Check className="w-5 h-5 text-green-700" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-green-900">उपाय</h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-base">
                   {swagramWeddingData.philosophy.solution}
                 </p>
               </div>
-            </div>
+            </motion.div>
+          </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-gradient-to-br from-green-50 to-lime-50 p-5 border shadow rounded-lg">
-                <h3 className="text-base font-bold text-green-900 mb-2 flex items-center gap-2">
-                  <AutoAwesome className="text-green-600" />
-                  {swagramWeddingData.philosophy.nature_wedding_concept.title}
-                </h3>
-                <p className="text-sm text-green-800">
+          {/* Concept & Reality Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {/* Nature Wedding Concept */}
+            <motion.div
+              variants={fadeUp}
+              className="relative overflow-hidden bg-gradient-to-br from-lime-50 via-green-50 to-emerald-50 rounded-2xl p-6 md:p-7 border-2 border-lime-300/70 shadow-md"
+            >
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-lime-200/20 to-transparent rounded-full -ml-20 -mb-20" />
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-4">
+                  <Leaf className="w-5 h-5 text-lime-700" />
+                  <h3 className="text-lg font-semibold text-lime-900">
+                    {swagramWeddingData.philosophy.nature_wedding_concept.title}
+                  </h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-base mb-4">
                   {
                     swagramWeddingData.philosophy.nature_wedding_concept
                       .description
                   }
                 </p>
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-lime-200/60 shadow-sm">
+                  <p className="text-gray-700 leading-relaxed text-base">
+                    {
+                      swagramWeddingData.philosophy.nature_wedding_concept
+                        .conclusion
+                    }
+                  </p>
+                </div>
               </div>
-              <div className="bg-gradient-to-br from-amber-50 border shadow to-orange-50 p-5 rounded-lg">
-                <h3 className="text-base font-bold text-amber-900 mb-2 flex items-center gap-2">
-                  <Verified className="text-amber-600" />
-                  {swagramWeddingData.philosophy.modern_reality.title}
-                </h3>
-                <p className="text-sm text-amber-800">
+            </motion.div>
+
+            {/* Modern Reality */}
+            <motion.div
+              variants={fadeUp}
+              className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-yellow-50 to-lime-50 rounded-2xl p-6 md:p-7 border-2 border-amber-300/70 shadow-md"
+            >
+              <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-amber-200/20 to-transparent rounded-full -mr-20 -mb-20" />
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-4">
+                  <Heart className="w-5 h-5 text-amber-700" />
+                  <h3 className="text-lg font-semibold text-amber-900">
+                    {swagramWeddingData.philosophy.modern_reality.title}
+                  </h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-base">
                   {swagramWeddingData.philosophy.modern_reality.description}
                 </p>
               </div>
-            </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Swagram Concept */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl  font-semibold text-lime-900 mb-3">
+              {swagramWeddingData.swagramConcept.title}
+            </h2>
+            <p className="text-lg  text-green-700 italic mb-4">
+              {swagramWeddingData.swagramConcept.subtitle}
+            </p>
+            <p className="text-base text-gray-700 max-w-3xl mx-auto leading-relaxed ">
+              {swagramWeddingData.swagramConcept.description}
+            </p>
           </motion.div>
-        </Section>
-
-        {/* Swagram Concept & Features */}
-        <Section>
-          <motion.div {...fadeIn}>
-            <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-2">
-                {swagramWeddingData.swagramConcept.title}
-              </h2>
-              <p className="text-base text-amber-700 font-semibold">
-                {swagramWeddingData.swagramConcept.subtitle}
-              </p>
-              <p className="text-sm text-green-700 mt-2">
-                {swagramWeddingData.swagramConcept.description}
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div variants={fadeUp} className="mb-8">
+            <h3 className="text-2xl  font-semibold text-lime-900 mb-6 text-center">
+              {swagramWeddingData.swagramConcept.specialFeatures.title}
+            </h3>
+            <div className="grid md:grid-cols-4 gap-4">
               {swagramWeddingData.swagramConcept.specialFeatures.features.map(
-                (feature, i) => (
+                (feature, index) => (
                   <motion.div
-                    key={i}
-                    whileHover={{ scale: 1.02 }}
-                    className="bg-white p-5 rounded-lg border shadow-lg border-l-4 border-green-600"
+                    key={index}
+                    variants={fadeUp}
+                    className="bg-white rounded-2xl  border  shadow-sm card-hover"
                   >
-                    <h3 className="text-base font-bold text-green-900 mb-2">
-                      <CheckCircle className="text-green-600 " />{" "}
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-green-800">
+                    <div className="flex flex-col items-center gap-3 py-5 rounded-t-2xl bg-lime-100">
+                      <div className="rounded-xl flex-shrink-0">
+                        {[
+                          <Home />,
+                          <Healing />,
+                          <SelfImprovement />,
+                          <Terrain />,
+                          <Spa />,
+                          <FitnessCenter />,
+                          <FavoriteBorder />,
+                        ][index] &&
+                          React.cloneElement(
+                            [
+                              <Home />,
+                              <Healing />,
+                              <SelfImprovement />,
+                              <Terrain />,
+                              <Spa />,
+                              <FitnessCenter />,
+                              <FavoriteBorder />,
+                            ][index],
+                            { className: "text-lime-600" }
+                          )}
+                      </div>
+                      <h4 className="text-md font-semibold text-lime-900 ">
+                        {feature.title}
+                      </h4>
+                    </div>
+                    <p className="text-xs text-center text-gray-600 leading-relaxed px-5 py-3">
                       {feature.description}
                     </p>
                   </motion.div>
                 )
               )}
             </div>
-
-            <div className="mt-8 bg-gradient-to-r from-lime-100 via-green-100 to-amber-50 border p-6 rounded-lg">
-              <h3 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
-                <CalendarMonth className="text-green-600" />
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-green-50 rounded-3xl p-6 md:p-8 border-2 border-green-200 mb-6"
+          >
+            <p className="text-gray-700 leading-relaxed  text-base">
+              {swagramWeddingData.swagramConcept.specialFeatures.conclusion}
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-gradient-to-br from-lime-100 to-green-100 rounded-3xl p-6 md:p-8 border-2 border-lime-300"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <Stars className="text-lime-700 text-3xl" />
+              <h3 className="text-xl font-semibold text-lime-900 ">
                 {swagramWeddingData.swagramConcept.fiveDayWedding.title}
               </h3>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {swagramWeddingData.swagramConcept.fiveDayWedding.services.map(
-                  (service, i) => (
-                    <div
-                      key={i}
-                      className="bg-white p-3 rounded-lg border flex items-center gap-2"
-                    >
-                      <CheckCircle className="text-green-600 text-sm" />
-                      <span className="text-sm text-green-800">{service}</span>
+            </div>
+            <p className="text-gray-700 leading-relaxed  text-base mb-4">
+              {swagramWeddingData.swagramConcept.fiveDayWedding.description}
+            </p>
+            <div className="grid md:grid-cols-2 gap-3">
+              {swagramWeddingData.swagramConcept.fiveDayWedding.services.map(
+                (service, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 bg-white/70 rounded-xl p-3"
+                  >
+                    <Check className="text-green-600 text-sm" />
+                    <span className="text-sm  text-gray-700">{service}</span>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Why Choose Swagram */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.h2
+            variants={fadeUp}
+            className="text-3xl  font-semibold text-lime-900 mb-8 text-center"
+          >
+            {swagramWeddingData.whyChooseSwagram.title}
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-5 mb-8">
+            {swagramWeddingData.whyChooseSwagram.reasons.map(
+              (reason, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border border-lime-100 shadow-sm card-hover"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="bg-lime-100 p-2 rounded-xl flex-shrink-0">
+                      <Check className="text-lime-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-md font-semibold text-lime-900  mb-2">
+                        {reason.point}
+                      </h4>
+                      <p className="text-sm text-gray-600 ">{reason.detail}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            )}
+          </div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-gradient-to-r from-lime-500 to-green-600 rounded-3xl p-6 md:p-8 text-center mb-6"
+          >
+            <p className="text-white text-lg  font-semibold">
+              {swagramWeddingData.whyChooseSwagram.callToAction}
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-amber-50 rounded-3xl p-6 md:p-8 border-2 border-amber-200"
+          >
+            <p className="text-gray-700 leading-relaxed  text-base">
+              {swagramWeddingData.whyChooseSwagram.promise}
+            </p>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Core Values */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.h2
+            variants={fadeUp}
+            className="text-3xl font-semibold text-lime-900 mb-8 text-center"
+          >
+            Our Core Values
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <motion.div
+              variants={fadeUp}
+              className="bg-green-50 rounded-3xl p-6 border-2 border-green-300"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <h3 className="text-xl font-semibold text-green-900">
+                  {swagramWeddingData.coreValues.sayYesTo.title}
+                </h3>
+              </div>
+              <div className="space-y-2">
+                {swagramWeddingData.coreValues.sayYesTo.values.map(
+                  (value, index) => (
+                    <div key={index} className="bg-white/70 rounded-xl p-3">
+                      <p className=" text-green-900 font-medium">
+                        {value.marathi}
+                      </p>
+                      <p className="text-sm text-green-700">{value.english}</p>
                     </div>
                   )
                 )}
               </div>
-            </div>
+            </motion.div>
+            <motion.div
+              variants={fadeUp}
+              className="bg-red-50 rounded-3xl p-6 border-2 border-red-300"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-red-600 p-2 rounded-xl">
+                  <Close className="text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-red-900">
+                  {swagramWeddingData.coreValues.sayNoTo.title}
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {swagramWeddingData.coreValues.sayNoTo.values.map(
+                  (value, index) => (
+                    <div key={index} className="bg-white/70 rounded-xl p-2">
+                      <p className=" text-red-900 text-sm font-medium">
+                        {value.marathi}
+                      </p>
+                      <p className="text-xs text-red-700">{value.english}</p>
+                    </div>
+                  )
+                )}
+              </div>
+            </motion.div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <motion.div
+              variants={fadeUp}
+              className="bg-orange-50 rounded-2xl p-5 border-2 border-orange-300"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <Close className="text-orange-600 text-2xl" />
+                <h3 className="text-lg font-semibold text-orange-900">
+                  {swagramWeddingData.coreValues.stronglyNoTo.title}
+                </h3>
+              </div>
+              {swagramWeddingData.coreValues.stronglyNoTo.values.map(
+                (value, index) => (
+                  <div key={index} className="bg-white/70 rounded-xl p-3">
+                    <p className=" text-orange-900 font-medium">
+                      {value.marathi}
+                    </p>
+                    <p className="text-sm text-orange-700">{value.english}</p>
+                  </div>
+                )
+              )}
+            </motion.div>
+            <motion.div
+              variants={fadeUp}
+              className="bg-purple-50 rounded-2xl p-5 border-2 border-purple-300"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <h3 className="text-lg font-semibold text-purple-900">
+                  {swagramWeddingData.coreValues.stronglyYesTo.title}
+                </h3>
+              </div>
+              {swagramWeddingData.coreValues.stronglyYesTo.values.map(
+                (value, index) => (
+                  <div key={index} className="bg-white/70 rounded-xl p-3">
+                    <p className=" text-purple-900 font-medium">
+                      {value.marathi}
+                    </p>
+                    <p className="text-sm text-purple-700">{value.english}</p>
+                  </div>
+                )
+              )}
+            </motion.div>
+          </div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-lime-100 rounded-2xl p-5 border-2 border-lime-300 text-center"
+          >
+            <p className="text-gray-700  text-base leading-relaxed">
+              {swagramWeddingData.coreValues.message}
+            </p>
           </motion.div>
-        </Section>
-
-        {/* Pricing Packages */}
-        <Section className="" id="pricing">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
+        </div>
+      </motion.section>
+      {/* Pricing */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-3xl py-1  font-semibold text-lime-900 mb-2">
               {swagramWeddingData.pricing.venueCharges.title}
             </h2>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {swagramWeddingData.pricing.venueCharges.packages.map(
-                (pkg, i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{ y: -5 }}
-                    className="bg-white p-5 rounded-lg border shadow-lg text-center"
-                  >
-                    <AttachMoney className="text-green-600 text-3xl mx-auto mb-2" />
-                    <h3 className="text-base font-bold text-green-900 mb-1">
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            {swagramWeddingData.pricing.venueCharges.packages.map(
+              (pkg, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border-2 border-lime-200 card-hover"
+                >
+                  <div className="bg-lime-50 rounded-xl p-3 mb-3 text-center">
+                    <p className="text-xl font-semibold text-lime-900">
                       {pkg.duration}
-                    </h3>
-                    <p className="text-xs text-green-700 mb-3">{pkg.timing}</p>
-                    <div className="text-xl font-bold text-amber-700 mb-3">
+                    </p>
+                  </div>
+                  <p className="text-sm text-gray-600 text-center mb-3">
+                    {pkg.timing}
+                  </p>
+                  <div className="bg-gradient-to-r from-lime-500 to-green-600 rounded-xl p-3 text-center">
+                    <p className="text-lg font-semibold text-white">
                       {pkg.cost}
-                    </div>
-                    <button className="w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-700 text-sm">
-                      Select
-                    </button>
-                  </motion.div>
+                    </p>
+                  </div>
+                </motion.div>
+              )
+            )}
+          </div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-green-50 rounded-3xl p-6 md:p-8 border-2 border-green-200"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <h3 className="text-xl font-semibold text-green-900 ">
+                {swagramWeddingData.pricing.accommodation.title}
+              </h3>
+            </div>
+            <p className="text-gray-700  mb-4">
+              {swagramWeddingData.pricing.accommodation.capacity}
+            </p>
+            <div className="grid md:grid-cols-2 gap-3">
+              {swagramWeddingData.pricing.accommodation.rates.map(
+                (rate, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-green-100"
+                  >
+                    <p className="font-semibold text-green-900 mb-1">
+                      {rate.duration}
+                    </p>
+                    <p className="text-lg font-semibold text-green-700">
+                      {rate.cost}
+                    </p>
+                  </div>
                 )
               )}
             </div>
-
-            <div className=" p-6 border rounded-lg shadow-lg">
-              <h3 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
-                <Hotel className="text-green-600" />
-                {swagramWeddingData.pricing.accommodation.title}
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Food Menu */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-3xl  font-semibold text-lime-900 mb-2">
+              {swagramWeddingData.foodMenu.title}
+            </h2>
+            <p className="text-lg text-green-700">
+              {swagramWeddingData.foodMenu.venue}
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-amber-50 rounded-2xl p-5 border-2 border-amber-200 mb-6"
+          >
+            <h3 className="text-lg font-semibold text-amber-900 mb-3 ">
+              विशेष सुविधा
+            </h3>
+            <div className="space-y-2">
+              {swagramWeddingData.foodMenu.specialFeatures.map(
+                (feature, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <Check className="text-amber-600 text-sm flex-shrink-0" />
+                    <p className="text-sm  text-gray-700">{feature}</p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
+            {swagramWeddingData.foodMenu.menuItems.map((item, index) => (
+              <motion.div
+                key={index}
+                variants={fadeUp}
+                className="bg-white rounded-2xl p-5 border border-lime-100 shadow-sm"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="text-lg font-semibold text-lime-900 ">
+                    {item.category}
+                  </h4>
+                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    ₹ {item.costPerPerson}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600  leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-red-50 rounded-2xl p-5 border-2 border-red-200 mb-6"
+          >
+            <h3 className="text-lg font-semibold text-red-900 mb-3 ">
+              महत्वाच्या सूचना
+            </h3>
+            <div className="space-y-2">
+              {swagramWeddingData.foodMenu.importantNotes.map((note, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <span className="text-red-600 font-semibold mt-1">•</span>
+                  <p className="text-sm  text-gray-700">{note}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-gradient-to-br from-green-50 to-lime-50 rounded-3xl p-6 border-2 border-green-200"
+          >
+            <h3 className="text-2xl font-semibold text-green-900  mb-2 text-center">
+              {swagramWeddingData.foodMenu.smallEventPackages.title}
+            </h3>
+            <p className="text-center text-green-700 mb-6 ">
+              {swagramWeddingData.foodMenu.smallEventPackages.subtitle}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-green-900  mb-3">
+                  {swagramWeddingData.foodMenu.smallEventPackages.halfDay.title}
+                </h4>
+                <div className="space-y-2">
+                  {swagramWeddingData.foodMenu.smallEventPackages.halfDay.packages.map(
+                    (pkg, index) => (
+                      <div
+                        key={index}
+                        className="bg-white rounded-xl p-4 border border-green-100 flex justify-between items-center"
+                      >
+                        <p className="text-sm  text-gray-700">
+                          {pkg.description}
+                        </p>
+                        <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                          ₹ {pkg.cost}
+                        </span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-green-900  mb-3">
+                  {swagramWeddingData.foodMenu.smallEventPackages.fullDay.title}
+                </h4>
+                <div className="space-y-2">
+                  {swagramWeddingData.foodMenu.smallEventPackages.fullDay.packages.map(
+                    (pkg, index) => (
+                      <div
+                        key={index}
+                        className="bg-white rounded-xl p-4 border border-green-100 flex justify-between items-center"
+                      >
+                        <p className="text-sm  text-gray-700">
+                          {pkg.description}
+                        </p>
+                        <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                          ₹ {pkg.cost}
+                        </span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Value Added Services */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.h2
+            variants={fadeUp}
+            className="text-3xl font-semibold text-lime-900 mb-8 text-center"
+          >
+            {swagramWeddingData.valueAddedServices.title}
+          </motion.h2>
+          <div className="space-y-3">
+            {swagramWeddingData.valueAddedServices.services.map(
+              (service, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border border-lime-100 shadow-sm card-hover"
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="bg-lime-100 p-2 rounded-xl flex-shrink-0">
+                        {[
+                          <Healing />,
+                          <Event />,
+                          <Nature />,
+                          <LocalFlorist />,
+                          <Stars />,
+                        ][index] &&
+                          React.cloneElement(
+                            [
+                              <Healing />,
+                              <Event />,
+                              <Nature />,
+                              <LocalFlorist />,
+                              <Stars />,
+                            ][index],
+                            { className: "text-lime-600" }
+                          )}
+                      </div>
+                      <p className="text-gray-700">{service.service}</p>
+                    </div>
+                    <span className="bg-lime-50 text-lime-800 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ml-3">
+                      {service.cost}
+                    </span>
+                  </div>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
+      {/* Available Locations */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className=" mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-3xl font-semibold text-lime-900">
+              {swagramWeddingData.availableLocations.title}
+            </h2>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {swagramWeddingData.availableLocations.locations.map(
+              (location, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border-2 border-lime-200 text-center card-hover"
+                >
+                  <div className="bg-lime-50 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Group className="text-lime-600 text-2xl" />
+                  </div>
+                  <h4 className="text-md font-semibold text-lime-900 mb-2">
+                    {location.name}
+                  </h4>
+                  <div className="bg-gradient-to-r from-lime-500 to-green-600 rounded-xl py-2 px-3">
+                    <p className="text-white font-semibold">
+                      {location.capacity} persons
+                    </p>
+                  </div>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
+      {/* Rules and Regulations */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-xl md:text-3xl font-semibold text-lime-900 mb-2">
+              {swagramWeddingData.rulesAndRegulations.title}
+            </h2>
+            <p className="text-base text-green-700 ">
+              {swagramWeddingData.rulesAndRegulations.subtitle}
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-lime-50 rounded-3xl p-6 border-2 border-lime-200 mb-6"
+          >
+            <p className="text-gray-700 text-sm leading-relaxed">
+              {swagramWeddingData.rulesAndRegulations.introduction}
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="grid md:grid-cols-2 gap-6 mb-6"
+          >
+            <div className="bg-green-50 rounded-2xl p-5 border-2 border-green-200">
+              <h3 className="text-lg font-semibold text-green-900  mb-3">
+                {swagramWeddingData.rulesAndRegulations.inclusions.title}
               </h3>
-              <p className="text-sm text-green-800 mb-3">
-                {swagramWeddingData.pricing.accommodation.capacity}
-              </p>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {swagramWeddingData.pricing.accommodation.rates.map(
-                  (rate, i) => (
-                    <div key={i} className="bg-green-50 p-3 border rounded-lg">
-                      <span className="font-bold text-green-900">
-                        {rate.duration}:
-                      </span>
-                      <span className="text-amber-700 ml-2">{rate.cost}</span>
+              <div className="space-y-2">
+                {swagramWeddingData.rulesAndRegulations.inclusions.items.map(
+                  (item, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Check className="text-green-600 text-sm flex-shrink-0" />
+                      <p className="text-sm  text-gray-700">{item}</p>
                     </div>
                   )
                 )}
               </div>
             </div>
-          </motion.div>
-        </Section>
-
-        {/* Food Menu */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center flex items-center justify-center gap-2">
-              <LocalDining className="text-green-600" />
-              {swagramWeddingData.foodMenu.title}
-            </h2>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {swagramWeddingData.foodMenu.menuItems.map((item, i) => (
-                <div
-                  key={i}
-                  className="bg-gradient-to-br from-lime-50 to-green-50 p-5 border rounded-lg shadow"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-base font-bold text-green-900">
-                      {item.category}
-                    </h3>
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-bold ${
-                        item.costPerPerson === "Free"
-                          ? "bg-green-600 text-white"
-                          : "bg-amber-600 text-white"
-                      }`}
-                    >
-                      ₹{item.costPerPerson}
-                    </span>
-                  </div>
-                  <p className="text-sm text-green-800">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </Section>
-
-        {/* Value Added Services */}
-        <Section>
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
-              Value Added Services
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {swagramWeddingData.valueAddedServices.services.map(
-                (service, i) => (
-                  <div
-                    key={i}
-                    className="bg-white p-4 rounded-lg border shadow-lg flex items-start gap-3"
-                  >
-                    <RoomService className="text-green-600 mt-1" />
-                    <div className="flex-1">
-                      <h3 className="text-base font-bold text-green-900 mb-1">
-                        {service.service}
-                      </h3>
-                      <p className="text-sm text-amber-700">{service.cost}</p>
+            <div className="bg-orange-50 rounded-2xl p-5 border-2 border-orange-200">
+              <h3 className="text-lg font-semibold text-orange-900  mb-3">
+                {swagramWeddingData.rulesAndRegulations.exclusions.title}
+              </h3>
+              <div className="space-y-2 mb-3">
+                {swagramWeddingData.rulesAndRegulations.exclusions.items.map(
+                  (item, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="text-orange-600 font-semibold">•</span>
+                      <p className="text-sm  text-gray-700">{item}</p>
                     </div>
-                  </div>
-                )
-              )}
-            </div>
-          </motion.div>
-        </Section>
-
-        {/* Available Locations */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
-              Available Locations for Functions
-            </h2>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {swagramWeddingData.availableLocations.locations.map(
-                (location, i) => (
-                  <div
-                    key={i}
-                    className="bg-white p-4 rounded-lg border shadow text-center"
-                  >
-                    <LocationOn className="text-green-600 text-3xl mx-auto mb-2" />
-                    <h3 className="text-base font-bold text-green-900 mb-1">
-                      {location.name}
-                    </h3>
-                    <p className="text-sm text-green-700">
-                      Capacity: {location.capacity}
-                    </p>
-                  </div>
-                )
-              )}
-            </div>
-          </motion.div>
-        </Section>
-
-        {/* Why Choose Swagram */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
-              Why Choose Swagram?
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {swagramWeddingData.whyChooseSwagram.reasons.map((reason, i) => (
-                <div
-                  key={i}
-                  className="bg-gradient-to-r from-lime-50 to-green-50 border p-5 rounded-lg shadow flex gap-3"
-                >
-                  <Star className="text-amber-600 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-base font-bold text-green-900 mb-1">
-                      {reason.point}
-                    </h3>
-                    <p className="text-sm text-green-800">{reason.detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </Section>
-
-        {/* Core Values */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
-              Our Values
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <div className="bg-green-100 border shadow p-5 rounded-lg mb-4">
-                  <h3 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
-                    <CheckBox className="text-green-600" /> Say YES to
-                  </h3>
-                  {swagramWeddingData.coreValues.sayYesTo.values.map((v, i) => (
-                    <div
-                      key={i}
-                      className="bg-white p-2 rounded mb-2 flex justify-between text-sm"
-                    >
-                      <span className="text-green-900">{v.marathi}</span>
-                      <span className="text-green-700">{v.english}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="bg-green-200 border shadow p-5 rounded-lg mb-4">
-                  <h3 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
-                    <CheckCircle className="text-green-700" /> Strongly YES to
-                  </h3>
-                  {swagramWeddingData.coreValues.stronglyYesTo.values.map(
-                    (v, i) => (
-                      <div
-                        key={i}
-                        className="bg-white p-2 rounded mb-2 flex justify-between text-sm"
-                      >
-                        <span className="text-green-900 font-bold">
-                          {v.marathi}
-                        </span>
-                        <span className="text-green-700 font-bold">
-                          {v.english}
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
-                <div className="bg-red-100 p-5 border shadow rounded-lg">
-                  <h3 className="text-lg font-bold text-red-900 mb-3 flex items-center gap-2">
-                    <Block className="text-red-600" /> Strongly NO to
-                  </h3>
-                  {swagramWeddingData.coreValues.stronglyNoTo.values.map(
-                    (v, i) => (
-                      <div
-                        key={i}
-                        className="bg-white p-2 rounded mb-2 flex justify-between text-sm"
-                      >
-                        <span className="text-red-900 font-bold">
-                          {v.marathi}
-                        </span>
-                        <span className="text-red-700 font-bold">
-                          {v.english}
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
+                  )
+                )}
               </div>
-
-              <div>
-                <div className="bg-amber-100 p-5 border shadow rounded-lg">
-                  <h3 className="text-lg font-bold text-amber-900 mb-3 flex items-center gap-2">
-                    <Block className="text-amber-600" /> Say NO to
-                  </h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    {swagramWeddingData.coreValues.sayNoTo.values.map(
-                      (v, i) => (
-                        <div
-                          key={i}
-                          className="bg-white p-2 rounded text-center text-xs"
-                        >
-                          <div className="text-amber-900">{v.marathi}</div>
-                          <div className="text-amber-700">{v.english}</div>
-                        </div>
-                      )
+              <p className="text-xs text-orange-700  italic">
+                {swagramWeddingData.rulesAndRegulations.exclusions.note}
+              </p>
+            </div>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {swagramWeddingData.rulesAndRegulations.sections.map(
+              (section, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border border-lime-100 shadow-sm"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="bg-lime-100 text-lime-900 w-8 h-8 rounded-full flex items-center justify-center font-semibold flex-shrink-0">
+                      {section.number}
+                    </div>
+                    <h4 className="text-md font-semibold text-lime-900 ">
+                      {section.title}
+                    </h4>
+                  </div>
+                  <div className="ml-11 space-y-2">
+                    {section.rules.map((rule, rIndex) => (
+                      <div key={rIndex} className="flex items-center gap-2">
+                        <span className="text-lime-600 text-xs mt-1">▸</span>
+                        <p className="text-sm text-gray-700 ">{rule}</p>
+                      </div>
+                    ))}
+                    {section.note && (
+                      <p className="text-xs text-gray-600  italic mt-3 bg-amber-50 p-2 rounded-lg">
+                        {section.note}
+                      </p>
                     )}
                   </div>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              )
+            )}
+          </div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-green-50 rounded-2xl p-5 border-2 border-green-200 mb-4"
+          >
+            <p className="text-gray-700  leading-relaxed text-center">
+              {swagramWeddingData.rulesAndRegulations.conclusion}
+            </p>
           </motion.div>
-        </Section>
-
-        {/* Community Programs - Note: Full data available in source */}
-        <Section>
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center flex items-center justify-center gap-2">
-              <Groups className="text-green-600" />
-              Community & Cultural Programs
+          <motion.div
+            variants={fadeUp}
+            className="bg-gradient-to-r from-lime-500 to-green-600 rounded-2xl p-5 text-center"
+          >
+            <p className="text-white  leading-relaxed">
+              {swagramWeddingData.rulesAndRegulations.finalNote}
+            </p>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Community Ceremony Planning */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl  font-semibold text-lime-900 mb-2">
+              {swagramWeddingData.communityCeremonyPlanning.title}
             </h2>
-            <div className="border p-6 rounded-lg shadow-lg">
-              <p className="text-sm text-green-800 mb-4 text-center">
-                स्वग्रामात आयुर्वेदिक पद्धतीने साजरे करता येणारे विविध कार्यक्रम
+            <p className="text-lg text-green-700  mb-2">
+              {swagramWeddingData.communityCeremonyPlanning.subtitle}
+            </p>
+            <p className="text-md text-green-600  mb-2">
+              {swagramWeddingData.communityCeremonyPlanning.theme}
+            </p>
+            <span className="inline-block bg-lime-600 text-white px-4 py-2 rounded-full text-sm font-medium">
+              {swagramWeddingData.communityCeremonyPlanning.type}
+            </span>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-white rounded-3xl p-6 md:p-8 border-2 border-lime-200 mb-6"
+          >
+            <h3 className="text-xl font-semibold text-lime-900  mb-3">
+              {swagramWeddingData.communityCeremonyPlanning.features.title}
+            </h3>
+            <p className="text-gray-700  mb-3 leading-relaxed">
+              {
+                swagramWeddingData.communityCeremonyPlanning.features
+                  .description
+              }
+            </p>
+            <div className="bg-lime-50 rounded-2xl p-4">
+              <p className="text-gray-700  leading-relaxed">
+                {swagramWeddingData.communityCeremonyPlanning.features.vision}
               </p>
-              <div className="grid md:grid-cols-3 gap-4">
-                {[
-                  {
-                    icon: <Celebration />,
-                    title: "Pre-Wedding Events",
-                    desc: "संगीत, मेहंदी, हल्दी - आयुर्वेदिक पद्धतीने",
-                  },
-                  {
-                    icon: <FamilyRestroom />,
-                    title: "Naming Ceremony",
-                    desc: "नामकरण समारंभ - पारंपरिक पोषणासह",
-                  },
-                  {
-                    icon: <CalendarMonth />,
-                    title: "Festivals",
-                    desc: "दिवाळी, होळी, गणेशोत्सव - इको-फ्रेंडली",
-                  },
-                  {
-                    icon: <Groups />,
-                    title: "Family Gatherings",
-                    desc: "पारिवारिक मेळावे - जैविक भोजनासह",
-                  },
-                  {
-                    icon: <SelfImprovement />,
-                    title: "Yoga & Wellness",
-                    desc: "योग ध्यान शिबिरे - पंचकर्म अनुभव",
-                  },
-                  {
-                    icon: <MusicNote />,
-                    title: "Cultural Programs",
-                    desc: "संगीत, नृत्य, कला कार्यशाळा",
-                  },
-                ].map((program, i) => (
+            </div>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-green-50 rounded-3xl p-6 border-2 border-green-200 mb-6"
+          >
+            <h3 className="text-xl font-semibold text-green-900  mb-2">
+              {
+                swagramWeddingData.communityCeremonyPlanning.ayurvedicPrograms
+                  .title
+              }
+            </h3>
+            <p className="text-sm text-gray-600  mb-4 italic">
+              {
+                swagramWeddingData.communityCeremonyPlanning.ayurvedicPrograms
+                  .note
+              }
+            </p>
+            <div className="grid md:grid-cols-3 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.ayurvedicPrograms.programs.map(
+                (program, index) => (
                   <div
-                    key={i}
-                    className="bg-gradient-to-br border shadow from-lime-50 to-green-50 p-4 rounded-lg text-center"
+                    key={index}
+                    className={`bg-gradient-to-r from-lime-100 to-green-100 rounded-xl p-4 border border-green-100 ${
+                      index ===
+                      swagramWeddingData.communityCeremonyPlanning
+                        .ayurvedicPrograms.programs.length -
+                        1
+                        ? "col-span-2"
+                        : ""
+                    }`}
                   >
-                    <div className="text-green-600 text-3xl mb-2">
-                      {program.icon}
-                    </div>
-                    <h3 className="text-base font-bold text-green-900 mb-1">
-                      {program.title}
-                    </h3>
-                    <p className="text-sm text-green-700">{program.desc}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 text-center">
-                <p className="text-xs text-green-700 italic">
-                  Full festival calendar, 22 Samskaras, and detailed program
-                  information available in complete brochure
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </Section>
-
-        {/* Rules & Guidelines Preview */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
-              Guidelines & Policies
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white p-5 rounded-lg shadow">
-                <h3 className="text-base font-bold text-green-900 mb-3 flex items-center gap-2">
-                  Inclusions
-                </h3>
-                <ul className="space-y-2 text-sm text-green-800">
-                  <li className="flex items-start gap-2">
-                    250-300 खुर्च्यांची व्यवस्था
-                  </li>
-                  <li className="flex items-start gap-2">
-                    पंगत व्यवस्था (पारंपरिक जेवण)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    पाट-चौरंग (विवाह विधींसाठी)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    होमकुंड (अग्निकुंड)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    माइक आणि साऊंड सिस्टीम
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-white p-5 rounded-lg shadow">
-                <h3 className="text-base font-bold text-amber-900 mb-3 flex items-center gap-2">
-                  Key Policies
-                </h3>
-                <ul className="space-y-2 text-sm text-amber-800">
-                  <li className="flex items-start gap-2">
-                    नैसर्गिक सजावट only (No plastic/thermocol)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    शुद्ध शाकाहारी भोजन only
-                  </li>
-                  <li className="flex items-start gap-2">
-                    No alcohol/smoking/tobacco
-                  </li>
-                  <li className="flex items-start gap-2">Zero waste policy</li>
-                  <li className="flex items-start gap-2">
-                    Booking : 50% advance required
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </Section>
-
-        {/* Testimonials */}
-        <Section className="">
-          <motion.div {...fadeIn}>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-6 text-center">
-              Happy Couples
-            </h2>
-
-            <div className="grid md:grid-cols-3 gap-4">
-              {[
-                {
-                  name: "राज & प्रिया पाटील",
-                  text: "स्वग्राममध्ये आमचे लग्न खूपच सुंदर पार पडले. आयुर्वेदिक पद्धती आणि नैसर्गिक वातावरणाने आमचा सोहळा अविस्मरणीय झाला!",
-                  img: "https://img.freepik.com/free-photo/indian-groom-wedding-leg-ceremony-with-spices_8353-9773.jpg?t=st=1767613695~exp=1767617295~hmac=5adc060f0a5c56be3f09996cec39ce78e1477cb28ba02470006570e13d1f2407&w=1480",
-                },
-                {
-                  name: "Amit & Sneha",
-                  text: "Perfect blend of tradition and nature. The Ayurvedic treatments made our wedding truly special!",
-                  img: "https://img.freepik.com/free-photo/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_8353-8909.jpg?t=st=1767613755~exp=1767617355~hmac=15aca29cfb1b8f75d1cfd0fe0325274dc4d089e022c08de8dba33d843e94521b&w=1480",
-                },
-                {
-                  name: "संजय & मीना",
-                  text: "एकाच ठिकाणी सर्व सुविधा मिळाल्या. पंचकर्म आणि आयुर्वेदिक उपचारांमुळे आम्हाला खूप फायदा झाला. धन्यवाद!",
-                  img: "https://img.freepik.com/free-photo/indian-bride-s-parents-hold-bowl-with-coconut-her-hands_8353-740.jpg?t=st=1767613870~exp=1767617470~hmac=2de369da0eaf9dc963da15298b27ebef7ddc56764496a1efebc990725bac27bf&w=1480",
-                },
-              ].map((t, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.05 }}
-                  className="bg-gradient-to-br from-lime-50 to-green-50 border rounded-lg shadow-lg overflow-hidden"
-                >
-                  {/* Freepik Image via URL */}
-                  <div className="relative h-40 w-full bg-lime-50">
-                    <img
-                      src={t.img}
-                      alt={t.name}
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/25 to-transparent" />
-                  </div>
-
-                  <div className="p-5">
-                    <div className="flex gap-1 mb-2">
-                      {[...Array(5)].map((_, j) => (
-                        <Star key={j} className="text-amber-500 text-sm" />
-                      ))}
-                    </div>
-
-                    <p className="text-sm text-green-800 mb-3 italic">
-                      "{t.text}"
+                    <h4 className="text-sm font-semibold text-green-900  mb-1">
+                      {program.name}
+                    </h4>
+                    <p className="text-xs text-gray-600 ">
+                      {program.description}
                     </p>
-
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-lime-400 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        {t.name.charAt(0)}
-                      </div>
-                      <p className="text-sm font-bold text-green-900">
-                        {t.name}
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Festivals */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl  font-semibold text-lime-900 mb-2">
+              {swagramWeddingData.communityCeremonyPlanning.festivals.title}
+            </h2>
+            <p className="text-gray-700 ">
+              {
+                swagramWeddingData.communityCeremonyPlanning.festivals
+                  .description
+              }
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-amber-50 rounded-3xl p-6 border-2 border-amber-200 mb-6"
+          >
+            <h3 className="text-xl font-semibold text-amber-900  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning.festivals
+                  .maharashtrianFestivals.title
+              }
+            </h3>
+            <div className="grid md:grid-cols-3 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.festivals.maharashtrianFestivals.festivals.map(
+                (festival, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-amber-100"
+                  >
+                    <h4 className="text-md font-semibold text-amber-900  mb-2">
+                      {festival.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {festival.activities}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-purple-50 rounded-3xl p-6 border-2 border-purple-200 mb-6"
+          >
+            <h3 className="text-xl font-semibold text-purple-900  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning.festivals
+                  .otherFestivals.title
+              }
+            </h3>
+            <div className="grid md:grid-cols-3 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.festivals.otherFestivals.festivals.map(
+                (festival, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-purple-100"
+                  >
+                    <h4 className="text-md font-semibold text-purple-900  mb-2">
+                      {festival.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {festival.activities}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-green-50 rounded-3xl p-6 border-2 border-green-200"
+          >
+            <h3 className="text-xl font-semibold text-green-900  mb-2">
+              {
+                swagramWeddingData.communityCeremonyPlanning.festivals
+                  .traditionalSamskaras.title
+              }
+            </h3>
+            <p className="text-gray-700  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning.festivals
+                  .traditionalSamskaras.description
+              }
+            </p>
+            <div className="grid md:grid-cols-3 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.festivals.traditionalSamskaras.ceremonies.map(
+                (ceremony, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-green-100"
+                  >
+                    <h4 className="text-md font-semibold text-green-900  mb-1">
+                      {ceremony.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {ceremony.description}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Family and Social Gatherings */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl  font-semibold text-lime-900 mb-2">
+              {
+                swagramWeddingData.communityCeremonyPlanning
+                  .familyAndSocialGatherings.title
+              }
+            </h2>
+            <p className="text-gray-700 ">
+              {
+                swagramWeddingData.communityCeremonyPlanning
+                  .familyAndSocialGatherings.description
+              }
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-white rounded-2xl p-6 border-2 border-lime-200 mb-6"
+          >
+            <h3 className="text-lg font-semibold text-lime-900  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning
+                  .familyAndSocialGatherings.familyGatherings.title
+              }
+            </h3>
+            <div className="grid md:grid-cols-2 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.familyAndSocialGatherings.familyGatherings.events.map(
+                (event, index) => (
+                  <div key={index} className="bg-lime-50 rounded-xl p-4">
+                    <h4 className="text-md font-semibold text-lime-900  mb-1">
+                      {event.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {event.description}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-white rounded-2xl p-6 border-2 border-green-200"
+          >
+            <h3 className="text-lg font-semibold text-green-900  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning
+                  .familyAndSocialGatherings.socialCeremonies.title
+              }
+            </h3>
+            <div className="grid md:grid-cols-2 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.familyAndSocialGatherings.socialCeremonies.events.map(
+                (event, index) => (
+                  <div key={index} className="bg-green-50 rounded-xl p-4">
+                    <h4 className="text-md font-semibold text-green-900  mb-1">
+                      {event.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {event.description}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Art Culture Education */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl  font-semibold text-lime-900 mb-2">
+              {
+                swagramWeddingData.communityCeremonyPlanning.artCultureEducation
+                  .title
+              }
+            </h2>
+            <p className="text-gray-700 ">
+              {
+                swagramWeddingData.communityCeremonyPlanning.artCultureEducation
+                  .description
+              }
+            </p>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-purple-50 rounded-3xl p-6 border-2 border-purple-200 mb-6"
+          >
+            <h3 className="text-lg font-semibold text-purple-900  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning.artCultureEducation
+                  .artAndCraft.title
+              }
+            </h3>
+            <div className="grid md:grid-cols-3 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.artCultureEducation.artAndCraft.activities.map(
+                (activity, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-purple-100"
+                  >
+                    <h4 className="text-md font-semibold text-purple-900  mb-1">
+                      {activity.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {activity.description}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-blue-50 rounded-2xl p-6 border-2 border-blue-200"
+          >
+            <h3 className="text-lg font-semibold text-blue-900  mb-4">
+              {
+                swagramWeddingData.communityCeremonyPlanning.artCultureEducation
+                  .educationalPrograms.title
+              }
+            </h3>
+            <div className="grid md:grid-cols-3 gap-3">
+              {swagramWeddingData.communityCeremonyPlanning.artCultureEducation.educationalPrograms.programs.map(
+                (program, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-4 border border-blue-100"
+                  >
+                    <h4 className="text-md font-semibold text-blue-900  mb-1">
+                      {program.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 ">
+                      {program.description}
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* Health and Retirement */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl  font-semibold text-lime-900">
+              {
+                swagramWeddingData.communityCeremonyPlanning.healthAndRetirement
+                  .title
+              }
+            </h2>
+          </motion.div>
+          <div className="grid md:grid-cols-2 gap-4">
+            {swagramWeddingData.communityCeremonyPlanning.healthAndRetirement.programs.map(
+              (program, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border-2 border-green-200 card-hover"
+                >
+                  <div className="bg-green-50 w-12 h-12 rounded-full flex items-center justify-center mb-3">
+                    <Healing className="text-green-600" />
+                  </div>
+                  <h4 className="text-md font-semibold text-green-900  mb-2">
+                    {program.name}
+                  </h4>
+                  <p className="text-sm text-gray-600 ">
+                    {program.description}
+                  </p>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
+      {/* Corporate Programs */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl  font-semibold text-lime-900 mb-2">
+              {
+                swagramWeddingData.communityCeremonyPlanning.corporatePrograms
+                  .title
+              }
+            </h2>
+            <p className="text-gray-700 ">
+              {
+                swagramWeddingData.communityCeremonyPlanning.corporatePrograms
+                  .description
+              }
+            </p>
+          </motion.div>
+          <div className="flex flex-col md:flex-row md:gap-4 gap-6">
+            {swagramWeddingData.communityCeremonyPlanning.corporatePrograms.programs.map(
+              (program, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-gradient-to-r from-lime-100 to-green-100 rounded-2xl p-5 border border-lime-100 shadow-sm"
+                >
+                  <h4 className="text-md font-semibold text-lime-900  mb-2">
+                    {program.name}
+                  </h4>
+                  <p className="text-sm text-gray-600 ">
+                    {program.description}
+                  </p>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
+      {/* Special Programs */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <h2 className="text-2xl  font-semibold text-lime-900">
+              {
+                swagramWeddingData.communityCeremonyPlanning.specialPrograms
+                  .title
+              }
+            </h2>
+          </motion.div>
+          <div className="grid md:grid-cols-2 gap-4">
+            {swagramWeddingData.communityCeremonyPlanning.specialPrograms.programs.map(
+              (program, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border-2 border-lime-200 card-hover"
+                >
+                  <h4 className="text-md font-semibold text-lime-900  mb-2">
+                    {program.name}
+                  </h4>
+                  <p className="text-sm text-gray-600 ">
+                    {program.description}
+                  </p>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
+      {/* Guideline Principles */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.h2
+            variants={fadeUp}
+            className="text-2xl  font-semibold text-lime-900 mb-8 text-center"
+          >
+            {
+              swagramWeddingData.communityCeremonyPlanning?.guidelinPrinciples
+                ?.title
+            }
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {swagramWeddingData.communityCeremonyPlanning?.guidelinPrinciples?.principles.map(
+              (principle, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 border border-lime-100 shadow-sm"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="bg-lime-100 p-2 rounded-xl flex-shrink-0">
+                      <Check className="text-lime-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-md font-semibold text-lime-900  mb-1">
+                        {principle.title}
+                      </h4>
+                      <p className="text-sm text-gray-600 ">
+                        {principle.description}
                       </p>
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
+      {/* Vision Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 leaf-pattern"
+      >
+        <div className="w-full mx-auto">
+          <motion.div
+            variants={fadeUp}
+            className="bg-gradient-to-br from-lime-500 to-green-600 rounded-3xl p-8 text-center mb-6"
+          >
+            <h2 className="text-3xl  font-semibold text-white mb-4">
+              {swagramWeddingData.communityCeremonyPlanning.vision.title}
+            </h2>
+            <p className="text-white text-lg leading-relaxed  mb-4">
+              {swagramWeddingData.communityCeremonyPlanning.vision.description}
+            </p>
+            <p className="text-white/90 text-base leading-relaxed  mb-4">
+              {swagramWeddingData.communityCeremonyPlanning.vision.mission}
+            </p>
+            <p className="text-white text-xl font-semibold ">
+              {swagramWeddingData.communityCeremonyPlanning.vision.tagline}
+            </p>
           </motion.div>
-        </Section>
-      </div>
+          <motion.div
+            variants={fadeUp}
+            className="bg-amber-50 rounded-2xl p-6 border-2 border-amber-200"
+          >
+            <p className="text-gray-700 text-center  leading-relaxed">
+              {swagramWeddingData.communityCeremonyPlanning.vision.conclusion}
+            </p>
+          </motion.div>
+        </div>
+      </motion.section>
+      {/* 22 Samskaras */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="py-12 px-4 bg-white/60"
+      >
+        <div className="w-full mx-auto">
+          <motion.div variants={fadeUp} className="text-center mb-8">
+            <ChildCare className="text-lime-600 text-4xl mx-auto mb-3" />
+            <h2 className="text-2xl md:text-3xl  font-semibold text-lime-900 mb-3 py-1">
+              {swagramWeddingData.twentyTwoSamskaras?.title}
+            </h2>
+            <p className="text-lg text-green-700  mb-2">
+              {swagramWeddingData.twentyTwoSamskaras.introduction}
+            </p>
+            <p className="text-sm text-gray-600  italic">
+              {swagramWeddingData.twentyTwoSamskaras.note}
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-2 gap-4 ">
+            {swagramWeddingData.twentyTwoSamskaras.samskaras.map(
+              (samskara, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl p-5 md:p-6 border-2 border-lime-100 shadow-sm"
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="bg-lime-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg flex-shrink-0">
+                      {samskara.number}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-lime-900  mb-1">
+                        {samskara.marathi}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-1">
+                        {samskara.sanskrit}
+                      </p>
+                      {samskara.hindi && (
+                        <p className="text-sm text-gray-500 mb-1">
+                          {samskara.hindi}
+                        </p>
+                      )}
+                      <p className="text-sm text-gray-500">
+                        {samskara.english}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="ml-13 space-y-2">
+                    <div>
+                      <span className="font-semibold text-green-900 text-sm">
+                        उद्देश :&nbsp;
+                      </span>
+                      <span className="text-xs text-gray-700 ">
+                        {samskara.purpose}
+                      </span>
+                    </div>
+                    {samskara.when && (
+                      <div>
+                        <span className="font-semibold text-green-900 text-sm">
+                          कधी :&nbsp;
+                        </span>
+                        <span className="text-xs text-gray-700 ">
+                          {samskara.when}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.rituals && (
+                      <div>
+                        <span className="font-semibold text-green-900 text-sm">
+                          विधी : &nbsp;
+                        </span>
+                        <span className="text-xs text-gray-700 ">
+                          {samskara.rituals}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.nature && (
+                      <div className="bg-blue-50 rounded-lg p-3 mt-2">
+                        <span className="text-xs text-blue-900 ">
+                          {samskara.nature}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.note && (
+                      <div className="bg-amber-50 rounded-lg p-3 mt-2">
+                        <span className="text-xs text-amber-900  italic">
+                          {samskara.note}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.modernContext && (
+                      <div className="bg-green-50 rounded-lg p-3 mt-2">
+                        <span className="text-xs text-green-900 ">
+                          {samskara.modernContext}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.modernPractice && (
+                      <div className="bg-green-50 rounded-lg p-3 mt-2">
+                        <span className="text-xs text-green-900 ">
+                          {samskara.modernPractice}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.twentyTwoSamskaras && (
+                      <div className="mt-2 space-y-2">
+                        {samskara.twentyTwoSamskaras.map((example, eIndex) => (
+                          <div
+                            key={eIndex}
+                            className="bg-purple-50 rounded-lg p-3"
+                          >
+                            <p className="text-xs font-semibold text-purple-900  mb-1">
+                              {example.name}
+                            </p>
+                            <p className="text-xs text-purple-800 ">
+                              {example.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {samskara.components && (
+                      <div className="bg-indigo-50 rounded-lg p-3 mt-2">
+                        <span className="text-xs text-indigo-900 ">
+                          {samskara.components}
+                        </span>
+                      </div>
+                    )}
+                    {samskara.additionalDetails && (
+                      <div className="bg-teal-50 rounded-lg p-3 mt-2">
+                        <span className="text-xs text-teal-900 ">
+                          {samskara.additionalDetails}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </motion.section>
     </div>
   );
 };
 
-export default SwagramComplete;
+export default SwagramWeddingLanding;
 
 const swagramWeddingData = {
   basicInfo: {
@@ -824,13 +2036,13 @@ const swagramWeddingData = {
       title: "Say yes to",
       values: [
         { marathi: "नैसर्गविधान", english: "Natural Lifestyle" },
-        { marathi: "शाकहारयः", english: "Vegetarians" },
+        { marathi: "शाकहारय", english: "Vegetarians" },
       ],
     },
     sayNoTo: {
       title: "Say no to",
       values: [
-        { marathi: "मांसाहारयः", english: "Non Vegetarians" },
+        { marathi: "मांसाहारय", english: "Non Vegetarians" },
         { marathi: "मद्य", english: "Alcohol" },
         { marathi: "मादकद्रव्य", english: "Narcotic Drugs" },
         { marathi: "व्यसन", english: "Addiction" },
@@ -1046,7 +2258,7 @@ const swagramWeddingData = {
         capacity: "100-150",
       },
       {
-        name: "Swagram community Sabhagruh",
+        name: "Swagram Sabhagruh",
         capacity: "250-300",
       },
       {
@@ -1074,11 +2286,11 @@ const swagramWeddingData = {
 
   // Rules and Regulations
   rulesAndRegulations: {
-    title: "स्वग्रामCommunity - विवाह सोहळ्यासाठी नियमावली",
+    title: "स्वग्राम Community - विवाह सोहळ्यासाठी नियमावली",
     subtitle:
-      "स्वग्रामCommunity जैवविविधता आणि नैसर्गिक जीवनशैली पूरक आयुर्वेद योग निसर्ग कृषि ग्रामीण स्वास्थ्य पर्यटन ग्राम.",
+      "स्वग्राम Community जैवविविधता आणि नैसर्गिक जीवनशैली पूरक आयुर्वेद योग निसर्ग कृषि ग्रामीण स्वास्थ्य पर्यटन ग्राम.",
     introduction:
-      "स्वग्रामCommunity हे हॉटेल किंवा रिसॉर्ट नाही तर स्वास्थ्यवर्धक ग्राम आहे. आम्ही विवाहपूर्व आणि विवाहोत्तर वर-वधूसाठी आयुर्वेद थेरपी घेण्याचा आग्रह करतो. ज्यामुळे नवविवाहित दाम्पत्याला एक आरोग्यदायी आणि सकारात्मक ऊर्जा मिळण्याचा अनुभव घेता येईल आणि त्यांचे वैवाहिक जीवन आनंददायी सुरुवात होईल. आपल्या लग्नसंस्कारामध्ये याचा अंतर्भाव करण्याची आम्ही विनंती करतो. आपणांस विशेष सवलतीच्या दरात ही सुविधा पुरविली जाईल.✨",
+      "स्वग्राम Community हे हॉटेल किंवा रिसॉर्ट नाही तर स्वास्थ्यवर्धक ग्राम आहे. आम्ही विवाहपूर्व आणि विवाहोत्तर वर-वधूसाठी आयुर्वेद थेरपी घेण्याचा आग्रह करतो. ज्यामुळे नवविवाहित दाम्पत्याला एक आरोग्यदायी आणि सकारात्मक ऊर्जा मिळण्याचा अनुभव घेता येईल आणि त्यांचे वैवाहिक जीवन आनंददायी सुरुवात होईल. आपल्या लग्नसंस्कारामध्ये याचा अंतर्भाव करण्याची आम्ही विनंती करतो. आपणांस विशेष सवलतीच्या दरात ही सुविधा पुरविली जाईल.✨",
 
     inclusions: {
       title: "समाविष्ट सेवा (Inclusions)",
@@ -1156,7 +2368,7 @@ const swagramWeddingData = {
         number: 6,
         title: "मद्यपान, धूम्रपान आणि तंबाखू उत्पादने (संपूर्णतः बंदी)",
         rules: [
-          "स्वग्रामCommunity मध्ये मद्यपान, धूम्रपान, तंबाखू, गुटखा, पानमसाला, अमली पदार्थ यांचे सेवन पूर्णतः प्रतिबंधित आहे.",
+          "स्वग्राम Community मध्ये मद्यपान, धूम्रपान, तंबाखू, गुटखा, पानमसाला, अमली पदार्थ यांचे सेवन पूर्णतः प्रतिबंधित आहे.",
           "नियम मोडल्यास दंड लागू होईल व बुकिंग रद्द केली जाईल.",
         ],
       },
@@ -1220,7 +2432,7 @@ const swagramWeddingData = {
       },
     ],
     conclusion:
-      "ही नियमावली स्वग्रामCommunity मध्ये शुद्ध, संस्कारशील आणि पर्यावरणपूरक आयुर्वेदिक पारंपरिक मराठमोळ्या विवाह संस्कृतीचे संरक्षण करेल.",
+      "ही नियमावली स्वग्राम Community मध्ये शुद्ध, संस्कारशील आणि पर्यावरणपूरक आयुर्वेदिक पारंपरिक मराठमोळ्या विवाह संस्कृतीचे संरक्षण करेल.",
     finalNote:
       "आम्ही विवाह अत्यंत सहृदयतेने निश्चित यशस्वी करू याची आम्ही ग्वाही देत आहोत. त्याबद्दल आम्ही निश्चिंत राहावे. आपला व्यवहार मात्र वेळेत पूर्ण करावा ही कळकळीची विनंती.",
   },
@@ -1866,6 +3078,12 @@ const swagramWeddingData = {
         sanskrit: "विविध संस्कार (Vividha Saṃskāra)",
         hindi: "स्थानीय संस्कार (विशेष परंपराएं)",
         english: "Other Regional/Local Samskaras (Specific traditions)",
+        nature: "मुलीच्या तारुण्यप्राप्तीचा संस्कार, देवी-पूजन, आशीर्वाद.",
+        purpose:
+          'तारुण्यप्राप्तीनंतर पहिल्यांदा मिशी/केस कापणे (काही शाळांमध्ये हा "षोडश"मध्ये असतो).',
+        rituals:
+          "गृहशांती, नूतन-वाहन/व्यवसाय-प्रवेश, क्षेत्र-प्रवेश, नूलुक्केट्टू (केरळ) इ.",
+        note: "कुटुंब-परंपरा, प्रदेश, संप्रदाय, गुरुमत यानुसार भिन्न; उद्देश---नव्या टप्प्याचा मंगल आरंभ.",
         examples: [
           {
             name: "ऋतूशुद्धि/रजस्वला-समारंभ",

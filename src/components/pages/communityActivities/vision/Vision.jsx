@@ -258,15 +258,15 @@ const EventCard = ({ event, index }) => {
             className={`${
               isMorning
                 ? "bg-gradient-to-r from-emerald-600 via-lime-600 to-teal-600"
-                : "bg-gradient-to-r from-yellow-600  to-amber-700"
-            } p-3 relative`}
+                : "bg-gradient-to-r from-yellow-600  to-amber-700 "
+            } p-3 relative `}
           >
-            <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0 opacity-10 ">
               <div className="absolute top-0 left-0 w-24 h-24 border-2 border-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
               <div className="absolute bottom-0 right-0 w-28 h-28 border-2 border-white rounded-full translate-x-1/3 translate-y-1/3"></div>
             </div>
 
-            <div className="relative flex items-center justify-between mb-2 gap-3">
+            <div className="relative md:flex items-center justify-between mb-2 gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="text-2xl text-white/90">
@@ -281,7 +281,7 @@ const EventCard = ({ event, index }) => {
                 </div>
               </div>
 
-              <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30 shadow-lg">
+              <div className="bg-white/20 backdrop-blur-md px-2 mb-3 md:px-4 py-2 rounded-xl border border-white/30 shadow-lg">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-xl"></div>
                 <div className="relative text-center">
                   <p className="text-xl font-bold text-white">₹{event.price}</p>
@@ -294,7 +294,7 @@ const EventCard = ({ event, index }) => {
         {/* Content */}
         <div className="p-3 relative h-full">
           {/* Date & Time */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="grid md:grid-cols-2 gap-3 mb-4">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg opacity-5 group-hover:opacity-10 transition-opacity duration-500"></div>
               <div className="relative flex items-center gap-2 p-3 rounded-lg border border-green-200 bg-white">
@@ -462,7 +462,7 @@ const VisionContent = () => {
       {[...Array(6)].map((_, i) => (
         <FloatingLeaf key={i} delay={i * 2000} />
       ))}
-      <div className="flex justify-between items-center px-10">
+      <div className="flex justify-between items-center px-2 md:px-10">
         <div className="flex items-center justify-center gap-2">
           <Spa className="text-amber-700 animate-pulse" sx={{ fontSize: 30 }} />
           <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-700 via-orange-600 to-rose-700 bg-clip-text text-transparent">
@@ -487,11 +487,11 @@ const VisionContent = () => {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto px-4  pb-5 max-w-6xl">
+      <div className="relative z-10 mx-auto px-4  pb-5 md:max-w-6xl">
         <div className="relative overflow-hidden">
           <div
             ref={containerRef}
-            className="flex transition-transform duration-[900ms] ease-in-out"
+            className="md:flex transition-transform duration-[900ms] ease-in-out"
             style={{
               transform: `translateX(-${currentSlide * 100}%)`,
             }}

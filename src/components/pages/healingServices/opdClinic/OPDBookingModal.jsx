@@ -92,7 +92,7 @@ export default function OPDBookingModal({
         )}
 
         <form onSubmit={handleSubmit(onSubmitHandler)}>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <DropdownField
               control={control}
               name="searchDoctor"

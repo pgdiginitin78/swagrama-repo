@@ -1,28 +1,55 @@
 import { Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import Skeleton from "@mui/material/Skeleton";
 import Navbar from "./components/navbar/Navbar";
-import HomePage from "./components/pages/homePage/HomePage";
 import Footer from "./components/footer/Footer";
-import ServicesTabs from "./components/pages/healingServices/ServicesTabs";
-import MembershipTabs from "./components/pages/membership/MembershipTabs";
-import CommunityActivitiesTabs from "./components/pages/communityActivities/CommunityActivitiesTabs";
-import CommuneTabs from "./components/pages/commune/Commune";
 import ScrollToTopButton from "./ScrollToTopButton";
-import EShop from "./components/pages/eShop/EShop";
-import ShopCart from "./components/pages/eShop/ShopCart";
-import EventCalander from "./components/pages/eventsCalander/EventCalander";
+
+// Remove the artificial delay - let React handle the suspense naturally
+const HomePage = lazy(() => import("./components/homePage/HomePage"));
+const ServicesTabs = lazy(() =>
+  import("./components/pages/healingServices/ServicesTabs")
+);
+const MembershipTabs = lazy(() =>
+  import("./components/pages/membership/MembershipTabs")
+);
+const CommunityActivitiesTabs = lazy(() =>
+  import("./components/pages/communityActivities/CommunityActivitiesTabs")
+);
+const CommuneTabs = lazy(() =>
+  import("./components/pages/commune/Commune")
+);
+const EShop = lazy(() => import("./components/pages/eShop/EShop"));
+const EventCalander = lazy(() =>
+  import("./components/pages/eventsCalander/EventCalander")
+);
+
+function PageSkeleton() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <Skeleton variant="rectangular" height={260} sx={{ borderRadius: 2 }} />
+      <Skeleton height={48} sx={{ mt: 2 }} />
+      <Skeleton height={32} width="60%" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <Skeleton variant="rectangular" height={180} sx={{ borderRadius: 2 }} />
+        <Skeleton variant="rectangular" height={180} sx={{ borderRadius: 2 }} />
+        <Skeleton variant="rectangular" height={180} sx={{ borderRadius: 2 }} />
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
     <>
       <Navbar />
 
-      <div className="pt-16 bg-gradient-to-br from-[#FFF8D6]/60 via-[#F1FFF5]/70 to-[#D8EEFF]/60 outline-none ">
-        <div className="">
+      <div className="pt-16 bg-gradient-to-br from-[#FFF8D6]/60 via-[#F1FFF5]/70 to-[#D8EEFF]/60 outline-none">
+        <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/healing" element={<ServicesTabs />} />
             <Route path="/membership" element={<MembershipTabs />} />
-            {/* <Route path="/self-analysis" element={<h1>Self-Analysis</h1>} /> */}
             <Route
               path="/community-activities"
               element={<CommunityActivitiesTabs />}
@@ -30,13 +57,12 @@ export default function App() {
             <Route path="/commune" element={<CommuneTabs />} />
             <Route path="/eShop" element={<EShop />} />
             <Route path="/calendar" element={<EventCalander />} />
-            <Route path="/store" element={<h1>Store Page</h1>} />
-            <Route path="/login" element={<h1>Login Page</h1>} />
-            <Route path="/signup" element={<h1>Signup Page</h1>} />
           </Routes>
-          <ScrollToTopButton />
-        </div>
+        </Suspense>
+
+        <ScrollToTopButton />
       </div>
+
       <Footer />
     </>
   );

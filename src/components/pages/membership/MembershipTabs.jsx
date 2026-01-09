@@ -113,7 +113,7 @@ const MembershipTabs = () => {
   const hasChildren = current.children?.length > 0;
 
   return (
-    <div className="px-12 py-3">
+    <div className="md:px-12 py-3">
       <Box sx={{ minHeight: "50vh", p: 2 }}>
         <Box sx={{ maxWidth: 1480, mx: "auto" }}>
           <h2

@@ -249,7 +249,7 @@ const Footer = () => {
 
       <footer
         ref={footerRef}
-        className="relative overflow-hidden bg-gradient-to-r from-green-900 via-green-800 to-lime-900 bg-contain bg-right bg-no-repeat"  
+        className="relative overflow-hidden bg-gradient-to-r from-green-900 via-green-800 to-lime-900 bg-contain bg-right bg-no-repeat"
         // style={{ backgroundImage: `url(${swagramFooter})`,   backgroundSize: "70%",  }}
       >
         {/* Top Border */}
@@ -278,24 +278,19 @@ const Footer = () => {
             style={{ animationDelay: "3s" }}
           />
 
-          {/* Lotus Petals */}
           <LotusPetal
-            className="absolute top-[40%] md:top-[68%] lg:top-[53.5%]  right-[15%] md:right-[14%] lg:right-[12.5%] w-16 h-16 md:w-20 md:h-20 opacity-8 lotus-animate"
+            className="absolute top-[30%] md:top-[68%] lg:top-[54.5%]  right-[15%] xl:right-[7.5%] 2xl:right-[7.5%] md:right-[14%] lg:right-[8%] w-16 h-16 md:w-20 md:h-20 opacity-8 lotus-animate"
             fill="white"
           />
-   
 
-          {/* Mandala Ornaments */}
           <MandalaOrnament
-            className="absolute bottom-[53%] md:bottom-[20%] right-[10%] w-24 h-24 md:w-36 md:h-36 opacity-6 text-white mandala-animate"
+            className="absolute top-[28%] md:top-[64.6%] lg:top-[48%] xl:top-[47%] right-[7.5%] md:right-[10%] lg:right-[5%] w-28 h-28 md:w-36 md:h-36 opacity-6 text-white mandala-animate"
             style={{ animationDelay: "5s" }}
           />
 
-          {/* Particles Container */}
           <div ref={particlesContainerRef} />
         </div>
 
-        {/* Pattern Overlay */}
         <div
           className="absolute inset-0 opacity-4 pointer-events-none"
           style={{
@@ -305,11 +300,8 @@ const Footer = () => {
           }}
         />
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 md:pt-10 md:pb-6 text-sm">
-          {/* Footer Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 mb-12">
-            {/* Logo Section */}
+        <div className="relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 md:pt-10 md:pb-6 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-3 mb-12">
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="bg-gradient-to-br from-white/60 to-white/30 p-6 md:p-8 rounded-2xl backdrop-blur-md border-2 border-[#8b6f47]/20 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-400">
                 <img
@@ -320,65 +312,68 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Explore Section */}
-            <div className="sm:col-span-1">
-              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-6 relative pb-3 footer-heading">
+            <div className="sm:col-span-1 ml-3">
+              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-3 relative pb-2 footer-heading">
                 Explore
               </h4>
               <div className="flex flex-col gap-3 text-sm">
                 {[
-                  "Home",
-                  "About Us",
-                  "Refund Policy",
-                  "Privacy Policy",
-                  "Terms & Conditions",
-                  "गाईत्वग्राम Cow Village",
-                ].map((link) => (
+                  { label: "Home", href: "/" },
+                  { label: "About Us", href: "/" },
+                  { label: "Refund Policy", href: "/" },
+                  { label: "Privacy Policy", href: "/" },
+                  { label: "Terms & Conditions", href: "/" },
+                  {
+                    label: "गाईत्वग्राम Cow Village",
+                    href: "https://gaitvafarms.com/dashboard",
+                  },
+                ].map((link, index) => (
                   <a
-                    key={link}
-                    href="#"
+                    key={index}
+                    href={link.href}
                     className="relative text-white hover:text-ayuLight hover:pl-5 transition-all duration-300 footer-link"
                   >
-                    {link}
+                    {link.label}
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Contact Section */}
             <div className="sm:col-span-1">
-              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-3 relative pb-3 footer-heading">
+              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-3 relative pb-2 footer-heading">
                 Contact
               </h4>
               <div className="flex flex-col gap-2 text-sm text-left">
                 <div className="flex space-x-2 items-start text-white hover:bg-white/40 p-2 rounded-lg hover:translate-x-1 transition-all duration-300">
                   <LocationOn className="flex-shrink-0 text-white hover:text-white transition-colors" />
                   <p>
-                    81/635, Nandraj Sankul, Main Road, Famous Chowk, New
-                    Sanghvi, Pune, Maharashtra, India. 411027
+                    Office Address : JnanaYogAyu, 81/635, Nandraj Sankul, 1 A -
+                    2, Main Road, Famous Chowk, New Sangavi, Pune, Maharashtra
+                    411027
                   </p>
                 </div>
                 <div className="flex gap-3 items-center text-white hover:bg-white/40 p-2 rounded-lg hover:translate-x-1 transition-all duration-300">
                   <Phone className="flex-shrink-0 text-white hover:text-white transition-colors" />
-                  <p>+91 9272130399</p>
+                  <p>
+                    +91 9272130399 <br /> +91 9272110399
+                  </p>
                 </div>
-                <div className="flex gap-3 items-center text-white hover:bg-white/40 p-2 rounded-lg hover:translate-x-1 transition-all duration-300">
+                <div className="flex space-x-2 items-center text-white hover:bg-white/40 p-2 rounded-lg hover:translate-x-1 transition-all duration-300">
                   <Email className="flex-shrink-0 text-white hover:text-white transition-colors" />
                   <a
                     href="mailto:swagrama.lavale@gmail.com"
-                    className="hover:text-ayuDark transition-all duration-300"
+                    className="hover:text-white transition-all duration-300"
                   >
                     swagrama.lavale@gmail.com
                   </a>
                 </div>
               </div>
             </div>
-            {/* Connect Section */}
             <div className="sm:col-span-1">
-              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-6 relative pb-3 footer-heading">
+              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-3 relative pb-2 footer-heading">
                 Connect With Us
               </h4>
-              <div className="flex gap-4 mt-6">
+              <div className="flex gap-4 mt-3">
                 <a
                   href="https://www.instagram.com/swagrama_community/?hl=en"
                   target="_blank"
@@ -407,13 +402,24 @@ const Footer = () => {
                   <YouTube className="relative z-10 text-white group-hover:text-white transition-colors duration-400" />
                 </a>
               </div>
+
+              <div className="w-full h-[130px] overflow-hidden mt-2">
+                <iframe
+                  title="Swagrama Ayurveda Yoga Map"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.102851222992!2d73.7160518!3d18.5392348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bd761aae67c5%3A0x95bea394bbaf2519!2sSwaGrama%20Ayurveda%20Yoga%20Nisarga%20Agro%20Tourism%20Entry%20Gate!5e0!3m2!1sen!2sin!4v1704624000000"
+                  className="w-full h-full border-0"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
             </div>
 
-            {/* App Download Section */}
             <div className="sm:col-span-2 lg:col-span-1">
-              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-6 relative pb-3 footer-heading">
+              <h4 className="font-['Cinzel'] text-white text-lg  font-bold mb-3 relative pb-2 footer-heading">
                 Download App
               </h4>
+
               <a
                 href="https://play.google.com/store/apps/details?id=com.innover.swagram"
                 target="_blank"
@@ -432,8 +438,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Copyright */}
-          <div className="text-center pt-6 mt-6 border-t-2 border-[#8b6f47]/15 text-white text-sm">
+          <div className="text-center pt-3 mt-3 border-t-2 border-[#8b6f47]/15 text-white text-sm">
             <p>&copy; 2026 Swagrama Community. All rights reserved.</p>
           </div>
         </div>

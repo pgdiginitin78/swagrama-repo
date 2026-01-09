@@ -61,8 +61,8 @@ const CommunityActivitiesTabs = () => {
   const hasChildren = current.children?.length > 0;
 
   return (
-    <Box sx={{ minHeight: "50vh", p: 2 }}>
-      <Box sx={{ maxWidth: 1480, mx: "auto" }}>
+    <Box className="pb-5 md:px-12">
+      <Box >
         <h2
           style={{
             textAlign: "center",
@@ -70,7 +70,7 @@ const CommunityActivitiesTabs = () => {
             fontWeight: "bold",
             marginBottom: 2,
           }}
-          className="text-ayuBrown"
+          className="text-ayuBrown pt-5"
         >
           Community Activities
         </h2>

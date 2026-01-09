@@ -172,7 +172,7 @@ export default function NatureTherapy() {
 
   return (
     <div className="min-h-screen overflow-hidden">
-      <div ref={headerRef} className="text-center mb-5">
+      <div ref={headerRef} className="text-center my-5">
         <motion.h1
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -248,7 +248,7 @@ export default function NatureTherapy() {
       </motion.div>
 
       {filteredTherapies.length > 0 ? (
-        <div className="relative max-w-7xl mx-auto grid gap-4 px-5">
+        <div className="relative md:max-w-7xl mx-auto grid gap-4 md:px-5">
           <AnimatePresence mode="wait">
             <motion.div
               initial={{ opacity: 0, x: 100 }}

@@ -202,7 +202,7 @@ const ServiceCard = ({ service, index, setOpenModal }) => {
               Package Price
             </p>
             <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent">
+              <span className="text-xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent">
                 ₹{service.price}
               </span>
               <span className="text-sm text-gray-500">/stay</span>
@@ -211,7 +211,7 @@ const ServiceCard = ({ service, index, setOpenModal }) => {
           <button
             type="button"
             onClick={() => setOpenModal(true)}
-            className="group/btn relative px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+            className="group/btn relative px-3 md:px-6 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
           >
             <span className="relative z-10 flex items-center gap-2">
               Book Now
@@ -235,7 +235,7 @@ const FilterBar = ({ selectedRoom, setSelectedRoom, roomOptions }) => {
         <button
           key={room}
           onClick={() => setSelectedRoom(room)}
-          className={`relative px-5 py-2.5 font-semibold rounded-xl transition-all duration-300 overflow-hidden ${
+          className={`relative px-5 py-2 font-semibold rounded-xl transition-all duration-300 overflow-hidden ${
             selectedRoom === room
               ? "bg-gradient-to-r from-emerald-600 to-emerald-700 text-white shadow-lg scale-105"
               : "bg-white text-gray-700 border-2 border-emerald-200 hover:border-emerald-400 hover:shadow-md"
@@ -289,8 +289,8 @@ const WellnessSection = () => {
   ];
 
   return (
-    <div className="min-h-screen py-5 px-4 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <div className="min-h-screen py-5 md:px-4 relative overflow-hidden">
+      <div className="md:max-w-7xl mx-auto relative z-10">
         <div ref={headerRef} className="text-center mb-3">
           <h1 className="text-2xl font-bold mb-2 py-1 bg-gradient-to-r from-emerald-700 via-emerald-600 to-amber-600 bg-clip-text text-transparent">
             आयुर्वेदिक Wellness Stay Packages

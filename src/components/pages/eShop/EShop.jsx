@@ -1,8 +1,619 @@
+import { AddSharp, RemoveSharp } from "@mui/icons-material";
+import { Skeleton } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
-import { Filter, Leaf, Search, ShoppingCart, X, Menu } from "lucide-react";
-import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { Filter, Leaf, Menu, Search, ShoppingCart, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateQuantity } from "../../redux/CartSlice";
+
+const getAllProducts = () => {
+  const allProducts = [];
+
+  medicineProducts.forEach((item) => {
+    if (item.products && Array.isArray(item.products)) {
+      item.products.forEach((product) => {
+        if (product.id && product.name && product.value !== null) {
+          allProducts.push({
+            ...product,
+            category: item.category,
+            categoryDescription: item.categoryDescription,
+          });
+        }
+      });
+    } else if (item.id && item.name && item.value !== null) {
+      allProducts.push(item);
+    }
+  });
+
+  console.log(
+    `=== getAllProducts: Found ${allProducts.length} total products ===`
+  );
+  const categoryCounts = {};
+  allProducts.forEach((p) => {
+    categoryCounts[p.category] = (categoryCounts[p.category] || 0) + 1;
+  });
+  console.log("Products per category:", categoryCounts);
+
+  return allProducts;
+};
+
+
+const ProductCardSkeleton = ({ index }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.03 }}
+      className="bg-gradient-to-br from-lime-50 to-green-50 rounded-xl overflow-hidden shadow-md p-3"
+    >
+      <div className="flex items-start justify-between mb-2">
+        <Skeleton
+          variant="rounded"
+          width={80}
+          height={24}
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+        />
+        <Skeleton
+          variant="circular"
+          width={16}
+          height={16}
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+        />
+      </div>
+
+      <Skeleton
+        variant="text"
+        height={20}
+        sx={{ bgcolor: "rgba(22, 163, 74, 0.1)", mb: 1 }}
+      />
+      <Skeleton
+        variant="text"
+        width="80%"
+        height={16}
+        sx={{ bgcolor: "rgba(22, 163, 74, 0.1)", mb: 2 }}
+      />
+
+      <div className="space-y-1 mb-2">
+        <Skeleton
+          variant="text"
+          height={14}
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+        />
+        <Skeleton
+          variant="text"
+          height={14}
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+        />
+      </div>
+
+      <div className="border-t border-green-200 py-1.5">
+        <div className="flex items-center justify-between">
+          <Skeleton
+            variant="text"
+            width={80}
+            height={32}
+            sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+          />
+          <Skeleton
+            variant="rounded"
+            width={70}
+            height={32}
+            sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+          />
+        </div>
+      </div>
+
+      <div className="border-t border-green-200 pt-2">
+        <Skeleton
+          variant="text"
+          width={100}
+          height={14}
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)", mb: 1 }}
+        />
+        <Skeleton
+          variant="text"
+          height={12}
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+        />
+        <Skeleton
+          variant="text"
+          height={12}
+          width="90%"
+          sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+        />
+      </div>
+    </motion.div>
+  );
+};
+
+
+const LazyProductCard = ({ product, index }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+        
+            setTimeout(() => {
+              setIsLoaded(true);
+            }, 300);
+          }
+        });
+      },
+      {
+        rootMargin: "100px", 
+        threshold: 0.01,
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={cardRef}>
+      {isVisible && isLoaded ? (
+        <ProductCard product={product} index={index} />
+      ) : (
+        <ProductCardSkeleton index={index} />
+      )}
+    </div>
+  );
+};
+
+const ProductCard = ({ product, index }) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartItem = cartItems.find((item) => item.id === product.id);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.4, delay: index * 0.03 }}
+      className="group relative bg-gradient-to-br from-lime-50 to-green-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500"
+    >
+      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-lime-200/30 to-green-300/30 rounded-bl-full -z-0" />
+
+      <div className="relative p-3">
+        <div className="flex items-start justify-between mb-2">
+          <div className="bg-gradient-to-r from-green-600 to-lime-600 text-white px-2 py-1 rounded-full text-[11px] font-semibold max-w-[90%]">
+            {product.category}
+          </div>
+          <Leaf className="w-4 h-4 text-green-600 opacity-60" />
+        </div>
+
+        <motion.h3
+          className="text-sm font-bold text-green-900 mb-1 line-clamp-2 min-h-[2.5rem]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          {product.name}
+        </motion.h3>
+
+        <p className="text-[11px] text-green-700 mb-2 italic line-clamp-1">
+          {product.tagline}
+        </p>
+
+        <div className="space-y-1 mb-2">
+          <div className="flex items-center text-[10px] text-green-800">
+            <span className="font-semibold mr-1 whitespace-nowrap">
+              Package:
+            </span>
+            <span className="text-green-600 truncate">{product.package}</span>
+          </div>
+          <div className="flex items-center text-[10px] text-green-800">
+            <span className="font-semibold mr-1 whitespace-nowrap">
+              Ingredients:
+            </span>
+            <span className="text-green-600 truncate">
+              {product.ingredients}
+            </span>
+          </div>
+        </div>
+
+        <div className="border-t border-green-200 py-1.5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-2xl font-bold text-green-900">
+                <span className="text-[10px] text-green-600">Price</span> ₹
+                {product.value}
+              </p>
+            </div>
+
+            {cartItem ? (
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() =>
+                    dispatch(
+                      updateQuantity({
+                        id: product.id,
+                        quantity: cartItem.quantity - 1,
+                      })
+                    )
+                  }
+                  className="bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold hover:bg-red-600 transition-colors text-sm"
+                >
+                  <RemoveSharp />
+                </button>
+
+                <span className="font-bold text-green-900 min-w-[1.5rem] text-center text-sm">
+                  {cartItem.quantity}
+                </span>
+
+                <button
+                  onClick={() =>
+                    dispatch(
+                      updateQuantity({
+                        id: product.id,
+                        quantity: cartItem.quantity + 1,
+                      })
+                    )
+                  }
+                  className="bg-green-600 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold hover:bg-green-700 transition-colors text-sm"
+                >
+                  <AddSharp />
+                </button>
+              </div>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => dispatch(addToCart(product))}
+                className="bg-gradient-to-r from-green-600 to-lime-600 text-white px-3 py-1.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1.5 text-xs"
+              >
+                <ShoppingCart className="w-3 h-3" />
+                Add
+              </motion.button>
+            )}
+          </div>
+        </div>
+        <div className="border-t border-green-200 pt-2">
+          <p className="text-[10px] font-semibold text-green-800 mb-1">
+            Key Benefits :
+          </p>
+
+          <ul className="space-y-0.5 list-none">
+            {product.benefits.slice(0, 2).map((benefit, i) => (
+              <li
+                key={i}
+                className="text-[10px] text-green-700 flex items-start gap-1"
+              >
+                <span className="line-clamp-1">{benefit}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const EShop = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [priceRange, setPriceRange] = useState([0, 2000]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [sortBy, setSortBy] = useState("name");
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const allProducts = useMemo(() => getAllProducts(), []);
+
+  const categories = useMemo(() => {
+    const categorySet = new Set();
+    allProducts.forEach((product) => {
+      if (product.category) {
+        categorySet.add(product.category);
+      }
+    });
+    const uniqueCategories = ["All", ...Array.from(categorySet).sort()];
+    console.log(
+      `Total categories found: ${uniqueCategories.length}`,
+      uniqueCategories
+    );
+    return uniqueCategories;
+  }, [allProducts]);
+
+
+  const filteredProducts = useMemo(() => {
+    console.log("=== FILTERING PRODUCTS ===");
+    console.log("Search Query:", searchQuery);
+    console.log("Selected Category:", selectedCategory);
+    console.log("Price Range:", priceRange);
+
+    let filtered = allProducts.filter((product) => {
+   
+      const searchLower = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        searchLower === "" ||
+        (product.name ?? "").toLowerCase().includes(searchLower) ||
+        (product.tagline ?? "").toLowerCase().includes(searchLower) ||
+        (product.ingredients ?? "").toLowerCase().includes(searchLower) ||
+        (product.category ?? "").toLowerCase().includes(searchLower) ||
+        (Array.isArray(product.benefits) &&
+          product.benefits.some((b) =>
+            (b ?? "").toLowerCase().includes(searchLower)
+          ));
+
+      const matchesCategory =
+        selectedCategory === "All" || product.category === selectedCategory;
+
+      const matchesPrice =
+        product.value >= priceRange[0] && product.value <= priceRange[1];
+
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
+
+ 
+    filtered.sort((a, b) => {
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      if (sortBy === "price-low") return a.value - b.value;
+      if (sortBy === "price-high") return b.value - a.value;
+      return 0;
+    });
+
+    console.log(`Filtered results: ${filtered.length} products`);
+    return filtered;
+  }, [allProducts, searchQuery, selectedCategory, priceRange, sortBy]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-lime-50 to-green-100">
+      <h1 className="text-center font-semibold pt-5 text-ayuBrown text-2xl">
+        विपणि Eshop
+      </h1>
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
+        <div className="lg:hidden mb-3">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="w-full bg-white rounded-lg shadow-md p-3 flex items-center justify-between text-green-900 font-semibold text-sm"
+          >
+            <span className="flex items-center gap-2">
+              <Filter className="w-4 h-4" />
+              Filters & Search
+            </span>
+            {showFilters ? (
+              <X className="w-4 h-4" />
+            ) : (
+              <Menu className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-4">
+          <AnimatePresence>
+            {(showFilters || isDesktop) && (
+              <motion.aside
+                initial={isDesktop ? false : { x: -300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={isDesktop ? false : { x: -300, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className={`${
+                  isDesktop ? "sticky top-4 w-72" : "fixed inset-0 w-full"
+                } bg-white rounded-none lg:rounded-xl shadow-xl p-4 ${
+                  isDesktop ? "h-fit" : "h-screen overflow-y-auto"
+                } z-50 lg:z-0`}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold text-green-900 bg-lime-100 rounded-lg px-2 py-1 flex items-center gap-2">
+                    <Filter className="w-5 h-5" />
+                    Filters
+                  </h2>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="lg:hidden text-green-600 p-1.5 hover:bg-green-50 rounded-full"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="mb-3 text-center">
+                  {isInitialLoading ? (
+                    <Skeleton
+                      variant="rounded"
+                      width={120}
+                      height={24}
+                      sx={{
+                        bgcolor: "rgba(22, 163, 74, 0.1)",
+                        margin: "0 auto",
+                      }}
+                    />
+                  ) : (
+                    <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                      {filteredProducts.length} of {allProducts.length} products
+                    </span>
+                  )}
+                </div>
+
+                <div className="relative mb-4">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-600 w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2 rounded-lg text-sm text-green-900 placeholder-green-500 outline-none ring-2 ring-lime-400 focus:ring-green-600 shadow transition-all"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-green-800 mb-2">
+                    Sort By
+                  </label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full p-2 text-sm border-2 border-green-200 rounded-lg outline-none text-green-900 bg-green-50 focus:border-green-600 transition-all cursor-pointer"
+                  >
+                    <option value="name">Name (A-Z)</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-green-800 mb-2">
+                    Category
+                  </label>
+                  <div className="space-y-1.5 max-h-64 overflow-y-auto pr-2">
+                    {isInitialLoading
+                      ? Array.from({ length: 6 }).map((_, i) => (
+                          <Skeleton
+                            key={i}
+                            variant="rounded"
+                            height={36}
+                            sx={{ bgcolor: "rgba(22, 163, 74, 0.1)" }}
+                          />
+                        ))
+                      : categories.map((cat) => (
+                          <motion.button
+                            key={cat}
+                            whileHover={{ x: 3 }}
+                            onClick={() => {
+                              setSelectedCategory(cat);
+                              if (!isDesktop) {
+                                setShowFilters(false);
+                              }
+                            }}
+                            className={`w-full text-left p-2 rounded-lg transition-all duration-300 text-xs ${
+                              selectedCategory === cat
+                                ? "bg-gradient-to-r from-green-600 to-lime-600 text-white shadow-md"
+                                : "bg-green-50 text-green-800 hover:bg-green-100"
+                            }`}
+                          >
+                            {cat}
+                          </motion.button>
+                        ))}
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-xs font-semibold text-green-800 mb-2">
+                    Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
+                  </label>
+                  <div className="space-y-2">
+                    <input
+                      type="range"
+                      min="0"
+                      max="2000"
+                      value={priceRange[0]}
+                      onChange={(e) =>
+                        setPriceRange([parseInt(e.target.value), priceRange[1]])
+                      }
+                      className="w-full accent-green-600"
+                    />
+                    <input
+                      type="range"
+                      min="0"
+                      max="2000"
+                      value={priceRange[1]}
+                      onChange={(e) =>
+                        setPriceRange([priceRange[0], parseInt(e.target.value)])
+                      }
+                      className="w-full accent-green-600"
+                    />
+                  </div>
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setSelectedCategory("All");
+                    setPriceRange([0, 2000]);
+                    setSearchQuery("");
+                    setSortBy("name");
+                  }}
+                  className="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-sm"
+                >
+                  Reset Filters
+                </motion.button>
+              </motion.aside>
+            )}
+          </AnimatePresence>
+
+          <div className="flex-1">
+            <AnimatePresence mode="wait">
+              {isInitialLoading ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="grid md:grid-cols-2 lg:grid-cols-3 gap-3"
+                >
+                  {Array.from({ length: 9 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} index={index} />
+                  ))}
+                </motion.div>
+              ) : filteredProducts.length === 0 ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="bg-white rounded-xl shadow-xl p-8 text-center"
+                >
+                  <Leaf className="w-20 h-20 text-green-300 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-green-900 mb-2">
+                    No Products Found
+                  </h3>
+                  <p className="text-sm text-green-600">
+                    Try adjusting your filters or search query
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  layout
+                  className="grid md:grid-cols-2 lg:grid-cols-3 gap-3"
+                >
+                  {filteredProducts.map((product, index) => (
+                    <LazyProductCard
+                      key={product.id}
+                      product={product}
+                      index={index}
+                    />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EShop;
 
 const medicineProducts = [
   {
@@ -95,7 +706,7 @@ const medicineProducts = [
         package: "100 ml Bottle",
         value: 180,
       },
-    
+
       {
         id: 8,
         name: "गुलकंद Rose Petal",
@@ -1075,7 +1686,7 @@ const medicineProducts = [
         package: "500 gms Container",
         value: 800,
       },
-        {
+      {
         id: 16,
         name: "अर्शारिष्ट Piles Tonic",
         tagline: "Relieves piles naturally",
@@ -1093,7 +1704,7 @@ const medicineProducts = [
         package: "200 ml Bottle",
         value: 420,
       },
-    
+
       {
         id: 101,
         name: "अम्लपित्तहर Liver Tonic",
@@ -1395,435 +2006,3 @@ const medicineProducts = [
     ],
   },
 ];
-
-const getAllProducts = () => {
-  const allProducts = [];
-
-  medicineProducts.forEach((item) => {
-    if (item.products && Array.isArray(item.products)) {
-      item.products.forEach((product) => {
-        if (product.id && product.name && product.value !== null) {
-          allProducts.push({
-            ...product,
-            category: item.category,
-            categoryDescription: item.categoryDescription,
-          });
-        }
-      });
-    } else if (item.id && item.name && item.value !== null) {
-      allProducts.push(item);
-    }
-  });
-
-  console.log(
-    `=== getAllProducts: Found ${allProducts.length} total products ===`
-  );
-  const categoryCounts = {};
-  allProducts.forEach((p) => {
-    categoryCounts[p.category] = (categoryCounts[p.category] || 0) + 1;
-  });
-  console.log("Products per category:", categoryCounts);
-
-  return allProducts;
-};
-
-const ProductCard = ({ product, index }) => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
-  const cartItem = cartItems.find((item) => item.id === product.id);
-
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.4, delay: index * 0.03 }}
-      className="group relative bg-gradient-to-br from-lime-50 to-green-50 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500"
-    >
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-lime-200/30 to-green-300/30 rounded-bl-full -z-0" />
-
-      <div className="relative p-3">
-        <div className="flex items-start justify-between mb-2">
-          <div className="bg-gradient-to-r from-green-600 to-lime-600 text-white px-2 py-1 rounded-full text-[11px] font-semibold max-w-[90%]">
-            {product.category}
-          </div>
-          <Leaf className="w-4 h-4 text-green-600 opacity-60" />
-        </div>
-
-        <motion.h3
-          className="text-sm font-bold text-green-900 mb-1 line-clamp-2 min-h-[2.5rem]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          {product.name}
-        </motion.h3>
-
-        <p className="text-[11px] text-green-700 mb-2 italic line-clamp-1">
-          {product.tagline}
-        </p>
-
-        <div className="space-y-1 mb-2">
-          <div className="flex items-center text-[10px] text-green-800">
-            <span className="font-semibold mr-1 whitespace-nowrap">
-              Package:
-            </span>
-            <span className="text-green-600 truncate">{product.package}</span>
-          </div>
-          <div className="flex items-center text-[10px] text-green-800">
-            <span className="font-semibold mr-1 whitespace-nowrap">
-              Ingredients:
-            </span>
-            <span className="text-green-600 truncate">
-              {product.ingredients}
-            </span>
-          </div>
-        </div>
-
-        <div className="border-t border-green-200 py-1.5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-2xl font-bold text-green-900">
-                <span className="text-[10px] text-green-600">Price</span> ₹
-                {product.value}
-              </p>
-            </div>
-
-            {cartItem ? (
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() =>
-                    dispatch(
-                      updateQuantity({
-                        id: product.id,
-                        quantity: cartItem.quantity - 1,
-                      })
-                    )
-                  }
-                  className="bg-red-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold hover:bg-red-600 transition-colors text-sm"
-                >
-                  -
-                </button>
-
-                <span className="font-bold text-green-900 min-w-[1.5rem] text-center text-sm">
-                  {cartItem.quantity}
-                </span>
-
-                <button
-                  onClick={() =>
-                    dispatch(
-                      updateQuantity({
-                        id: product.id,
-                        quantity: cartItem.quantity + 1,
-                      })
-                    )
-                  }
-                  className="bg-green-600 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold hover:bg-green-700 transition-colors text-sm"
-                >
-                  +
-                </button>
-              </div>
-            ) : (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => dispatch(addToCart(product))}
-                className="bg-gradient-to-r from-green-600 to-lime-600 text-white px-3 py-1.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1.5 text-xs"
-              >
-                <ShoppingCart className="w-3 h-3" />
-                Add
-              </motion.button>
-            )}
-          </div>
-        </div>
-        <div className="border-t border-green-200 pt-2">
-          <p className="text-[10px] font-semibold text-green-800 mb-1">
-            Key Benefits:
-          </p>
-
-          <ul className="space-y-0.5 list-none">
-            {product.benefits.slice(0, 2).map((benefit, i) => (
-              <li
-                key={i}
-                className="text-[10px] text-green-700 flex items-start gap-1"
-              >
-                <span className="line-clamp-1">{benefit}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const EShop = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 2000]);
-  const [showFilters, setShowFilters] = useState(false);
-  const [sortBy, setSortBy] = useState("name");
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  // Check screen size
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
-
-  // Get all flattened products
-  const allProducts = useMemo(() => getAllProducts(), []);
-
-  // Get unique categories
-  const categories = useMemo(() => {
-    const categorySet = new Set();
-    allProducts.forEach((product) => {
-      if (product.category) {
-        categorySet.add(product.category);
-      }
-    });
-    const uniqueCategories = ["All", ...Array.from(categorySet).sort()];
-    console.log(
-      `Total categories found: ${uniqueCategories.length}`,
-      uniqueCategories
-    );
-    return uniqueCategories;
-  }, [allProducts]);
-
-  // Filter and sort products
-  const filteredProducts = useMemo(() => {
-    console.log("=== FILTERING PRODUCTS ===");
-    console.log("Search Query:", searchQuery);
-    console.log("Selected Category:", selectedCategory);
-    console.log("Price Range:", priceRange);
-
-    let filtered = allProducts.filter((product) => {
-      // Search filter
-      const searchLower = searchQuery.toLowerCase().trim();
-      const matchesSearch =
-        searchLower === "" ||
-        (product.name ?? "").toLowerCase().includes(searchLower) ||
-        (product.tagline ?? "").toLowerCase().includes(searchLower) ||
-        (product.ingredients ?? "").toLowerCase().includes(searchLower) ||
-        (product.category ?? "").toLowerCase().includes(searchLower) ||
-        (Array.isArray(product.benefits) &&
-          product.benefits.some((b) =>
-            (b ?? "").toLowerCase().includes(searchLower)
-          ));
-
-      const matchesCategory =
-        selectedCategory === "All" || product.category === selectedCategory;
-
-      const matchesPrice =
-        product.value >= priceRange[0] && product.value <= priceRange[1];
-
-      return matchesSearch && matchesCategory && matchesPrice;
-    });
-
-    // Sort products
-    filtered.sort((a, b) => {
-      if (sortBy === "name") return a.name.localeCompare(b.name);
-      if (sortBy === "price-low") return a.value - b.value;
-      if (sortBy === "price-high") return b.value - a.value;
-      return 0;
-    });
-
-    console.log(`Filtered results: ${filtered.length} products`);
-    return filtered;
-  }, [allProducts, searchQuery, selectedCategory, priceRange, sortBy]);
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-lime-50 to-green-100">
-      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
-        {/* Mobile Filter Toggle */}
-        <div className="lg:hidden mb-3">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="w-full bg-white rounded-lg shadow-md p-3 flex items-center justify-between text-green-900 font-semibold text-sm"
-          >
-            <span className="flex items-center gap-2">
-              <Filter className="w-4 h-4" />
-              Filters & Search
-            </span>
-            {showFilters ? (
-              <X className="w-4 h-4" />
-            ) : (
-              <Menu className="w-4 h-4" />
-            )}
-          </button>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-4">
-          <AnimatePresence>
-            {(showFilters || isDesktop) && (
-              <motion.aside
-                initial={isDesktop ? false : { x: -300, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={isDesktop ? false : { x: -300, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`${
-                  isDesktop ? "sticky top-4 w-72" : "fixed inset-0 w-full"
-                } bg-white rounded-none lg:rounded-xl shadow-xl p-4 ${
-                  isDesktop ? "h-fit" : "h-screen overflow-y-auto"
-                } z-50 lg:z-0`}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-green-900 bg-lime-100 rounded-lg px-2 py-1 flex items-center gap-2">
-                    <Filter className="w-5 h-5" />
-                    Filters
-                  </h2>
-                  <button
-                    onClick={() => setShowFilters(false)}
-                    className="lg:hidden text-green-600 p-1.5 hover:bg-green-50 rounded-full"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="mb-3 text-center">
-                  <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                    {filteredProducts.length} of {allProducts.length} products
-                  </span>
-                </div>
-
-                <div className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-600 w-4 h-4" />
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2 rounded-lg text-sm text-green-900 placeholder-green-500 outline-none ring-2 ring-lime-400 focus:ring-green-600 shadow transition-all"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-green-800 mb-2">
-                    Sort By
-                  </label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full p-2 text-sm border-2 border-green-200 rounded-lg outline-none text-green-900 bg-green-50 focus:border-green-600 transition-all cursor-pointer"
-                  >
-                    <option value="name">Name (A-Z)</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-green-800 mb-2">
-                    Category
-                  </label>
-                  <div className="space-y-1.5 max-h-64 overflow-y-auto pr-2">
-                    {categories.map((cat) => (
-                      <motion.button
-                        key={cat}
-                        whileHover={{ x: 3 }}
-                        onClick={() => {
-                          setSelectedCategory(cat);
-                          if (!isDesktop) {
-                            setShowFilters(false);
-                          }
-                        }}
-                        className={`w-full text-left p-2 rounded-lg transition-all duration-300 text-xs ${
-                          selectedCategory === cat
-                            ? "bg-gradient-to-r from-green-600 to-lime-600 text-white shadow-md"
-                            : "bg-green-50 text-green-800 hover:bg-green-100"
-                        }`}
-                      >
-                        {cat}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-green-800 mb-2">
-                    Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
-                  </label>
-                  <div className="space-y-2">
-                    <input
-                      type="range"
-                      min="0"
-                      max="2000"
-                      value={priceRange[0]}
-                      onChange={(e) =>
-                        setPriceRange([parseInt(e.target.value), priceRange[1]])
-                      }
-                      className="w-full accent-green-600"
-                    />
-                    <input
-                      type="range"
-                      min="0"
-                      max="2000"
-                      value={priceRange[1]}
-                      onChange={(e) =>
-                        setPriceRange([priceRange[0], parseInt(e.target.value)])
-                      }
-                      className="w-full accent-green-600"
-                    />
-                  </div>
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    setSelectedCategory("All");
-                    setPriceRange([0, 2000]);
-                    setSearchQuery("");
-                    setSortBy("name");
-                  }}
-                  className="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-sm"
-                >
-                  Reset Filters
-                </motion.button>
-              </motion.aside>
-            )}
-          </AnimatePresence>
-
-          <div className="flex-1">
-            <AnimatePresence mode="wait">
-              {filteredProducts.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="bg-white rounded-xl shadow-xl p-8 text-center"
-                >
-                  <Leaf className="w-20 h-20 text-green-300 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-green-900 mb-2">
-                    No Products Found
-                  </h3>
-                  <p className="text-sm text-green-600">
-                    Try adjusting your filters or search query
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  layout
-                  className="grid md:grid-cols-2  lg:grid-cols-3  gap-3"
-                >
-                  {filteredProducts.map((product, index) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      index={index}
-                    />
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default EShop;

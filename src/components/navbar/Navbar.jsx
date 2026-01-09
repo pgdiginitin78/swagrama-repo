@@ -9,11 +9,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SwagramaLogo from "../assets/landing-page/swagram.png";
 import ShopCart from "../pages/eShop/ShopCart";
+import LoginModal from "../loginModal/LoginModal";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openStore, setOpenStore] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+
   const cart = useSelector((s) => s.cart.items);
   const cartCount = cart.reduce((s, i) => s + i.quantity, 0);
 
@@ -26,20 +29,27 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Home आरम्भ", path: "/" },
-    { name: "Healing Services स्वउपचारसेवा", path: "/healing" },
-    { name: "Membership सदस्यत्व", path: "/membership" },
-    { name: "Community Activities स्वकर्मण्य", path: "/community-activities" },
-    { name: "Commune स्वगुरुकुल", path: "/commune" },
-    { name: "E Shop विपणि", path: "/eShop" },
-    { name: "Feeds प्राप्त", path: "/feeds" },
-    { name: "Calendar स्ववर्षपद", path: "/calendar" },
+    { name: "आरंभ Home", path: "/" },
+    { name: "स्वउपचारसेवा Healing Services", path: "/healing" },
+    { name: "सदस्यत्व Membership", path: "/membership" },
+    { name: "स्वकर्मण्य Community Activities", path: "/community-activities" },
+    { name: "स्वगुरुकुल Commune", path: "/commune" },
+    { name: "विपणि E Shop", path: "/eShop" },
+    { name: "प्राप्त Feeds", path: "/feeds" },
+    { name: "स्ववर्षपद Calendar", path: "/calendar" },
   ];
 
   const splitTitle = (text) => {
-    const index = text.lastIndexOf(" ");
-    if (index === -1) return { en: text, hi: "" };
-    return { en: text.slice(0, index), hi: text.slice(index + 1) };
+    const match = text.match(/^([^A-Za-z]+)\s+(.*)$/);
+
+    if (!match) {
+      return { hi: text, en: "" };
+    }
+
+    return {
+      hi: match[1].trim(),
+      en: match[2].trim(),
+    };
   };
 
   console.log("cartCount", cartCount);
@@ -179,21 +189,19 @@ const Navbar = () => {
         }`}
       >
         <div className="w-full bg-white max-w-[1920px] mx-auto px-3 sm:px-4 md:px-5 lg:px-10 h-16 sm:h-18 md:h-20 lg:h-16 flex lg:justify-between items-center">
-          {/* Logo Section */}
           <Link
             to="/"
-            className="w-auto flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:w-[200px]"
+            className="w-auto flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:w-auto"
           >
-            <div className="h-12 sm:h-14 md:h-16 md:rounded-full flex items-center justify-center shine-wave w-full">
+            <div className="h-12 sm:h-14 md:h-16 md:rounded-full  shine-wave w-full outline-none">
               <img
                 src={SwagramaLogo}
-                className="h-full w-full object-contain cursor-pointer"
+                className="h-full w-full object-contain cursor-pointer outline-none"
                 alt="Swagrama Logo"
               />
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
           <div className="hidden w-full justify-center lg:flex xl:space-x-6 2xl:space-x-8 space-x-4 text-gray-700 font-medium text-[11px] xl:text-[12px] text-left items-center">
             {navLinks.map((item) => {
               const { en, hi } = splitTitle(item.name);
@@ -201,29 +209,26 @@ const Navbar = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className="nav-link group transition-all leading-tight"
+                  className="nav-link group font-semibold transition-all leading-tight"
                 >
-                  <span className="block text-green-700 group-hover:text-green-600 transition-colors duration-200">
-                    {en}
+                  <span className="block text-green-800  group-hover:text-green-600 transition-colors">
+                    {hi}
                   </span>
-                  {hi && (
-                    <span className="block text-green-700 group-hover:text-green-600 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
-                      {hi}
-                    </span>
-                  )}
+
+                  <span className="block text-green-700 ">{en}</span>
                 </Link>
               );
             })}
           </div>
 
-          {/* Desktop Action Buttons */}
           <div className="hidden w-full lg:w-auto justify-end md:flex space-x-2 lg:space-x-3 items-center lg:flex-shrink-0">
-            <Link
-              to="/login"
+            <button
+              type="button"
               className="btn-outline flex items-center gap-1 lg:gap-2 px-2 py-1 border-2 border-green-600 text-green-600 rounded-lg font-medium"
+              onClick={() => setOpenLoginModal(true)}
             >
               <LoginIcon fontSize="small" />
-            </Link>
+            </button>
 
             <Link
               to="/signup"
@@ -256,8 +261,6 @@ const Navbar = () => {
               </Badge>
             </Link>
           </div>
-
-          {/* Mobile Menu Button */}
           <div className="flex justify-end w-auto ml-auto lg:hidden">
             <button
               className="text-gray-700 hover:text-green-600 transition-colors p-1.5 sm:p-2 rounded-lg hover:bg-green-50"
@@ -269,7 +272,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Drawer */}
       <Drawer
         anchor="right"
         open={open}
@@ -294,7 +296,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Navigation Links */}
           <div className="space-y-1 sm:space-y-2 text-gray-700 font-medium list-none overflow-y-auto max-h-[calc(100vh-200px)]">
             {navLinks.map((item, index) => {
               const { en, hi } = splitTitle(item.name);
@@ -319,14 +320,14 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* Mobile Action Buttons */}
           <div className="pt-4 sm:pt-6 flex space-x-2 sm:space-x-3 justify-between border-t-2 border-green-100 mobile-action-btns">
-            <Link
-              to="/login"
+            <button
+              type="button"
               className="btn-outline flex items-center justify-center gap-1 sm:gap-2 px-2 py-1.5 sm:px-3 sm:py-2 border-2 border-green-600 text-green-600 rounded-lg font-medium flex-1"
+              onClick={() => setOpenLoginModal(true)}
             >
               <LoginIcon fontSize="small" />
-            </Link>
+            </button>
 
             <Link
               to="/signup"
@@ -361,7 +362,15 @@ const Navbar = () => {
           </div>
         </div>
       </Drawer>
+
       {openStore && <ShopCart isOpen={openStore} setIsOpen={setOpenStore} />}
+
+      {openLoginModal && (
+        <LoginModal
+          open={openLoginModal}
+          handleClose={() => setOpenLoginModal(false)}
+        />
+      )}
     </>
   );
 };

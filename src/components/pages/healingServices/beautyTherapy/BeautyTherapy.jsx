@@ -1,6 +1,7 @@
 import { ChevronDown, Leaf, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import OPDBookingModal from "../opdClinic/OPDBookingModal";
+import BeutyMassageImg from "../../../assets/membership/healingServices/herbalMassage.jpg";
 
 const beautyData = [
   // Beautiful Hair
@@ -23,7 +24,8 @@ const beautyData = [
     category: "beautifulHair",
     serviceName: "केशत्वग्लेपन Scalp Mask",
     description: "Herbal/scalp mask application.",
-    benefits: "Promotes hair strength, reduces hair fall, improves blood circulation. ",
+    benefits:
+      "Promotes hair strength, reduces hair fall, improves blood circulation. ",
     price: 2300,
   },
   {
@@ -348,23 +350,40 @@ const App = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="relative   text-white  px-4  overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-3">
-            <Leaf className="w-12 h-12 text-ayuMid animate-pulse " />
+      <header
+        className="relative text-white  py-36 overflow-hidden"
+        style={{
+          backgroundImage: `url(${BeutyMassageImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/30 z-0"></div>
+        <div className="w-full  mx-auto relative z-10">
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-3 
+            backdrop-blur-md bg-white/10 
+            border border-white/20 
+             p-2 shadow-2xl relative -bottom-[156px]"
+            style={{
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
+          >
+            <Leaf className="w-5 h-5 text-green-300 animate-pulse drop-shadow-lg" />
             <h1
-              className="text-4xl font-bold tracking-wide text-center 
-    bg-gradient-to-r from-green-600 via-lime-600 to-green-700 
-    bg-clip-text text-transparent"
+              className="text-2xl md:text-2xl font-bold tracking-wide text-center 
+              bg-gradient-to-r from-green-300 via-lime-200 to-green-400 
+              bg-clip-text text-transparent drop-shadow-2xl"
             >
               Ayurvedic Beauty Spa
             </h1>
-
-            <Sparkles className="w-12 h-12 text-ayuMid animate-pulse" />
+            <Sparkles className="w-5 h-5 text-green-300 animate-pulse drop-shadow-lg" />
           </div>
         </div>
       </header>
-      <div className="max-w-7xl mx-auto px-4 ">
+      <div className="w-full mx-auto md:px-4 mt-3">
         <div className="mb-4">
           <div>
             <h3 className="text-lg font-bold text-green-800 mb-4 flex items-center gap-2">

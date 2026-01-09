@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
-const eventsData2026 = [
+export const eventsData2026 = [
   {
     month: "January",
     date: "01/01/2026",
@@ -13,7 +14,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "02/01/2026",
-    serviceName: "स्वआदिवैद्यगुरुकुल RootHealerCommune",
+    serviceName: "स्वआदिवैद्यगुरुकुल Root Healer Commune",
     description: "Traditional healer commune",
     benefits: "Healing knowledge, wellness practices",
     value: 2000,
@@ -21,7 +22,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "03/01/2026",
-    serviceName: "योगगुरुकुल YogaUniversalHealerCommune",
+    serviceName: "योगगुरुकुल Yoga Universal Healer Commune",
     description: "Yoga and wellness commune",
     benefits: "Physical, mental, spiritual wellness",
     value: 2000,
@@ -29,14 +30,14 @@ const eventsData2026 = [
   {
     month: "January",
     date: "04/01/2026",
-    serviceName: "स्वश्रेष्ठवैद्यगुरुकुल SuperiorHealerCommune",
+    serviceName: "स्वश्रेष्ठवैद्यगुरुकुल Superior  Healer Commune",
     description: "Advanced healer commune",
     benefits: "Deep Ayurveda & holistic learning",
     value: 2000,
   },
   {
     month: "January",
-    date: "09/01/2026 & 12/01/2026",
+    date: "09/01/2026 To 12/01/2026",
     serviceName: "स्वामी विवेकानंद जयंती & राष्ट्रीय युवा दिन",
     description:
       "Celebrations of Swami Vivekananda Jayanti & National Youth Day",
@@ -47,7 +48,7 @@ const eventsData2026 = [
     month: "January",
     date: "11/01/2026",
     serviceName:
-      "चिकित्सभिषकगुरुकुल PhysicianHealerCommune / NaturalCentenarianLifestyleRituals / आयुर्वेद LifeKnowledge",
+      "चिकित्सभिषकगुरुकुल Physician Healer Commune / Natural Centenarian Lifestyle Rituals / आयुर्वेद Life Knowledge",
     description: "Commune on physician healing & longevity practices",
     benefits: "Knowledge of natural lifespan, Ayurveda lifestyle",
     value: 2000,
@@ -71,7 +72,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "14/01/2026",
-    serviceName: "Makara Sankranti / Pongal / Bhogi",
+    serviceName: "मकर संक्रांत Makar Sankrant / Pongal / Bhogi",
     description: "Harvest festival celebrations",
     benefits: "Cultural learning, seasonal wellness",
     value: 2000,
@@ -79,7 +80,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "18/01/2026",
-    serviceName: "स्थापत्यवेदगुरुकुल ArchitectCommune",
+    serviceName: "स्थापत्यवेदगुरुकुल Architect Commune",
     description: "Commune on architecture and design",
     benefits: "Skill learning, creativity",
     value: 2000,
@@ -87,7 +88,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "19/01/2026",
-    serviceName: "युग्मसङ्गम CoupleUnion",
+    serviceName: "युग्मसङ्गम Couple Union",
     description: "Couple union ceremonies",
     benefits: "Strengthens marital bonds",
     value: 2000,
@@ -95,7 +96,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "20/01/2026",
-    serviceName: "गर्भसंस्क्रिया UnionConsecration",
+    serviceName: "गर्भसंस्क्रिया Union Consecration",
     description: "Family consecration ceremony",
     benefits: "Blessings, family harmony",
     value: 2000,
@@ -103,7 +104,7 @@ const eventsData2026 = [
   {
     month: "January",
     date: "23/01/2026",
-    serviceName: "वसन्त पञ्चमी / स्वविद्यारम्भ उत्सव Festival: सरस्वती पूजन",
+    serviceName: "वसन्त पञ्चमी / स्वविद्यारम्भ उत्सव Festival : सरस्वती पूजन",
     description: "Vasant Panchami & study festival with Saraswati Puja",
     benefits: "Education, cultural learning",
     value: 2000,
@@ -112,7 +113,7 @@ const eventsData2026 = [
     month: "January",
     date: "25/01/2026",
     serviceName:
-      "बालकपालकसहकुटुम्बसङ्कुल YouthGuardianJtFamilyCamp / स्वसूर्यस्नान उत्सव Festival",
+      "बालकपालकसहकुटुम्बसङ्कुल Youth Guardian Joint Family Camp / स्वसूर्यस्नान उत्सव Festival",
     description: "Family camp + Sun Bath festival + multiple observances",
     benefits: "Wellness, cultural awareness, community health",
     value: 2000,
@@ -145,7 +146,7 @@ const eventsData2026 = [
   {
     month: "February",
     date: "01/02/2026",
-    serviceName: "स्वसुवैद्यगुरुकुल WellHealerCommune",
+    serviceName: "स्वसुवैद्यगुरुकुल Well Healer Commune",
     description: "Commune session for holistic wellness",
     benefits: "Wellness, Educational",
     value: 2000,
@@ -170,7 +171,7 @@ const eventsData2026 = [
     month: "February",
     date: "07/02/2026",
     serviceName:
-      "सात्म्याहारगुरुकुल WholesomeDietCommune / संस्कारपाकशालागुरुकुल",
+      "सात्म्याहारगुरुकुल Wholesome Diet Commune / संस्कारपाकशालागुरुकुल",
     description: "Learning wholesome diet and cooking skills",
     benefits: "Educational, Wellness",
     value: 2000,
@@ -203,7 +204,7 @@ const eventsData2026 = [
   {
     month: "February",
     date: "14/02/2026",
-    serviceName: "युग्मसङ्गम CoupleUnion / Valentine’s Day",
+    serviceName: "युग्मसङ्गम Couple Union / Valentine’s Day",
     description: "Couples’ wellness and relationship celebration",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -247,7 +248,7 @@ const eventsData2026 = [
     month: "March",
     date: "06/03/2026",
     serviceName:
-      "स्वआदिवैद्यगुरुकुल RootHealerCommune / छत्रपती शिवाजी महाराज जयंती",
+      "स्वआदिवैद्यगुरुकुल Root Healer Commune / छत्रपती शिवाजी महाराज जयंती",
     description: "Traditional healing commune & Shivaji Jayanti",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -255,7 +256,7 @@ const eventsData2026 = [
   {
     month: "March",
     date: "07/03/2026",
-    serviceName: "योगगुरुकुल YogaUniversalHealerCommune",
+    serviceName: "योगगुरुकुल Yoga Universal Healer Commune",
     description: "Yoga and therapeutic practices",
     benefits: "Wellness",
     value: 2000,
@@ -264,7 +265,7 @@ const eventsData2026 = [
     month: "March",
     date: "08/03/2026",
     serviceName:
-      "स्वश्रेष्ठवैद्यगुरुकुल SuperiorHealerCommune / स्वरङ्गपञ्चमी ColourFestival / International Women’s Day",
+      "स्वश्रेष्ठवैद्यगुरुकुल Superior Healer Commune / स्वरङ्गपञ्चमी ColourFestival / International Women’s Day",
     description: "Healing commune with festivals and awareness",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -273,7 +274,7 @@ const eventsData2026 = [
     month: "March",
     date: "15/03/2026",
     serviceName:
-      "चिकित्सभिषकगुरुकुल PhysicianHealerCommune / नैसर्गशतायुस्जीवनविधानकल्प NaturalCentenarianLifestyleRituals / आयुर्वेद LifeKnowledge",
+      "चिकित्सभिषकगुरुकुल Physician Healer Commune / नैसर्गशतायुस्जीवनविधानकल्प Natural Centenarian Lifestyle Rituals / आयुर्वेद Life Knowledge",
     description: "Holistic physician wellness activities",
     benefits: "Wellness, Educational",
     value: 2000,
@@ -281,7 +282,7 @@ const eventsData2026 = [
   {
     month: "March",
     date: "16/03/2026",
-    serviceName: "सेवाशुश्रूषकगुरुकुल ServiceCommune",
+    serviceName: "सेवाशुश्रूषकगुरुकुल Service Commune",
     description: "Community service-focused wellness activities",
     benefits: "Wellness, Educational",
     value: 2000,
@@ -290,7 +291,7 @@ const eventsData2026 = [
     month: "March",
     date: "19/03/2026",
     serviceName:
-      "स्वनववर्ष NewYear उत्सव Festival: युगादी / गुढी पाडवा / चैत्र नवरात्रि",
+      "स्वनववर्ष NewYear उत्सव Festival : युगादी / गुढी पाडवा / चैत्र नवरात्रि",
     description: "New Year celebrations with traditional rituals",
     benefits: "Cultural, Wellness",
     value: 2000,
@@ -306,7 +307,7 @@ const eventsData2026 = [
   {
     month: "March",
     date: "22/03/2026",
-    serviceName: "सुगतिगुरुकुल WellnessTourCommune",
+    serviceName: "सुगतिगुरुकुल Wellness Tour Commune",
     description: "Wellness and guided tour activities",
     benefits: "Wellness, Educational",
     value: 2000,
@@ -314,7 +315,7 @@ const eventsData2026 = [
   {
     month: "March",
     date: "23/03/2026",
-    serviceName: "युग्मसङ्गम CoupleUnion / शहीद दिन",
+    serviceName: "युग्मसङ्गम Couple Union / शहीद दिन",
     description: "Couples wellness and remembrance of martyrs",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -322,7 +323,7 @@ const eventsData2026 = [
   {
     month: "March",
     date: "24/03/2026",
-    serviceName: "गर्भसंस्क्रिया UnionConsecration",
+    serviceName: "गर्भसंस्क्रिया Union Consecration",
     description: "Rituals and consecration ceremonies",
     benefits: "Cultural, Spiritual",
     value: 2000,
@@ -338,7 +339,7 @@ const eventsData2026 = [
   {
     month: "March",
     date: "29/03/2026",
-    serviceName: "बालकपालकसहकुटुम्बसङ्कुल YouthGuardianJtFamilyCamp",
+    serviceName: "बालकपालकसहकुटुम्बसङ्कुल Youth Guardian Jt Family Camp",
     description: "Youth and family wellness camp",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -372,7 +373,7 @@ const eventsData2026 = [
     month: "April",
     date: "04/04/2026",
     serviceName:
-      "सात्म्याहारगुरुकुल WholesomeDietCommune / संस्कारपाकशालागुरुकुल SubsistenceCultureKitchenCommune",
+      "सात्म्याहारगुरुकुल Wholesome Diet Commune / संस्कारपाकशालागुरुकुल Subsistence Culture Kitchen Commune",
     description: "Diet, cooking, and wellness practices",
     benefits: "Wellness, Educational",
     value: 2000,
@@ -381,7 +382,7 @@ const eventsData2026 = [
     month: "April",
     date: "05/04/2026",
     serviceName:
-      "कृषकभिषजगुरुकुल FarmHealerCommune / सहभावकृषि CommunityFarming / गौभिषजगुरुकुल CowHealerCommune / गौवनौषधिस्वास्थ्यसंस्कृति CowHerbsForestWellnessCulture",
+      "कृषकभिषजगुरुकुल Farm Healer Commune / सहभावकृषि Community Farming / गौभिषजगुरुकुल Cow Healer Commune / गौवनौषधिस्वास्थ्यसंस्कृति Cow Herbs Forest Wellness Culture",
     description: "Farming, cow care & forest wellness",
     benefits: "Educational, Cultural, Wellness",
     value: 2000,
@@ -398,7 +399,7 @@ const eventsData2026 = [
     month: "April",
     date: "16–19/04/2026",
     serviceName:
-      "लक्ष्यसम्भाव्यसम्मेलन MissionPossibleConference / स्वशाश्वतदिन EternalDay: अक्षयतृतीया",
+      "लक्ष्यसम्भाव्यसम्मेलन Mission Possible Conference / स्वशाश्वतदिन Eternal Day : अक्षयतृतीया",
     description: "Multi-day conference with wellness and eternal day rituals",
     benefits: "Educational, Cultural, Wellness",
     value: 9000,
@@ -438,7 +439,7 @@ const eventsData2026 = [
   {
     month: "May",
     date: "01/05/2026",
-    serviceName: "स्वआदिवैद्यगुरुकुल RootHealerCommune",
+    serviceName: "स्वआदिवैद्यगुरुकुल Root Healer Commune",
     description: "Traditional healing commune session",
     benefits: "Wellness",
     value: 2000,
@@ -446,7 +447,7 @@ const eventsData2026 = [
   {
     month: "May",
     date: "02/05/2026",
-    serviceName: "योगगुरुकुल YogaUniversalHealerCommune",
+    serviceName: "योगगुरुकुल Yoga Universal Healer Commune",
     description: "Yoga and therapeutic practices",
     benefits: "Wellness",
     value: 2000,
@@ -455,7 +456,7 @@ const eventsData2026 = [
     month: "May",
     date: "03/05/2026",
     serviceName:
-      "स्वश्रेष्ठवैद्यगुरुकुल SuperiorHealerCommune / विश्व हास्य दिवस",
+      "स्वश्रेष्ठवैद्यगुरुकुल Superior Healer Commune / विश्व हास्य दिवस",
     description: "Healing commune combined with International Humor Day",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -464,7 +465,7 @@ const eventsData2026 = [
     month: "May",
     date: "10/05/2026",
     serviceName:
-      "चिकित्सभिषकगुरुकुल PhysicianHealerCommune / नैसर्गशतायुस्जीवनविधानकल्प / आयुर्वेद LifeKnowledge / मातृ दिन",
+      "चिकित्सभिषकगुरुकुल Physician Healer Commune / नैसर्गशतायुस्जीवनविधानकल्प / आयुर्वेद Life Knowledge / मातृ दिन",
     description:
       "Physician wellness program and life knowledge sessions with Mother’s Day celebration",
     benefits: "Wellness, Educational, Cultural",
@@ -481,7 +482,7 @@ const eventsData2026 = [
   {
     month: "May",
     date: "14–17/05/2026",
-    serviceName: "सहकुटुम्बकिशोरसम्मेलन JointFamilyYouthConference",
+    serviceName: "सहकुटुम्बकिशोरसम्मेलन Joint Family Youth Conference",
     description: "Multi-day youth and family engagement conference",
     benefits: "Educational, Cultural",
     value: 9000,
@@ -489,7 +490,7 @@ const eventsData2026 = [
   {
     month: "May",
     date: "24/05/2026",
-    serviceName: "स्थापत्यवेदगुरुकुल ArchitectCommune",
+    serviceName: "स्थापत्यवेदगुरुकुल Architect Commune",
     description: "Architectural learning and wellness activities",
     benefits: "Educational, Cultural",
     value: 2000,
@@ -497,7 +498,7 @@ const eventsData2026 = [
   {
     month: "May",
     date: "25/05/2026",
-    serviceName: "युग्मसङ्गम CoupleUnion",
+    serviceName: "युग्मसङ्गम Couple  Union",
     description: "Couple wellness and union rituals",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -505,7 +506,7 @@ const eventsData2026 = [
   {
     month: "May",
     date: "26/05/2026",
-    serviceName: "गर्भसंस्क्रिया UnionConsecration",
+    serviceName: "गर्भसंस्क्रिया Union  Consecration",
     description: "Spiritual and traditional consecration",
     benefits: "Spiritual, Cultural",
     value: 2000,
@@ -522,7 +523,7 @@ const eventsData2026 = [
     month: "May",
     date: "31/05/2026",
     serviceName:
-      "बालकपालकसहकुटुम्बसङ्कुल YouthGuardianJtFamilyCamp / विश्व तंबाखू निषेध दिन",
+      "बालकपालकसहकुटुम्बसङ्कुल Youth Guardian Joint Family Camp / विश्व तंबाखू निषेध दिन",
     description: "Family youth camp and World No Tobacco Day observance",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -533,7 +534,7 @@ const eventsData2026 = [
   {
     month: "June",
     date: "05/06/2026",
-    serviceName: "स्वआदिवैद्यगुरुकुल RootHealerCommune / विश्व पर्यावरण दिन",
+    serviceName: "स्वआदिवैद्यगुरुकुल Root Healer Commune / विश्व पर्यावरण दिन",
     description: "Healing commune and World Environment Day",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -542,7 +543,7 @@ const eventsData2026 = [
     month: "June",
     date: "06/06/2026",
     serviceName:
-      "सात्म्याहारगुरुकुल WholesomeDietCommune / संस्कारपाकशालागुरुकुल SubsistenceCultureKitchenCommune",
+      "सात्म्याहारगुरुकुल Wholesome Diet Commune / संस्कारपाकशालागुरुकुल Subsistence Culture Kitchen Commune",
     description: "Nutrition and subsistence kitchen training",
     benefits: "Wellness, Educational",
     value: 2000,
@@ -551,7 +552,7 @@ const eventsData2026 = [
     month: "June",
     date: "07/06/2026",
     serviceName:
-      "कृषकभिषजगुरुकुल FarmHealerCommune / सहभावकृषि / गौभिषजगुरुकुल / गौवनौषधिस्वास्थ्यसंस्कृति",
+      "कृषकभिषजगुरुकुल Farm Healer Commune / सहभावकृषि / गौभिषजगुरुकुल / गौवनौषधिस्वास्थ्यसंस्कृति",
     description: "Agricultural, animal, and forest wellness integration",
     benefits: "Wellness, Educational, Cultural",
     value: 2000,
@@ -559,7 +560,8 @@ const eventsData2026 = [
   {
     month: "June",
     date: "08/06/2026",
-    serviceName: "सुकृत्गुरुकुल SkilfulWorkerCommune / सहभावद्रव्ययंत्रनिर्माण",
+    serviceName:
+      "सुकृत्गुरुकुल Skilful Worker Commune / सहभावद्रव्ययंत्रनिर्माण",
     description: "Skills and community production activities",
     benefits: "Educational, Cultural",
     value: 2000,
@@ -575,7 +577,7 @@ const eventsData2026 = [
   {
     month: "June",
     date: "14/06/2026",
-    serviceName: "स्वसुवैद्यगुरुकुल WellHealerCommune",
+    serviceName: "स्वसुवैद्यगुरुकुल Well Healer Commune",
     description: "Health and wellbeing initiatives",
     benefits: "Wellness",
     value: 2000,
@@ -608,7 +610,7 @@ const eventsData2026 = [
     month: "June",
     date: "19–20/06/2026",
     serviceName:
-      "स्ववर्ष्यजाप्रकल्प RainyProject / RainyCosmosCeremony / RainyBarter / RainyExhibition",
+      "स्ववर्ष्यजाप्रकल्प Rainy Project / Rainy Cosmos Ceremony / Rainy Barter / Rainy Exhibition",
     description: "Seasonal rainy wellness, exhibition, and barter activities",
     benefits: "Cultural, Wellness, Educational",
     value: 9000,
@@ -632,7 +634,7 @@ const eventsData2026 = [
   {
     month: "June",
     date: "28/06/2026",
-    serviceName: "बालकपालकसहकुटुम्बसङ्कुल YouthGuardianJtFamilyCamp",
+    serviceName: "बालकपालकसहकुटुम्बसङ्कुल Youth Guardian Joint Family Camp",
     description: "Family and youth camp activities",
     benefits: "Wellness, Cultural",
     value: 2000,
@@ -886,7 +888,7 @@ const eventsData2026 = [
   {
     month: "November",
     date: "04/11/2026",
-    serviceName: "दुर्ग बांधणी FortConstruction",
+    serviceName: "दुर्ग बांधणी Fort  Construction",
     description: "Traditional fort construction activity at Swagrama",
     benefits: "Cultural engagement, teamwork, historical learning",
     value: 2000,
@@ -894,7 +896,7 @@ const eventsData2026 = [
   {
     month: "November",
     date: "05/11/2026",
-    serviceName: "गौवत्सद्वादशी CowCalfCeremony / वसू बारस VasuBaras",
+    serviceName: "गौवत्सद्वादशी Cow Calf Ceremony / वसू बारस Vasu Baras",
     description: "Ritual celebrating cow and calf; auspicious ceremonies",
     benefits: "Strengthens connection with cows, cultural learning",
     value: 2000,
@@ -910,7 +912,7 @@ const eventsData2026 = [
   {
     month: "November",
     date: "08/11/2026",
-    serviceName: "बालकपालकसहकुटुम्बसङ्कुल YouthGuardianJtFamilyCamp",
+    serviceName: "बालकपालकसहकुटुम्बसङ्कुल Youth  Guardian Joint Family Camp",
     description: "Joint family camp with youth and guardians",
     benefits: "Family bonding, wellness activities, educational",
     value: 2000,
@@ -926,7 +928,7 @@ const eventsData2026 = [
   {
     month: "November",
     date: "09/11/2026",
-    serviceName: "गर्भसंस्क्रिया UnionConsecration",
+    serviceName: "गर्भसंस्क्रिया Union Consecration",
     description: "Ceremony for family and couple consecration",
     benefits: "Blessings, cultural tradition, harmony",
     value: 2000,
@@ -951,7 +953,7 @@ const eventsData2026 = [
     month: "November",
     date: "12–14/11/2026",
     serviceName:
-      "स्वहैमन्तजाप्रकल्प WinterProject / WinterCosmosCeremony / WinterExhibition / WinterBarter",
+      "स्वहैमन्तजाप्रकल्प Winter Project / Winter Cosmos Ceremony / Winter Exhibition / Winter Barter",
     description:
       "Seasonal winter project with exhibitions and community barter",
     benefits: "Creativity, collaboration, seasonal wellness",
@@ -968,7 +970,7 @@ const eventsData2026 = [
   {
     month: "November",
     date: "22/11/2026",
-    serviceName: "सुगतिगुरुकुल WellnessTourCommune",
+    serviceName: "सुगतिगुरुकुल Wellness Tour Commune",
     description: "Guided wellness tour of Swagrama commune",
     benefits: "Wellness learning, exploration, mindfulness",
     value: 2000,
@@ -984,7 +986,7 @@ const eventsData2026 = [
   {
     month: "November",
     date: "27/11/2026",
-    serviceName: "स्वआदिवैद्यगुरुकुल RootHealerCommune",
+    serviceName: "स्वआदिवैद्यगुरुकुल Root Healer Commune",
     description: "Commune focused on traditional healer practices",
     benefits: "Healing knowledge, wellness learning",
     value: 2000,
@@ -992,7 +994,8 @@ const eventsData2026 = [
   {
     month: "November",
     date: "28/11/2026",
-    serviceName: "योगगुरुकुल YogaUniversalHealerCommune / नादयोग SonantYoga",
+    serviceName:
+      "योगगुरुकुल Yoga Universal Healer Commune / नादयोग Sonant Yoga",
     description: "Yoga and sound therapy sessions",
     benefits: "Physical wellness, mental clarity, spiritual growth",
     value: 2000,
@@ -1011,7 +1014,7 @@ const eventsData2026 = [
   {
     month: "December",
     date: "06/12/2026",
-    serviceName: "स्वश्रेष्ठवैद्यगुरुकुल SuperiorHealerCommune",
+    serviceName: "स्वश्रेष्ठवैद्यगुरुकुल Superior  Healer Commune",
     description: "Advanced healer commune",
     benefits: "Deep Ayurveda and holistic learning",
     value: 2000,
@@ -1020,7 +1023,7 @@ const eventsData2026 = [
     month: "December",
     date: "13/12/2026",
     serviceName:
-      "चिकित्सभिषकगुरुकुल PhysicianHealerCommune / NaturalCentenarianLifestyleRituals / आयुर्वेद LifeKnowledge",
+      "चिकित्सभिषकगुरुकुल Physician Healer Commune / Natural Centenarian Lifestyle Rituals / आयुर्वेद Life Knowledge",
     description: "Commune on physician healing and longevity practices",
     benefits: "Knowledge of natural lifespan, Ayurveda lifestyle",
     value: 2000,
@@ -1028,7 +1031,7 @@ const eventsData2026 = [
   {
     month: "December",
     date: "14/12/2026",
-    serviceName: "सेवाशुश्रूषकगुरुकुल ServiceCommune",
+    serviceName: "सेवाशुश्रूषकगुरुकुल Service Commune",
     description: "Commune for volunteer and service activities",
     benefits: "Social service, team collaboration, learning",
     value: 2000,
@@ -1044,7 +1047,7 @@ const eventsData2026 = [
   {
     month: "December",
     date: "20/12/2026",
-    serviceName: "गर्भसंस्क्रिया UnionConsecration",
+    serviceName: "गर्भसंस्क्रिया Union Consecration",
     description: "Family and couple consecration ceremony",
     benefits: "Blessings, family harmony",
     value: 2000,
@@ -1076,7 +1079,7 @@ const eventsData2026 = [
   {
     month: "December",
     date: "27/12/2026",
-    serviceName: "बालकपालकसहकुटुम्बसङ्कुल YouthGuardianJtFamilyCamp",
+    serviceName: "बालकपालकसहकुटुम्बसङ्कुल Youth Guardian Joint Family Camp",
     description: "Joint family camp with youth and guardians",
     benefits: "Family bonding, educational activities",
     value: 2000,
@@ -1087,7 +1090,21 @@ const EventCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(0);
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [activeEventIndex, setActiveEventIndex] = useState(0);
+  const location = useLocation();
+  const passedData = location.state;
+
+  const setDayOnly = (dateStr) => {
+    const [day] = dateStr.split("/");
+    return day;
+  };
+
+
+  useEffect(() => {
+    if (passedData !== undefined && passedData !== null) {
+      setSelectedEvents([passedData]);
+      setSelectedDate(setDayOnly(passedData.date));
+    }
+  }, [passedData]);
 
   const months = [
     "January",
@@ -1129,10 +1146,10 @@ const EventCalendar = () => {
   };
 
   const handleDateClick = (day) => {
+    console.log("selectedDay", day);
     setSelectedDate(day);
     const events = getEventsForDate(day);
     setSelectedEvents(events);
-    setActiveEventIndex(0);
   };
 
   const renderCalendar = () => {
@@ -1147,7 +1164,15 @@ const EventCalendar = () => {
     for (let day = 1; day <= daysInMonth; day++) {
       const events = getEventsForDate(day);
       const hasEvents = events.length > 0;
-      const isSelected = selectedDate === day;
+      const isSelected = Number(selectedDate) === Number(day);
+      console.log("isSelected", selectedDate, day);
+
+      const formatMarathiText = (text = "", limit = 14) => {
+        const marathiOnly = text.replace(/[A-Za-z0-9]/g, "").trim();
+        return marathiOnly.length > limit
+          ? marathiOnly.slice(0, limit) + "..."
+          : marathiOnly;
+      };
 
       days.push(
         <motion.div
@@ -1166,26 +1191,27 @@ const EventCalendar = () => {
         >
           <div className="flex flex-col h-full items-center justify-center">
             <span
-              className={`text-xs md:text-sm font-semibold ${
+              className={`text-xs md:text-2xl font-semibold ${
                 isSelected ? "text-white" : "text-stone-700"
               }`}
             >
               {day}
             </span>
-            {hasEvents && (
-              <div className="flex gap-0.5 mt-0.5">
-                {events.slice(0, 3).map((_, idx) => (
-                  <div
-                    key={idx}
-                    className={`w-2 h-2 animate-bounce rounded-full ${
-                      isSelected
-                        ? "bg-white"
-                        : "bg-gradient-to-r from-lime-600 to-green-600"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
+            <span
+              className={`text-xs md:text-2xl font-semibold ${
+                isSelected ? "text-white" : "text-stone-700"
+              }`}
+            >
+              {hasEvents && (
+                <span
+                  className={`text-[10px] mt-0.5 truncate ${
+                    isSelected ? "text-white/90" : "text-green-700"
+                  }`}
+                >
+                  {formatMarathiText(events[0].serviceName)}
+                </span>
+              )}
+            </span>
           </div>
         </motion.div>
       );
@@ -1193,16 +1219,14 @@ const EventCalendar = () => {
     return days;
   };
 
-  const currentEvent = selectedEvents[activeEventIndex];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-lime-50 to-green-50 p-2 md:px-12 py-6 ">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-lime-50 to-green-50 p-2 md:px-16 py-6 ">
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
         <div className="absolute top-20 left-10 w-64 h-64 bg-lime-300 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-300 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="w-full mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1216,8 +1240,8 @@ const EventCalendar = () => {
             >
               <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
             </svg>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-lime-700 via-green-700 to-lime-800 bg-clip-text text-transparent">
-              Swagrama Events 2026
+            <h1 className="text-3xl py-1 font-bold bg-gradient-to-r from-lime-700 via-green-700 to-lime-800 bg-clip-text text-transparent">
+              स्ववर्षपद Calender 2026
             </h1>
             <svg
               className="w-6 h-6 text-lime-700"
@@ -1317,13 +1341,12 @@ const EventCalendar = () => {
               </div>
             </div>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-1"
           >
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-green-500/10 p-3 md:p-4 sticky top-4 border border-green-100 max-h-[calc(100vh-2rem)] overflow-y-auto">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-green-500/10 p-3 md:p-4 sticky top-0 border border-green-100 max-h-[calc(100vh-2rem)] overflow-y-auto">
               <AnimatePresence mode="wait">
                 {selectedEvents.length > 0 ? (
                   <motion.div
@@ -1333,7 +1356,6 @@ const EventCalendar = () => {
                     exit={{ opacity: 0, y: -20 }}
                     className="space-y-2"
                   >
-                    {" "}
                     <div className="relative w-full h-28 md:h-32 bg-gradient-to-br from-lime-100 via-green-100 to-lime-50 rounded-xl overflow-hidden border border-lime-200">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <svg
@@ -1351,7 +1373,7 @@ const EventCalendar = () => {
                       </div>
                       <div className="absolute top-2 right-2 bg-gradient-to-r from-lime-600 to-green-700 px-2 py-0.5 rounded-full">
                         <span className="text-[10px] font-bold text-white">
-                          {selectedEvents.length}{" "}
+                          {selectedEvents.length}
                           {selectedEvents.length === 1 ? "Event" : "Events"}
                         </span>
                       </div>
@@ -1436,16 +1458,17 @@ const EventCalendar = () => {
                         ))}
                       </div>
                     </div>
-                    {/* CTA Buttons */}
-                    <div className="space-y-1.5 pt-1">
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full bg-gradient-to-r from-lime-600 to-green-700 text-white font-bold py-2 px-3 rounded-lg shadow-md shadow-lime-500/30 hover:shadow-lg hover:shadow-lime-500/40 transition-all text-[11px]"
-                      >
-                        🌿 Register for All Events
-                      </motion.button>
-                    </div>
+                    {selectedEvents?.length > 1 && (
+                      <div className="space-y-1.5 pt-1">
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full bg-gradient-to-r from-lime-600 to-green-700 text-white font-bold py-2 px-3 rounded-lg shadow-md shadow-lime-500/30 hover:shadow-lg hover:shadow-lime-500/40 transition-all text-[11px]"
+                        >
+                          🌿 Register for All Events
+                        </motion.button>
+                      </div>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.div

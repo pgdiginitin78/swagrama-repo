@@ -1,28 +1,20 @@
-import { useState } from "react";
+import { Delete } from "@mui/icons-material";
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import { Box, Modal } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Heart,
-  Home,
-  Leaf,
   Minus,
-  Package,
   Plus,
   ShoppingCart,
-  Sparkles,
-  Stethoscope,
-  Users,
-  X,
   Trash2,
+  X
 } from "lucide-react";
-import { Box, Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearCart,
   removeFromCart,
   updateQuantity,
 } from "../../redux/CartSlice";
-import { Delete } from "@mui/icons-material";
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 const style = {
   position: "absolute",

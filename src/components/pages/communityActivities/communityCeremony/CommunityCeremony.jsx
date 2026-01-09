@@ -217,9 +217,9 @@ export default function BeautifulAyurvedaCarousel() {
   }, [index]);
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-3 relative select-none">
+    <div className="md:max-w-7xl mx-auto py-10 md:px-3 relative select-none">
       <div className="text-center relative pb-2">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-green-700 via-amber-600 to-red-600 bg-clip-text text-transparent">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-green-700 via-amber-600 to-red-600 bg-clip-text py-1 text-transparent">
           🌿 स्वसहभावउत्सव संस्कृती अनुभूती 🌿
         </h1>
       </div>
@@ -239,7 +239,7 @@ export default function BeautifulAyurvedaCarousel() {
         </button>
       </div>
 
-      <div ref={bodyRef} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div ref={bodyRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
         {slides.map((ev, i) => {
           return (
             <div
@@ -247,9 +247,9 @@ export default function BeautifulAyurvedaCarousel() {
               className="eventCard relative overflow-hidden rounded-3xl shadow-2xl border border-gray-200 bg-white hover:shadow-3xl transition-shadow duration-300"
             >
               <div
-                className={`relative p-6 text-white bg-gradient-to-br ${ev.color} overflow-hidden`}
+                className={`relative p-3 md:p-6 text-white bg-gradient-to-br ${ev.color} overflow-hidden`}
               >
-                <div className="flex space-x-2 items-center justify-between whitespace-nowrap relative z-10">
+                <div className="md:flex  space-x-2 items-center justify-between whitespace-nowrap relative z-10">
                   <div className="flex space-x-2 items-center relative z-10">
                     <div className="rounded-full bg-white/25 backdrop-blur-sm p-2 shadow-lg">
                       {ev.icon}
@@ -263,7 +263,7 @@ export default function BeautifulAyurvedaCarousel() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm  relative z-10">
+                  <div className="flex items-center space-x-2 text-sm  relative z-10 mt-2 md:mt-0">
                     <div className="flex items-center gap-1 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
                       <CalendarMonth fontSize="small" />
                       <span className="font-medium">{ev.day}</span>
@@ -295,7 +295,7 @@ export default function BeautifulAyurvedaCarousel() {
                 <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-3 mb-3">
                   <p className="font-bold text-green-800 mb-2 flex items-center gap-2 text-sm">
                     <Inventory fontSize="small" />
-                    What's Included:
+                    What's Included :
                   </p>
                   <div className="grid grid-cols-2 gap-2">
                     {ev.includes.map((item) => (
@@ -324,14 +324,14 @@ export default function BeautifulAyurvedaCarousel() {
                         fontSize="small"
                       />
                       <span className="font-semibold text-gray-700 text-xs">
-                        Day:
+                        Day :
                       </span>
                       <span className="text-gray-600 text-xs">{ev.day}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <AccessTime className="text-amber-600" fontSize="small" />
                       <span className="font-semibold text-gray-700 text-xs">
-                        Timing:
+                        Timing :
                       </span>
                       <span className="text-gray-600 text-xs">{ev.time}</span>
                     </div>
@@ -340,8 +340,8 @@ export default function BeautifulAyurvedaCarousel() {
                         className="text-amber-600"
                         fontSize="small"
                       />
-                      <span className="font-semibold text-gray-700 text-xs">
-                        Investment:
+                      <span className="font-semibold text-gray-700 text-xs whitespace-nowrap">
+                        Investment :
                       </span>
                       <span className="text-gray-600 text-xs">
                         ₹{ev.price} per person (All inclusive)
@@ -388,7 +388,7 @@ export default function BeautifulAyurvedaCarousel() {
                   </div>
                 </div>
 
-                <div className="flex items-end gap-3">
+                <div className="md:flex items-end gap-3">
                   <div className="flex-shrink-0">
                     <p className="text-xs text-gray-500 mb-1">
                       Price per person
@@ -398,9 +398,11 @@ export default function BeautifulAyurvedaCarousel() {
                       {ev.price}
                     </h3>
                   </div>
-                  <button className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 text-white py-2.5 rounded-full hover:scale-[1.02] transition-transform shadow-lg font-bold text-sm">
+                  <div className="flex justify-end">
+                  <button className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-3 py-2 rounded-full hover:scale-[1.02] transition-transform shadow-lg font-bold text-sm">
                     Book Now - Secure Your Spot
                   </button>
+                  </div>
                 </div>
               </div>
             </div>
